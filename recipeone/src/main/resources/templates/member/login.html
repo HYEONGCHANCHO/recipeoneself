@@ -99,8 +99,16 @@
             <div>
                 <button type="submit">로그인</button>
             </div>
-            <div>
-                <span id="remaining-attempts" th:text="${loginFailCount}"></span>번 시도 가능합니다.
+            <div th:if="${session.loginFailCount < 3}" style="display:none;">
+                <span id="remaining-attemptszero" th:text="${session.loginFailCount}"></span>번 시도 가능합니다.
+            </div>
+            <div th:if="${session.loginFailCount > 2 && session.loginFailCount < 7}">
+                <p>비밀번호가 일치하지 않습니다.</p>
+                <p><span id="remaining-attempts" th:text="${7 - session.loginFailCount}"></span>회 남음</p>
+                <p>제한 횟수 초과시 계정이 잠깁니다.</p>
+            </div>
+            <div th:if="${session.loginFailCount >= 7}">
+                계정이 잠겼습니다. 관리자에게 문의하세요.
             </div>
         </form>
         <div>

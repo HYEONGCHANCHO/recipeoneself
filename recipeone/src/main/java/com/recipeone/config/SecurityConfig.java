@@ -5,6 +5,7 @@ import com.recipeone.security.CustomUserDetailService;
 import com.recipeone.security.handler.Custom403Handler;
 //import com.recipeone.security.handler.CustomAuthenticationFailureHandler;
 import com.recipeone.security.handler.CustomLoginFailureHandler;
+import com.recipeone.security.handler.CustomLoginSuccessHandler;
 import com.recipeone.security.handler.CustomSocialLoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -47,7 +48,9 @@ public class SecurityConfig {
         log.info("-------------conofigure--------------");
 
         http.formLogin().loginPage("/member/login")
-                .failureHandler(authenticationFailureHandler());
+                .failureHandler(authenticationFailureHandler())
+                .successHandler(customLoginSuccessHandler()); //일반 로그인 성공에 대한 핸들러 등록
+
 
         http.csrf().disable();
 
@@ -94,6 +97,10 @@ public class SecurityConfig {
     @Bean//일반 로그인 실패
     public AuthenticationFailureHandler authenticationFailureHandler() {
         return new CustomLoginFailureHandler(memberRepository);
+    }
+    @Bean //일반 로그인 성공
+    public AuthenticationSuccessHandler customLoginSuccessHandler() {
+        return new CustomLoginSuccessHandler(memberRepository);
     }
 
 

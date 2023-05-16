@@ -9,27 +9,20 @@ import java.util.List;
 
 public interface RecipeSampleRepository extends JpaRepository<RecipeSample,String> {
 
+    @Query("SELECT DISTINCT rs.title FROM RecipeSample rs")
+    List<String> findtitlelist();
+    @Query("SELECT DISTINCT rs.tag FROM RecipeSample rs")
+    List<String> findtaglist();
+
+//    @Query("select r.id from RecipeSample r where r.title like %:recommendedKeywords% or r.tag like %:recommendedKeywords%")
+//    List<Long> findRecipeIdByrecommendedKeywords(@Param("recommendedKeywords") String recommendedKeywords);
+    @Query("select r.id from RecipeSample r where r.title IN :recommendedKeywords or r.tag IN :recommendedKeywords")
+    List<Long> findRecipeIdByrecommendedKeywords(@Param("recommendedKeywords") List<String> recommendedKeywords);
+    //아래는 되는 기본코드
 //    @Query("select r.id from RecipeSample r where r.title like %:keyword% or r.tag like %:keyword%")
 //    List<Long> findRecipeIdByKeyword(@Param("keyword") String keyword);
-
-//    @Query("select distinct k from (select title as k from RecipeSample union select tag as k from RecipeSample) as t")
-//    List<String> findAllKeywords();
-
-    @Query("SELECT rs.tag FROM RecipeSample rs")
-    List<String> findAllKeywords();
-
-//    @Query("SELECT DISTINCT rs.title FROM RecipeSample rs UNION SELECT DISTINCT rs.tag FROM RecipeSample rs")
-//    List<String> findAllKeywords();
-
-    @Query("select r.id from RecipeSample r where r.title like %:keyword% or r.tag like %:keyword%")
-    List<Long> findRecipeIdByKeywords(List<String> keywords);
-
-//    @Query("select r.id from RecipeSample r where r.title like %:keyword% or r.tag like %:keyword%")
-//    List<Long> findRecipeIdByKeyword(@Param("keyword") String keyword);
-//
-//    @Query("select distinct k from (select title as k from RecipeSample union select tag as k from RecipeSample) as t")
-//    List<String> findAllKeywords();
 
 }
+
 
 

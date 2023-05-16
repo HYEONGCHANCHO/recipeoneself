@@ -29,15 +29,18 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
         HttpSession session = request.getSession();
 
         Optional<Member> optionalMember = memberRepository.findById(username);
-        Member member = null;
-        if (optionalMember.isPresent()) {
-            member = optionalMember.get();
-            member.setLoginFailCount(member.getLoginFailCount() + 1);
-            if (member.getLoginFailCount() >= 5) {
-                member.setRoleSet(Collections.singleton(MemberRole.STOP));
-            }
-            memberRepository.save(member);
+        if (!optionalMember.isPresent()) {
+            response.sendRedirect("/member/login?error=true");
+            return;
         }
+
+        Member member = optionalMember.get();
+        member.setLoginFailCount(member.getLoginFailCount() + 1);
+        int rstloginfailCount=7;
+        if (member.getLoginFailCount() >= rstloginfailCount) {
+            member.setRoleSet(Collections.singleton(MemberRole.STOP));
+        }
+        memberRepository.save(member);
         log.info("CustomLoginFailureHandler onAuthenticationFailure ...........");
         log.info(exception.getMessage());
         session.setAttribute("loginFailCount", member.getLoginFailCount());

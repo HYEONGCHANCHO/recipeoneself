@@ -26,7 +26,7 @@ public class CustomSocialLoginSuccessHandler implements AuthenticationSuccessHan
         if (memberSecurityDTO.isSocial()&&(memberSecurityDTO.getPassword().equals("1111") || passwordEncoder.matches("1111",memberSecurityDTO.getPassword()))){
             response.sendRedirect("/member/socialmodify");
         }else {
-            response.sendRedirect("/recipe/register");
+            response.sendRedirect("/");
         }
     }
 }
