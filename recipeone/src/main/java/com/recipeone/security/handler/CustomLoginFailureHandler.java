@@ -23,7 +23,7 @@ import java.util.Optional;
 public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
     private final MemberRepository memberRepository;
 
-    @Override //로그인 5회 실패 시 유저권한 변경
+    @Override //로그인 7회 실패 시 유저권한 변경
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         String username = request.getParameter("username");
         HttpSession session = request.getSession();

@@ -1,0 +1,14 @@
+.btn-default {
+	font-size:15px;
+	border: none;
+	border-radius:3px;
+}
+.btn-primary {
+	padding:10px 30px;
+	font-size:15px;
+	line-height:1.3333333;
+	border-radius:3px;
+	border: none;
+	margin:0 4px;
+	background-color: yellowgreen;
+}

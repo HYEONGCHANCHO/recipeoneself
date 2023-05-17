@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<div layout:fragment="content">
+
+  <div id="id_search_category" style="display:none" class="rcp_m_cate">
+    <table width="100%" cellspacing="0" cellpadding="0">
+      <colgroup>
+        <col width="100px">
+        <col>
+      </colgroup>
+      <tbody>
+        <tr>
+          <th style="padding: 10px;">
+            <span>종류별</span>
+            <span>상황별</span>
+            <span>재료별</span>
+            <span>방법별</span>
+          </th>
+          <td>
+            <div class="rcp_cate st3">
+                <div class="cate_list">
+                  <a href="javascript:goSearchRecipe('cat4','')" class="active">전체</a><a href="javascript:goSearchRecipe('cat4','63')">밑반찬</a><a href="javascript:goSearchRecipe('cat4','56')">메인반찬</a><a href="javascript:goSearchRecipe('cat4','54')">국/탕</a><a href="javascript:goSearchRecipe('cat4','55')">찌개</a><a href="javascript:goSearchRecipe('cat4','60')">디저트</a><a href="javascript:goSearchRecipe('cat4','53')">면/만두</a><a href="javascript:goSearchRecipe('cat4','52')">밥/죽/떡</a><a href="javascript:goSearchRecipe('cat4','61')">퓨전</a><a href="javascript:goSearchRecipe('cat4','57')">김치/젓갈/장류</a><a href="javascript:goSearchRecipe('cat4','58')">양념/소스/잼</a><a href="javascript:goSearchRecipe('cat4','65')">양식</a><a href="javascript:goSearchRecipe('cat4','64')">샐러드</a><a href="javascript:goSearchRecipe('cat4','68')">스프</a><a href="javascript:goSearchRecipe('cat4','66')">빵</a><a href="javascript:goSearchRecipe('cat4','69')">과자</a><a href="javascript:goSearchRecipe('cat4','59')">차/음료/술</a><a href="javascript:goSearchRecipe('cat4','62')">기타</a>
+				</div>
+                <div class="cate_list">
+                <a href="javascript:goSearchRecipe('cat2','')" class="active">전체</a><a href="javascript:goSearchRecipe('cat2','12')">일상</a><a href="javascript:goSearchRecipe('cat2','18')">초스피드</a><a href="javascript:goSearchRecipe('cat2','13')">손님접대</a><a href="javascript:goSearchRecipe('cat2','19')">술안주</a><a href="javascript:goSearchRecipe('cat2','21')">다이어트</a><a href="javascript:goSearchRecipe('cat2','15')">도시락</a><a href="javascript:goSearchRecipe('cat2','43')">영양식</a><a href="javascript:goSearchRecipe('cat2','17')">간식</a><a href="javascript:goSearchRecipe('cat2','45')">야식</a><a href="javascript:goSearchRecipe('cat2','20')">푸드스타일링</a><a href="javascript:goSearchRecipe('cat2','46')">해장</a><a href="javascript:goSearchRecipe('cat2','44')">명절</a><a href="javascript:goSearchRecipe('cat2','14')">이유식</a><a href="javascript:goSearchRecipe('cat2','22')">기타</a>
+				</div>
+                <div class="cate_list">
+                <a href="javascript:goSearchRecipe('cat3','')" class="active">전체</a><a href="javascript:goSearchRecipe('cat3','70')">소고기</a><a href="javascript:goSearchRecipe('cat3','71')">돼지고기</a><a href="javascript:goSearchRecipe('cat3','72')">닭고기</a><a href="javascript:goSearchRecipe('cat3','23')">육류</a><a href="javascript:goSearchRecipe('cat3','28')">채소류</a><a href="javascript:goSearchRecipe('cat3','24')">해물류</a><a href="javascript:goSearchRecipe('cat3','50')">달걀/유제품</a><a href="javascript:goSearchRecipe('cat3','33')">가공식품류</a><a href="javascript:goSearchRecipe('cat3','47')">쌀</a><a href="javascript:goSearchRecipe('cat3','32')">밀가루</a><a href="javascript:goSearchRecipe('cat3','25')">건어물류</a><a href="javascript:goSearchRecipe('cat3','31')">버섯류</a><a href="javascript:goSearchRecipe('cat3','48')">과일류</a><a href="javascript:goSearchRecipe('cat3','27')">콩/견과류</a><a href="javascript:goSearchRecipe('cat3','26')">곡류</a><a href="javascript:goSearchRecipe('cat3','34')">기타</a>
+				</div>
+                <div class="cate_list">
+                <a href="javascript:goSearchRecipe('cat1','')" class="active">전체</a><a href="javascript:goSearchRecipe('cat1','6')">볶음</a><a href="javascript:goSearchRecipe('cat1','1')">끓이기</a><a href="javascript:goSearchRecipe('cat1','7')">부침</a><a href="javascript:goSearchRecipe('cat1','36')">조림</a><a href="javascript:goSearchRecipe('cat1','41')">무침</a><a href="javascript:goSearchRecipe('cat1','42')">비빔</a><a href="javascript:goSearchRecipe('cat1','8')">찜</a><a href="javascript:goSearchRecipe('cat1','10')">절임</a><a href="javascript:goSearchRecipe('cat1','9')">튀김</a><a href="javascript:goSearchRecipe('cat1','38')">삶기</a><a href="javascript:goSearchRecipe('cat1','67')">굽기</a><a href="javascript:goSearchRecipe('cat1','39')">데치기</a><a href="javascript:goSearchRecipe('cat1','37')">회</a><a href="javascript:goSearchRecipe('cat1','11')">기타</a>
+				</div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <span>테마별</span>
+          </th>
+          <td>
+            <div id="id_search_category" style="padding:6px 15px 0px 12px" class="rcp_cate st3">
+                <div class="cate_list">
+                    <a href="/theme/list.html?t1=101012">여성/뷰티</a>
+                    <a href="/theme/list.html?t1=101013">엄마/아기</a>
+                    <a href="/theme/list.html?t1=101014">건강/질병</a>
+                    <a href="/theme/list.html?t1=101010">제철요리</a>
+                    <a href="/theme/list.html?t1=101016">추천</a>
+                </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+    </table>
+  </div>
+  <div class="rcp_cate_btn"><a href="javascript:ToggleCategory()"><span id="id_search_category_text">카테고리 열기</span><span><img id="id_search_category_img" src="https://recipe1.ezmember.co.kr/img/icon_arrow9_down.gif"></span></a></div>
+
+  <form id="srRecipeFrm" name="srRecipeFrm" method="get" action="/recipe/recipeList.html">
+	    <input type="hidden" name="q" value="">
+	    <input type="hidden" id="q_query" name="query" value="">
+	    <input type="hidden" name="cat1" value="">
+	    <input type="hidden" name="cat2" value="">
+	    <input type="hidden" name="cat3" value="">
+	    <input type="hidden" name="cat4" value="">
+	    <input type="hidden" name="fct" value="">
+	    <input type="hidden" name="order" value="reco">
+	    <input type="hidden" name="lastcate">
+	    <input type="hidden" name="dsearch">
+	    <input type="hidden" id="dsf_copyshot" name="copyshot">
+	    <input type="hidden" id="dsf_scrap" name="scrap">
+	    <input type="hidden" id="dsf_degree" name="degree">
+	    <input type="hidden" id="dsf_portion" name="portion">
+	    <input type="hidden" id="dsf_time" name="time">
+	    <input type="hidden" name="niresource">
+  </form>
+  <ul class="rcp_m_list2">
+    <div class="m_list_tit">
+            총 <b>[[${#lists.size(recipe)}]]</b>개의 맛있는 레시피가 있습니다.
+            <ul class="nav nav-tabs2 pull-right" style="position:relative;">
+              <li role="presentation"><a href="javascript:void(0);" onClick="goSearchRecipe('order','accuracy')">정확순</a></li>
+              <li role="presentation" class="active"><a href="javascript:void(0);" onClick="goSearchRecipe('order','date')">최신순</a></li>
+              <li role="presentation"><a href="javascript:void(0);" onClick="goSearchRecipe('order','reco')">추천순</a></li>
+            </ul>
+    </div>
+<!--      <ul>
+          <li th:each="recipeId : ${recipeIds}" th:text="${recipeId}"></li>
+      </ul>--> <!-- 검색 시 나오는 레시피 -->
+
+      <th:block th:each="recipe : ${recipe}">
+    <ul class="common_sp_list_ul ea4" style="padding:0 0 0 8px;">
+      <li class="common_sp_list_li" >
+        <div class="common_sp_thumb">
+          <a th:href="@{'/recipe/recipeDetail/' + ${recipe.id}}" class="common_sp_link">
+          	<span class="common_vod_label">
+          	  <!--<img src="https://recipe1.ezmember.co.kr/img/icon_vod.png"> 동영상 링크가 있을때-->
+          	</span>
+              <img th:src="${recipe.imgUrl}">
+          </a>
+        </div>
+
+        <div class="common_sp_caption">
+          <div class="common_sp_caption_tit line2" th:text="${recipe.title}">제목이 자동으로 나오게</div>
+          <div class="common_sp_caption_rv_name" style="display: inline-block; vertical-align: bottom;">
+                        <a href="/profile/recipe.html?uid=plc0410">
+                        <img src="https://recipe1.ezmember.co.kr/cache/rpf/2021/08/17/c2bf6753df6ec72baeebdb68cc8298531.db976a8912bda41df24720e5cc6912d0">
+                            회원 아이디
+                        </a>
+          </div>
+        </div>
+
+<!--          <div class="row">
+              <th:block th:each="recipe, status: ${recipe.getTitle()}}">
+                  <div class="col-md-4 margin">
+                      <div class="card">
+                          <a th:href="'/recipe/' + ${recipe.id}" class="text-dark">
+                              <img th:src="${recipe.imgUrl}" class="card-img-top" th:alt="${recipe.title}" height="400">
+                          </a>
+                      </div>
+
+                  </div>
+              </th:block>
+          </div>-->
+      </li>
+    </ul>
+      </th:block>
+  </ul>
+
+</div>
+<!-- javaScript 추가 -->
+<th:block layout:fragment="script">
+  <script th:inline="javascript">
+    var _IS_SEARCH_RESTRICT = false;
+    $(document).ready( function() {
+                ToggleCategory();
+            });
+
+    function goSearchRecipe(ca, val)
+    {
+        if (val == 'reco' && _IS_SEARCH_RESTRICT) {
+            viewPremiumSearchModal();
+        } else {
+            $("#srRecipeFrm [name='"+ca+"']").val(val);
+            $("[name='lastcate']").val(ca);
+            $("#srRecipeFrm").submit();
+        }
+    }
+
+    function doSetSearch(filters, val)
+    {
+        if(!filters || !val) return ;
+        $("[id^=li_"+filters+"_]").removeClass("active");
+        // cancel
+        if($("#dsf_"+filters).val() == val)
+        {
+            $("#dsf_"+filters).val('');
+        }
+        else
+        {
+            $("#li_"+filters+"_"+val).addClass("active");
+            $("#dsf_"+filters).val(val);
+        }
+    }
+
+    function doDetailSearch()
+    {
+        $("[name=dsearch]").val("y");
+        if($("#ni_resource").val()) $("[name=niresource]").val($("#ni_resource").val());
+        $("#srRecipeFrm").submit();
+    }
+
+    function ToggleCategory()
+    {
+        $('#id_search_category').toggle();
+        if ($('#id_search_category').is(":visible"))
+        {
+            $('#id_search_category_text').text('카테고리 닫기');
+            $('#id_search_category_img').attr("src",'https://recipe1.ezmember.co.kr/img/icon_arrow9_up.gif');
+        }
+        else
+        {
+            $('#id_search_category_text').text('카테고리 열기');
+            $('#id_search_category_img').attr("src",'https://recipe1.ezmember.co.kr/img/icon_arrow9_down.gif');
+        }
+
+    }
+  </script>
+</th:block>
+</html>

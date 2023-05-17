@@ -3,7 +3,6 @@ package com.recipeone.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +14,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString(exclude = "roleSet")
 @Table(name = "MEMBER")
-public class Member extends BaseEntity{
+public class Member extends BaseEntity2 {
 
     @Id
     private String mid;

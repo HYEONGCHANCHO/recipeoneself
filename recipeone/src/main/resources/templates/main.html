@@ -5,7 +5,7 @@
 
 <!-- 사용자 CSS 추가 -->
 <th:block layout:fragment="css">
-  <style>
+  <!-- <style>
         .carousel-inner > .item {
             height: 350px;
         }
@@ -29,24 +29,56 @@
         .center{
             text-align:center;
         }
+    </style> -->
+    <style>
+      #carousel-banner {
+	    width: 1600px;
+	  }
     </style>
 </th:block>
 
 <div layout:fragment="content">
 
-    권한 없어도 보이는 메인 페이지
-  <div>
+  <div class="slideshow">
+	<div class="slideshow-slides">
+		<a href="./" class="slide" id="slide-1">
+		<img src="./img/slide-1.jpg" alt="" width="1600" height="465">
+			<div class="text">
+				<h3>순두부 열라면</h3>
+				<div class="tag"><span>#라면</span><span>#오뚜기</span><span>#순두부</span></div>
+				<button class="btn btn-red mainbtn" href="#">테마보기</button>
+			</div>
+		</a>
+		<a href="./" class="slide" id="slide-2">
+		<img src="./img/slide-2.jpg" alt="" width="1600" height="465">
+			<div class="text">
+				<h3>돈까스</h3>
+				<div class="tag"><span>#돼지고기</span><span>#튀김</span><span>#소스</span></div>
+				<button class="btn btn-red mainbtn" href="#">테마보기</button>
+			</div>
+		</a>
+		<a href="./" class="slide" id="slide-3">
+		<img src="./img/slide-3.jpg" alt="" width="1600" height="465">
+			<div class="text">
+				<h3>칠리새우 토스트</h3>
+				<div class="tag"><span>#빵</span><span>#새우</span><span>#칠리소스</span></div>
+				<button class="btn btn-red mainbtn" href="#">테마보기</button>
+			</div>
+		</a>
+		<a href="./" class="slide" id="slide-4">
+		<img src="./img/slide-4.jpg" alt="" width="1600" height="465">
+			<div class="text">
+				<h3>김치찌개</h3>
+				<div class="tag"><span>#김치</span><span>#뚝배기</span><span>#보글보글</span></div>
+				<button class="btn btn-red mainbtn" href="#">테마보기</button>
+			</div>
+		</a>
+	</div>
+	<div class="slideshow-nav">
+        <a href="#" class="prev">Prev</a>
+        <a href="#" class="next">Next</a>
+    </div>
+    <div class="slideshow-indicator"></div>
+  </div>
 
-    <ul class="nav navbar-nav navbar-right">
-        <li th:unless="${#request.isUserInRole('ROLE_USER')|| #request.isUserInRole('ROLE_ADMIN')|| #request.isUserInRole('ROLE_STOP')|| #request.isUserInRole('ROLE_CHEF')}">
-            <a th:href="@{/member/join}">회원가입</a>
-        </li>
-        <li th:unless="${#request.isUserInRole('ROLE_USER')|| #request.isUserInRole('ROLE_ADMIN')|| #request.isUserInRole('ROLE_STOP')|| #request.isUserInRole('ROLE_CHEF')}">
-            <a th:href="@{/member/login}">로그인</a>
-        </li>
-        <li th:if="${#request.isUserInRole('ROLE_USER')|| #request.isUserInRole('ROLE_ADMIN')|| #request.isUserInRole('ROLE_STOP')|| #request.isUserInRole('ROLE_CHEF')}">
-            <a th:href="@{/logout}" >로그아웃</a>
-        </li>
-    </ul>
-</div>
 </div>

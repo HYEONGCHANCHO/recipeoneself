@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+<th:block latout:fragment="css">
+  <style>
+    .step-image {
+      width : 500px;
+    }
+  </style>
+</th:block>
+<div layout:fragment="content">
+  <div class="view" >
+    <img id="main_thumbs"  th:src="${recipe.imgUrl}" th:alt="${recipe.title}">
+    <h3 th:text="${recipe.title}">Recipe Title</h3>
+
+    <h3>재료</h3>
+    <ul>
+      <th:block th:each="ingredient : ${recipe.recipeIngredients}">
+        <li th:text="${ingredient.igdName}"></li>
+      </th:block>
+    </ul>
+
+    <h3>요리 순서</h3>
+    <ol>
+      <th:block th:each="step : ${recipe.recipeSteps}">
+        <li>
+          <span th:text="${step.steptext}"></span>
+            <div class="step-image" th:if="${step.recipeImg != null}" >
+              <img th:src="@{'/images/item/' + ${step.recipeImg.imgUrl}}" th:alt="Step Image">
+            </div>
+        </li>
+      </th:block>
+    </ol>
+    <div th:with="user=${#authentication.principal}">
+      <a th:if="${user != null && user.username == dto.writer}" th:href="">modify</a>
+    </div>
+  </div>
+</div>
+
+</html>
+
