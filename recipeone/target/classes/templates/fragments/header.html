@@ -124,7 +124,7 @@
             th:if="${#request.isUserInRole('ROLE_ADMIN')}">
           <a class="nav-link" href="/member/admin">관리자페이지</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" th:if="${!#request.isUserInRole('ROLE_STOP')}">
           <a class="nav-link" href="/recipe/recipeForm">레시피 등록</a>
         </li>
       </ul>

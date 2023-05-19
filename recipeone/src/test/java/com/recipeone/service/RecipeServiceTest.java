@@ -29,7 +29,7 @@ import com.recipeone.repository.RecipeRepository;
 public class RecipeServiceTest {
 	
 	@Autowired
-	RecipeService recipeService;
+    RecipeService recipeService;
 	
 	@Autowired
 	RecipeRepository recipeRepository;

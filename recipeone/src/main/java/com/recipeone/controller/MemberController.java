@@ -55,9 +55,9 @@ public class MemberController {
     }
 
     @PostMapping("/socialmodify") //소셜로그인 닉네임,비번바꾸기
-    public String socialmodifyPost(MemberMofifyDTO memberMofifyDTO, RedirectAttributes redirectAttributes, @ModelAttribute Member member) {
+    public String socialmodifyPost(MemberMofifyDTO memberMofifyDTO, RedirectAttributes redirectAttributes) {
         try {
-            memberService.socialmodify(memberMofifyDTO, member);
+            memberService.socialmodify(memberMofifyDTO);
         } catch (MemberServiceImpl.MidExistException e) {
             redirectAttributes.addFlashAttribute("error", "mid");
             return "redirect:/member/socialmodify";
@@ -81,9 +81,9 @@ public class MemberController {
     }
 
     @PostMapping("/membermodify") //회원 기본 정보 수정
-    public String membermodifyPost(MemberMofifyDTO memberMofifyDTO, RedirectAttributes redirectAttributes, @ModelAttribute Member member) {
+    public String membermodifyPost(MemberMofifyDTO memberMofifyDTO, RedirectAttributes redirectAttributes) {
         try {
-            memberService.membermodify(memberMofifyDTO, member);
+            memberService.membermodify(memberMofifyDTO);
         } catch (MemberService.UserEmailExistException e) {
             redirectAttributes.addFlashAttribute("error", "useremail");
             return "redirect:/member/membermodify";
@@ -101,10 +101,10 @@ public class MemberController {
     }
 
     @PostMapping("/passwordmodify") //회원 비밀번호 수정
-    public String passwordmodifyPost(MemberMofifyDTO memberMofifyDTO, RedirectAttributes redirectAttributes, @ModelAttribute Member member) {
+    public String passwordmodifyPost(MemberMofifyDTO memberMofifyDTO, RedirectAttributes redirectAttributes) {
         log.info(memberMofifyDTO);
         try {
-            memberService.passwordmodify(memberMofifyDTO, member);
+            memberService.passwordmodify(memberMofifyDTO);
         } catch (MemberService.WrongPasswordException e) {
             redirectAttributes.addFlashAttribute("error", "WrongPassword");
             return "redirect:/member/passwordmodify";

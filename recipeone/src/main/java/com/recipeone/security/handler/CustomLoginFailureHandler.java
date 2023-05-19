@@ -30,6 +30,8 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
 
         Optional<Member> optionalMember = memberRepository.findById(username);
         if (!optionalMember.isPresent()) {
+            session.setAttribute("errorid", "존재하지 않는 아이디입니다.");
+            session.removeAttribute("errorpw");
             response.sendRedirect("/member/login?error=true");
             return;
         }
@@ -43,6 +45,8 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
         memberRepository.save(member);
         log.info("CustomLoginFailureHandler onAuthenticationFailure ...........");
         log.info(exception.getMessage());
+        session.setAttribute("errorpw", "비밀번호가 일치하지 않습니다.");
+        session.removeAttribute("errorid");
         session.setAttribute("loginFailCount", member.getLoginFailCount());
 
         response.sendRedirect("/member/login?error=true");

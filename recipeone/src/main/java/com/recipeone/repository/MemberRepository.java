@@ -16,6 +16,9 @@ public interface MemberRepository extends JpaRepository<Member,String> {
     @Query("select m from Member m where m.mid = :mid and m.social = false")
     Optional<Member> getWithRoles(String mid);
 
+  @Query("select m from Member m where m.mid = :mid")
+    Optional<Member> memberset(String mid);
+
     Optional<Member> findById(String mid);
 
     @Query("select m from Member m where m.usernickname = :usernickname")

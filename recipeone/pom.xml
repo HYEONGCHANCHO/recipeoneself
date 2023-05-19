@@ -131,6 +131,16 @@
 			<artifactId>modelmapper</artifactId>
 			<version>3.1.0</version>
 		</dependency>
+<!--ajax를 위한 jquery 의존성 설정-->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>3.6.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
 
 <!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 <!-- multipart등을 사용할수 있음 -->

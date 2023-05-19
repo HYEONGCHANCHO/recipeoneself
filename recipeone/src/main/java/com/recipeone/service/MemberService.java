@@ -23,9 +23,9 @@ public interface MemberService {
     }
 
     void join(MemberJoinDTO memberJoinDTO) throws  MidExistException,UserNickNameExistException, UserEmailExistException,ConfirmedPasswordException ;
-    void socialmodify(MemberMofifyDTO memberMofifyDTO, @ModelAttribute Member member) throws  MidExistException, UserNickNameExistException,UserEmailExistException,ConfirmedPasswordException ;
-    void membermodify(MemberMofifyDTO memberMofifyDTO, @ModelAttribute Member member) throws  UserNickNameExistException,UserEmailExistException ;
-    void passwordmodify(MemberMofifyDTO memberMofifyDTO, @ModelAttribute Member member) throws  ConfirmedmodifyPasswordException,WrongPasswordException ;
+    void socialmodify(MemberMofifyDTO memberMofifyDTO) throws  MidExistException, UserNickNameExistException,UserEmailExistException,ConfirmedPasswordException ;
+    void membermodify(MemberMofifyDTO memberMofifyDTO) throws  UserNickNameExistException,UserEmailExistException ;
+    void passwordmodify(MemberMofifyDTO memberMofifyDTO) throws  ConfirmedmodifyPasswordException,WrongPasswordException ;
     public boolean checkDuplicatedUsername(String username);
     public boolean checkDuplicatedUsernickname(String usernickname) ;
 }

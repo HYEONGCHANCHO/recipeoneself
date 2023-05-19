@@ -3,163 +3,173 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 <div layout:fragment="content">
-	<div class="container">
-	<form role="form" method="post" enctype="multipart/form-data" th:object="${recipeFormDto}">
-		<p class="h1">레시피 등록</p><br />
-		
-		<p class="h3 subheading">썸네일 사진선택</p>
-		<div id="rc_thumbnail" class="rc_thumbnail">
-	        <div id="divMainPhotoBox" is_over="0">
-	            <input type="file" id="mainPhotoHolder" name="recipeImgFile" onchange="setThumbnail(event);" /><br />
-	            <div id="image_container"></div><br />
-	        </div>
-      	</div>
-      	
-      	<p class="h3 subheading" id="title">레시피 제목&nbsp;&nbsp;&nbsp;</p>
-		<div class="input-group">
-			<input type="text" name="title" placeholder="예) 미역국 끓이기" style="width:610px;"><br />
-		</div>
-		
-		<p class="h3 subheading">요리순서</p>
-		<div class="input-group">
-			<div th:if="${#lists.isEmpty(recipeFormDto.recipeImgDtoList)}">
-		      <div class="form-group" th:each="num: ${#numbers.sequence(1,3)}" >
-		        <div class="custom-file img-div">
-		          <input type="file" class="custom-file-input" name="recipeImgFile">
-		          <label class="custom-file-label" th:text="요리이미지 + ${num}"></label>
-		          <textarea class="input-group-text" name="steptext" id="textbox" placeholder="내용을 입력해주세요" style="width: 610px"></textarea><br />
-		        </div>
-		      </div>
-		    </div>
-		    <div th:if = "${not #lists.isEmpty(recipeFormDto.recipeImgDtoList)}">
-	      	  <div class="form-group" th:each="recipeImgDto, status: ${recipeFormDto.recipeImgDtoList}">
-	            <div class="custom-file img-div">
-	            <input type="file" class="custom-file-input" name="recipeImgFile">
-	            <input type="hidden" name="recipeImgIds" th:value="${recipeImgDto.id}">
-	            <label class="custom-file-label" th:text="${not #strings.isEmpty(recipeImgDto.oriImgName)} ? ${recipeImgDto.oriImgName} : '요리이미지' + ${status.index+1}"></label>
-	            </div>
-	          </div>
-	        </div>
-		</div> <!-- 요리순서 END -->
-		
-		<p class="h3 subheading">카테고리</p>
-		<div class="input-group">
-			<select name="rcType" id="rcType" text="종류별">
-				<option value="" >종류별</option>
-				<option value="56">메인반찬</option>
-				<option value="54">국/탕</option>
-				<option value="55">찌개</option>
-				<option value="60">디저트</option>
-				<option value="53">면/만두</option>
-				<option value="52">밥/죽/떡</option>
-				<option value="61">퓨전</option>
-				<option value="57">김치/젓갈/장류</option>
-				<option value="58">양념/소스/잼</option>
-				<option value="65">양식</option>
-				<option value="64">샐러드</option>
-				<option value="68">스프</option>
-				<option value="66">빵</option>
-				<option value="69">과자</option>
-				<option value="59">차/음료/술</option>
-				<option value="62">기타</option>
-				<option value="63">밑반찬</option>
-			</select>
-	        <select name="rcSituation" id="rcSituation" text="상황별">
-				<option value="" >상황별</option><option value="12">일상</option>
-				<option value="18">초스피드</option>
-				<option value="13">손님접대</option>
-				<option value="19">술안주</option>
-				<option value="21">다이어트</option>
-				<option value="15">도시락</option>
-				<option value="43">영양식</option>
-				<option value="17">간식</option>
-				<option value="45">야식</option>
-				<option value="20">푸드스타일링</option>
-				<option value="46">해장</option>
-				<option value="44">명절</option>
-				<option value="14">이유식</option>
-				<option value="22">기타</option>
-			</select>
-        	<select name="rcMeans" id="rcMeans" text="방법별">
-				<option value="" >방법별</option><option value="6">볶음</option>
-				<option value="1">끓이기</option>
-				<option value="7">부침</option>
-				<option value="36">조림</option>
-				<option value="41">무침</option>
-				<option value="42">비빔</option>
-				<option value="8">찜</option>
-				<option value="10">절임</option>
-				<option value="9">튀김</option>
-				<option value="38">삶기</option>
-				<option value="67">굽기</option>
-				<option value="39">데치기</option>
-				<option value="37">회</option>
-				<option value="11">기타</option>
-			</select>
-        	<select name="rcIngredient" id="rcIngredient"  text="재료별">
-				<option value="" >재료별</option><option value="70">소고기</option>
-				<option value="71">돼지고기</option>
-				<option value="72">닭고기</option>
-				<option value="23">육류</option>
-				<option value="28">채소류</option>
-				<option value="24">해물류</option>
-				<option value="50">달걀/유제품</option>
-				<option value="33">가공식품류</option>
-				<option value="47">쌀</option>
-				<option value="32">밀가루</option>
-				<option value="25">건어물류</option>
-				<option value="31">버섯류</option>
-				<option value="48">과일류</option>
-				<option value="27">콩/견과류</option>
-				<option value="26">곡류</option>
-				<option value="34">기타</option>
-			</select>
-		</div><br /><!-- 카테고리 END  -->
-		
-		<p class="h3 subheading">요리정보</p>
-		<div class="input-group">
-      		<span>인원 </span>
-        	<select name="nop" id="nop"  text="인원">
-				<option value="" >인원선택</option>
-				<option value="1">1인분</option>
-				<option value="2">2인분</option>
-				<option value="3">3인분</option>
-				<option value="4">4인분</option>
-				<option value="5">5인분</option>
-				<option value="6">6인분이상</option>
-			</select>
-      		<span>시간 </span>
-        	<select name="cooktime" id="cooktime"  text="요리시간">
-				<option value="" >시간선택</option>
-				<option value="5">5분이내</option>
-				<option value="10">10분이내</option>
-				<option value="15">15분이내</option>
-				<option value="20">20분이내</option>
-				<option value="30">30분이내</option>
-				<option value="60">60분이내</option>
-				<option value="90">90분이내</option>
-				<option value="120">2시간이내</option>
-				<option value="999">2시간이상</option>
-			</select>
-        </div><br /> <!-- 요리정보 END -->
-        
-        <p class="h3 subheading">재료</p>
-		<div id="divMaterialGroupArea">
-		 	<input type="text" name="gubun" placeholder="재료/양념 구분">
-		    <input type="text" name="igdName" placeholder="재료명">
-		    <input type="text" name="count" placeholder="중량정보"><br />
-		</div>    
-	    <div class="regi_btm" th:if="${#strings.isEmpty(recipeFormDto.id)}">
-		    <button th:formaction="@{/admin/item/new}" id="savebutton" type="submit" class="btn-lg btn-primary">저장</button>
-			<button type="button" onclick="history.back();" class="btn-lg btn-default">취소</button>
-		</div>
-		<div th:unless="${#strings.isEmpty(recipeFormDto.id)}" style="text-align: center">
-	      <button th:formaction="@{'/admin/item/' + ${recipeFormDto.id} }" type="submit" class="btn btn-primary">수정</button>
-	    </div>
-	</div> <!-- container END -->
+    <div class="container">
+        <form role="form" method="post" enctype="multipart/form-data" th:object="${recipeFormDto}">
+            <p class="h1">레시피 등록</p><br/>
 
+            <p class="h3 subheading">썸네일 사진선택</p>
+            <div id="rc_thumbnail" class="rc_thumbnail">
+                <div id="divMainPhotoBox" is_over="0">
+                    <input type="file" id="mainPhotoHolder" name="recipeImgFile" onchange="setThumbnail(event);"/><br/>
+                    <div id="image_container"></div>
+                    <br/>
+                </div>
+            </div>
 
-	</form>
+            <p class="h3 subheading" id="title">레시피 제목&nbsp;&nbsp;&nbsp;</p>
+            <div class="input-group">
+                <input type="text" name="title" placeholder="예) 미역국 끓이기" style="width:610px;"><br/>
+            </div>
+
+            <p class="h3 subheading">요리순서</p>
+            <div class="input-group">
+                <div th:if="${#lists.isEmpty(recipeFormDto.recipeImgDtoList)}">
+                    <div class="form-group" th:each="num: ${#numbers.sequence(1,3)}">
+                        <div class="custom-file img-div">
+                            <input type="file" class="custom-file-input" name="recipeImgFile">
+                            <label class="custom-file-label" th:text="요리이미지 + ${num}"></label>
+                            <textarea class="input-group-text" name="steptext" id="textbox" placeholder="내용을 입력해주세요"
+                                      style="width: 610px"></textarea><br/>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${not #lists.isEmpty(recipeFormDto.recipeImgDtoList)}">
+                    <div class="form-group" th:each="recipeImgDto, status: ${recipeFormDto.recipeImgDtoList}">
+                        <div class="custom-file img-div">
+                            <input type="file" class="custom-file-input" name="recipeImgFile">
+                            <input type="hidden" name="recipeImgIds" th:value="${recipeImgDto.id}">
+                            <label class="custom-file-label"
+                                   th:text="${not #strings.isEmpty(recipeImgDto.oriImgName)} ? ${recipeImgDto.oriImgName} : '요리이미지' + ${status.index+1}"></label>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- 요리순서 END -->
+
+            <p class="h3 subheading">카테고리</p>
+            <div class="input-group">
+                <select name="rcType" id="rcType" text="종류별">
+                    <option value="">종류별</option>
+                    <option value="56">메인반찬</option>
+                    <option value="54">국/탕</option>
+                    <option value="55">찌개</option>
+                    <option value="60">디저트</option>
+                    <option value="53">면/만두</option>
+                    <option value="52">밥/죽/떡</option>
+                    <option value="61">퓨전</option>
+                    <option value="57">김치/젓갈/장류</option>
+                    <option value="58">양념/소스/잼</option>
+                    <option value="65">양식</option>
+                    <option value="64">샐러드</option>
+                    <option value="68">스프</option>
+                    <option value="66">빵</option>
+                    <option value="69">과자</option>
+                    <option value="59">차/음료/술</option>
+                    <option value="62">기타</option>
+                    <option value="63">밑반찬</option>
+                </select>
+                <select name="rcSituation" id="rcSituation" text="상황별">
+                    <option value="">상황별</option>
+                    <option value="12">일상</option>
+                    <option value="18">초스피드</option>
+                    <option value="13">손님접대</option>
+                    <option value="19">술안주</option>
+                    <option value="21">다이어트</option>
+                    <option value="15">도시락</option>
+                    <option value="43">영양식</option>
+                    <option value="17">간식</option>
+                    <option value="45">야식</option>
+                    <option value="20">푸드스타일링</option>
+                    <option value="46">해장</option>
+                    <option value="44">명절</option>
+                    <option value="14">이유식</option>
+                    <option value="22">기타</option>
+                </select>
+                <select name="rcMeans" id="rcMeans" text="방법별">
+                    <option value="">방법별</option>
+                    <option value="6">볶음</option>
+                    <option value="1">끓이기</option>
+                    <option value="7">부침</option>
+                    <option value="36">조림</option>
+                    <option value="41">무침</option>
+                    <option value="42">비빔</option>
+                    <option value="8">찜</option>
+                    <option value="10">절임</option>
+                    <option value="9">튀김</option>
+                    <option value="38">삶기</option>
+                    <option value="67">굽기</option>
+                    <option value="39">데치기</option>
+                    <option value="37">회</option>
+                    <option value="11">기타</option>
+                </select>
+                <select name="rcIngredient" id="rcIngredient" text="재료별">
+                    <option value="">재료별</option>
+                    <option value="70">소고기</option>
+                    <option value="71">돼지고기</option>
+                    <option value="72">닭고기</option>
+                    <option value="23">육류</option>
+                    <option value="28">채소류</option>
+                    <option value="24">해물류</option>
+                    <option value="50">달걀/유제품</option>
+                    <option value="33">가공식품류</option>
+                    <option value="47">쌀</option>
+                    <option value="32">밀가루</option>
+                    <option value="25">건어물류</option>
+                    <option value="31">버섯류</option>
+                    <option value="48">과일류</option>
+                    <option value="27">콩/견과류</option>
+                    <option value="26">곡류</option>
+                    <option value="34">기타</option>
+                </select>
+            </div>
+            <br/><!-- 카테고리 END  -->
+
+            <p class="h3 subheading">요리정보</p>
+            <div class="input-group">
+                <span>인원 </span>
+                <select name="nop" id="nop" text="인원">
+                    <option value="">인원선택</option>
+                    <option value="1">1인분</option>
+                    <option value="2">2인분</option>
+                    <option value="3">3인분</option>
+                    <option value="4">4인분</option>
+                    <option value="5">5인분</option>
+                    <option value="6">6인분이상</option>
+                </select>
+                <span>시간 </span>
+                <select name="cooktime" id="cooktime" text="요리시간">
+                    <option value="">시간선택</option>
+                    <option value="5">5분이내</option>
+                    <option value="10">10분이내</option>
+                    <option value="15">15분이내</option>
+                    <option value="20">20분이내</option>
+                    <option value="30">30분이내</option>
+                    <option value="60">60분이내</option>
+                    <option value="90">90분이내</option>
+                    <option value="120">2시간이내</option>
+                    <option value="999">2시간이상</option>
+                </select>
+            </div>
+            <br/> <!-- 요리정보 END -->
+
+            <p class="h3 subheading">재료</p>
+            <div id="divMaterialGroupArea">
+                <input type="text" name="gubun" placeholder="재료/양념 구분">
+                <input type="text" name="igdName" placeholder="재료명">
+                <input type="text" name="count" placeholder="중량정보"><br/>
+            </div>
+            <div class="regi_btm" th:if="${#strings.isEmpty(recipeFormDto.id)}">
+                <button th:formaction="@{/recipe/recipeForm}" id="savebutton" type="submit" class="btn-lg btn-primary">
+                    저장
+                </button>
+                <button type="button" onclick="history.back();" class="btn-lg btn-default">취소</button>
+            </div>
+            <div th:unless="${#strings.isEmpty(recipeFormDto.id)}" style="text-align: center">
+                <button th:formaction="@{'/recipe/recipeModify' + ${recipeFormDto.id} }" type="submit"
+                        class="btn btn-primary">수정
+                </button>
+            </div>
+    </form>
+    </div> <!-- container END -->
 </div> <!-- content END -->
 
 <!-- 썸네일 자바스크립트 추가 -->
@@ -197,6 +207,8 @@
 		};
 		reader.readAsDataURL(event.target.files[0]);
 	}
+
+
     </script>
 </th:block>
 

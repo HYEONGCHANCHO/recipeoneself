@@ -58,7 +58,6 @@ if
             <div class="input-group">
                 <span>사용자 활동명</span>
                 <input type="text" name="usernickname" class="form-control"
-                       th:value="${#authentication.principal.username}"
                        minlength="2" maxlength="20" pattern="^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣@]*$"
                        title="2~20자의 영문 대소문자, 한글, 숫자만 입력해주세요."
                        placeholder="2~20자의 영문 대소문자, 한글, 숫자만 입력해주세요.">
