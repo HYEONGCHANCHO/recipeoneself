@@ -48,6 +48,7 @@ public class RecipeServiceImpl implements RecipeService {
         }
         return recipeIds;
     }
+
 //진행중
   @Override
     public List<Long> filterSearched(List<String> recommendedKeywords, String rcType, String rcSituation, String rcMeans, String rcIngredient) throws RecipeIdExistException {

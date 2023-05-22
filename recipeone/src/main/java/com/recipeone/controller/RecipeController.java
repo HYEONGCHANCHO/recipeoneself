@@ -80,19 +80,38 @@ public class RecipeController {
     @GetMapping("/modify")
     public void modify() {
     }
+
+
+//    진행중
+@PostMapping("/testa")
+public String testa() {
+    System.out.println("----------testa------------");
+    return "ok";
+}
+
     @GetMapping("/test")
     public void test() {
     }
+    @PostMapping("/test")
+    public String tests() {
+        return "redirect:/recipe/test";
+}
 
-//    진행중
+
     @RequestMapping(value = "/filtersearch", method = RequestMethod.POST)
     @ResponseBody
-    public void goSearchRecipe2(@RequestParam String rcType) {
-       log.info(rcType);
-       log.info("----------------------");
+    public void goSearchRecipe2(@RequestParam(value = "rcType", required = false) String rcType,
+                                                @RequestParam(value = "rcSituation", required = false) String rcSituation,
+                                                @RequestParam(value = "rcIngredient", required = false) String rcIngredient,
+                                                @RequestParam(value = "rcMeans", required = false) String rcMeans) {
+    log.info(rcType+"aaaaaaaa");
+    log.info(rcSituation+"aaaaaaaa");
+    log.info(rcIngredient+"aaaaaaaa");
+    log.info(rcMeans+"aaaaaaaa");
+
     }
-////    진행중
-//    @RequestMapping(value = "/filtersearch", method = RequestMethod.POST)
+
+//    } @RequestMapping(value = "/filtersearch", method = RequestMethod.POST)
 //    @ResponseBody
 //    public List<Long> goSearchRecipe2(@RequestParam String rcType, @RequestParam String rcSituation, @RequestParam String rcMeans, @RequestParam String rcIngredient, @RequestParam(required = false, defaultValue = "") String keyword) {
 //       log.info(rcType);
@@ -118,20 +137,24 @@ public class RecipeController {
     @ResponseBody
     public List<String> getRecommendedKeywords(@RequestParam String keyword) {
         List<String> recommendedKeywords = null;
+        log.info(keyword+"qqqqqqqqq");
         try {
             recommendedKeywords = recipeService.recommendKeywords(keyword);
         } catch (RecipeService.RecipeIdExistException e) {
             // 예외 처리 코드
         }
+        log.info(recommendedKeywords+"recommendedKeywords");
         return recommendedKeywords;
     }
 
     @PostMapping("/recipeList")
-    public String recipelistPOST(@RequestParam("keyword") String keyword, RedirectAttributes redirectAttributes, Model model) {
+    public String recipelistPOST(@RequestParam(value = "keyword", required = false) String keyword, RedirectAttributes redirectAttributes, Model model) {
         try {
-//            List<Long> recipeIds = recipeService.searched(keyword);
+            List<String> recommendedKeywords = recipeService.recommendKeywords(keyword);
             List<Long> recipeIds = recipeService.searched(keyword);
-            log.info("recupeIds는======" + recipeIds);
+            log.info("recipeIds======" + recipeIds);
+            log.info("recommendedKeywords======" + recommendedKeywords);
+            redirectAttributes.addFlashAttribute("recommendedKeywords", recommendedKeywords);
             redirectAttributes.addFlashAttribute("recipeIds", recipeIds);
             redirectAttributes.addFlashAttribute("result", "success");
         } catch (RecipeService.RecipeIdExistException e) {

@@ -19,6 +19,8 @@
  </style>
 
   <script>
+
+
   $(document).ready(function() {
   var typingTimer;
   var doneTypingInterval = 500; // 입력 후 0.5초를 기다린 후에 서버에 요청을 보냄
@@ -33,6 +35,8 @@
   $('#search-button').click(function() {
     doneTyping();
   });
+
+
 
   // 입력이 끝나고 doneTypingInterval 시간이 경과하면 서버에 요청을 보냄
   function doneTyping() {
@@ -79,7 +83,35 @@
     });
   });
 
-});
+$(document).ready(function() {
+  // 레시피 목록 링크 클릭 시
+  $('#recipeListLink').click(function(event) {
+    event.preventDefault(); // 기본 이벤트 동작을 막음
+
+    var keyword = null; // keyword 값을 null로 설정
+
+    // AJAX 요청
+    $.ajax({
+      url: '/recipe/recipeList',
+      method: 'POST',
+      data: { keyword: keyword },
+      success: function(response) {
+        // 요청 성공 시 처리할 코드
+        // 예: 페이지 이동 등
+      },
+      error: function(xhr, status, error) {
+        // 에러 처리 코드
+      }
+    });
+  });
+
+function submitRecipeListForm() {
+  document.getElementById("recipeListForm").submit();
+}
+
+
+});});
+
 
 </script>
 
@@ -125,7 +157,7 @@
           <a class="nav-link" href="/member/admin">관리자페이지</a>
         </li>
         <li class="nav-item" th:if="${!#request.isUserInRole('ROLE_STOP')}">
-          <a class="nav-link" href="/recipe/recipeForm">레시피 등록</a>
+          <a class="nav-link"  href="/recipe/recipeForm">레시피 등록</a>
         </li>
       </ul>
     </div>
@@ -134,9 +166,14 @@
   <!-- Second Line -->
   <nav class="navbar navbar-expand-sm bg-light navbar-light">
     <ul class="navbar-nav w-100 d-flex justify-content-around">
-      <li class="nav-item">
-        <a class="nav-link" href="/recipe/recipeList">레시피 목록</a>
-      </li>
+<!--      <li class="nav-item">-->
+<!--        <a class="nav-link" id="recipeListLink" href="/recipe/recipeList">레시피 목록</a>-->
+<!--      </li>-->
+      <form id="recipeListForm" action="/recipe/recipeList" method="post">
+        <input type="hidden" name="keyword" value="null">
+        <a class="nav-link" id="recipeListLink" href="#" onclick="submitRecipeListForm()">레시피 목록</a>
+      </form>
+
       <li class="nav-item">
         <a class="nav-link" href="#">최근본 레시피</a>
       </li>
