@@ -23,15 +23,26 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	List<Long> findRecipeIdByrecommendedKeywords(@Param("recommendedKeywords") List<String> recommendedKeywords);
 
 //	진행중
-	@Query("select r.id from Recipe r where (r.title IN :recommendedKeywords or r.tag IN :recommendedKeywords) " +
-			"and (:rcType = '' or r.rcType = :rcType) " +
-			"and (:rcSituation = '' or r.rcSituation = :rcSituation) " +
-			"and (:rcMeans = '' or r.rcMeans = :rcMeans) " +
-			"and (:rcIngredient = '' or r.rcIngredient = :rcIngredient)")
+//	@Query("select r.id from Recipe r where (r.title IN :recommendedKeywords or r.tag IN :recommendedKeywords)" +
+//			"and (r.rctype = :rctype) " +
+//			"and (r.rcsituation = :rcsituation) " +
+//			"and ( r.rcmeans = :rcmeans) " +
+//			"and ( r.rcingredient = :rcingredient)")
+//	List<Long> findRecipeIdByfilterSearched(@Param("recommendedKeywords") List<String> recommendedKeywords,
+//											@Param("rctype") String rctype,
+//											@Param("rcsituation") String rcsituation,
+//											@Param("rcmeans") String rcmeans,
+//											@Param("rcingredient") String rcingredient);
+@Query("select r.id from Recipe r where (r.title IN :recommendedKeywords or r.tag IN :recommendedKeywords)" +
+			"and (:rctype = '' or r.rctype = :rctype) " +
+			"and (:rcsituation = '' or r.rcsituation = :rcsituation) " +
+			"and (:rcmeans = '' or r.rcmeans = :rcmeans) " +
+			"and (:rcingredient = '' or r.rcingredient = :rcingredient)")
 	List<Long> findRecipeIdByfilterSearched(@Param("recommendedKeywords") List<String> recommendedKeywords,
-											@Param("rcType") String rcType,
-											@Param("rcSituation") String rcSituation,
-											@Param("rcMeans") String rcMeans,
-											@Param("rcIngredient") String rcIngredient);
+											@Param("rctype") String rctype,
+											@Param("rcsituation") String rcsituation,
+											@Param("rcmeans") String rcmeans,
+											@Param("rcingredient") String rcingredient);
+
 
 }

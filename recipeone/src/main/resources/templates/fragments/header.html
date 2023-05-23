@@ -105,11 +105,22 @@ $(document).ready(function() {
     });
   });
 
-function submitRecipeListForm() {
-  document.getElementById("recipeListForm").submit();
-}
+<!--레시피 목록 메뉴-->
+  function postToRecipeList() {
+    var form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'recipe/recipeList';
 
+    var keywordInput = document.createElement('input');
+    keywordInput.type = 'hidden';
+    keywordInput.name = 'keyword';
+    keywordInput.value = null;
 
+    form.appendChild(keywordInput);
+
+    document.body.appendChild(form);
+    form.submit();
+  }
 });});
 
 
@@ -166,13 +177,8 @@ function submitRecipeListForm() {
   <!-- Second Line -->
   <nav class="navbar navbar-expand-sm bg-light navbar-light">
     <ul class="navbar-nav w-100 d-flex justify-content-around">
-<!--      <li class="nav-item">-->
-<!--        <a class="nav-link" id="recipeListLink" href="/recipe/recipeList">레시피 목록</a>-->
-<!--      </li>-->
-      <form id="recipeListForm" action="/recipe/recipeList" method="post">
-        <input type="hidden" name="keyword" value="null">
-        <a class="nav-link" id="recipeListLink" href="#" onclick="submitRecipeListForm()">레시피 목록</a>
-      </form>
+
+        <a class="nav-link"  th:href="@{/recipe/recipeList}" onclick="postToRecipeList()">레시피 목록</a>
 
       <li class="nav-item">
         <a class="nav-link" href="#">최근본 레시피</a>

@@ -31,10 +31,10 @@ public class RecipeFormDto {
 	//private String rc_thumbnail; // 썸네일 이미지
 	
 	private String tag; // 태그
-	private String rcType; // 카테고리 종류별
-	private String rcSituation; // 카테고리 상황별
-	private String rcIngredient; // 카테고리 재료별
-	private String rcMeans; // 카테고리 방법별
+	private String rctype; // 카테고리 종류별
+	private String rcsituation; // 카테고리 상황별
+	private String rcingredient; // 카테고리 재료별
+	private String rcmeans; // 카테고리 방법별
 	private String rcTheme; // 카테고리 테마별
 	
 	private List<RecipeStep> recipeStep = new ArrayList<>(); // 레시피 내용

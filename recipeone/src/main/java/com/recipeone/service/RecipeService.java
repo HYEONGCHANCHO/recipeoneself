@@ -24,6 +24,6 @@ public interface RecipeService {
     public Recipe getRecipeById(Long recipeId);
 
     //    public List<Long> filterSearched(String keyword) throws RecipeIdExistException; //진행중
-    public List<Long> filterSearched(List<String> recommendedKeywords, String rcType, String rcSituation, String rcMeans, String rcIngredient) throws RecipeIdExistException;
+    public List<Long> filterSearched(List<String> recommendedKeywords, String rctype, String rcsituation, String rcmeans, String rcingredient) throws RecipeIdExistException;
 
 }

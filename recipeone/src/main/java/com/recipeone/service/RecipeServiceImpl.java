@@ -12,6 +12,7 @@ import com.recipeone.repository.RecipeStepRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -51,12 +52,17 @@ public class RecipeServiceImpl implements RecipeService {
 
 //진행중
   @Override
-    public List<Long> filterSearched(List<String> recommendedKeywords, String rcType, String rcSituation, String rcMeans, String rcIngredient) throws RecipeIdExistException {
+    public List<Long> filterSearched(List<String> recommendedKeywords, String rctype, String rcsituation, String rcmeans, String rcingredient) throws RecipeIdExistException {
         log.info("recommendedKeywords======" + recommendedKeywords);
-        List<Long> recipeIds = recipeRepository.findRecipeIdByfilterSearched(recommendedKeywords,rcType,rcSituation,rcMeans,rcIngredient);
-        if (recipeIds.isEmpty()) {
+      log.info(rctype + "rcType2");
+      log.info(rcsituation + "rcSituation2");
+      log.info(rcingredient + "rcIngredient2");
+      log.info(rcmeans + "rcMeans2");
+        List<Long> recipeIds = recipeRepository.findRecipeIdByfilterSearched(recommendedKeywords,rctype,rcsituation,rcmeans,rcingredient);
+      if (recipeIds.isEmpty()) {
             throw new RecipeIdExistException();
         }
+      log.info(recipeIds + "recipeIds222");
         return recipeIds;
     }
 
