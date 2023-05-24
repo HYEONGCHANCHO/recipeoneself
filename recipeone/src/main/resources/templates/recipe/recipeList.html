@@ -5,9 +5,9 @@
 
 
 <div layout:fragment="content">
-<div>
+    <div>
 
-</div>
+    </div>
 
     <div id="id_search_category" style="display:none" class="rcp_m_cate">
         <table width="100%" cellspacing="0" cellpadding="0">
@@ -26,7 +26,7 @@
                 <td>
                     <div class="rcp_cate st3">
                         <div class="cate_list">
-                            <a href="#" onclick="goSearchRecipe2('rctype', '') " class="active">전체</a>
+                            <a href="#" onclick="goSearchRecipe2('rctype', null) " class="active">전체</a>
                             <a href="#" onclick="goSearchRecipe2('rctype', '63')">밑반찬</a>
                             <a href="#" onclick="goSearchRecipe2('rctype', '56')">메인반찬</a>
                             <a href="#" onclick="goSearchRecipe2('rctype', '54')">국/탕</a>
@@ -46,7 +46,7 @@
                             <a href="#" onclick="goSearchRecipe2('rctype', '62')">기타</a>
                         </div>
                         <div class="cate_list">
-                            <a href="#" onclick="goSearchRecipe2('rcsituation', '')"class="active">전체</a>
+                            <a href="#" onclick="goSearchRecipe2('rcsituation', null)" class="active">전체</a>
                             <a href="#" onclick="goSearchRecipe2('rcsituation', '12')">일상</a>
                             <a href="#" onclick="goSearchRecipe2('rcsituation', '18')">초스피드</a>
                             <a href="#" onclick="goSearchRecipe2('rcsituation', '13')">손님접대</a>
@@ -63,7 +63,7 @@
                             <a href="#" onclick="goSearchRecipe2('rcsituation', '22')">기타</a>
                         </div>
                         <div class="cate_list">
-                            <a href="#" onclick="goSearchRecipe2('rcingredient','')" class="active">전체</a>
+                            <a href="#" onclick="goSearchRecipe2('rcingredient',null)" class="active">전체</a>
                             <a href="#" onclick="goSearchRecipe2('rcingredient','70')">소고기</a>
                             <a href="#" onclick="goSearchRecipe2('rcingredient','71')">돼지고기</a>
                             <a href="#" onclick="goSearchRecipe2('rcingredient','72')">닭고기</a>
@@ -82,7 +82,7 @@
                             <a href="#" onclick="goSearchRecipe2('rcingredient','34')">기타</a>
                         </div>
                         <div class="cate_list">
-                            <a href="#" onclick="goSearchRecipe2('rcmeans','')" class="active">전체</a>
+                            <a href="#" onclick="goSearchRecipe2('rcmeans',null)" class="active">전체</a>
                             <a href="#" onclick="goSearchRecipe2('rcmeans','6')">볶음</a>
                             <a href="#" onclick="goSearchRecipe2('rcmeans','1')">끓이기</a>
                             <a href="#" onclick="goSearchRecipe2('rcmeans','7')">부침</a>
@@ -155,67 +155,59 @@
                 </li>
             </ul>
         </div>
+        <div th:each="recipeId : ${myRecipeId}">
+            <span th:text="${recipeId}"></span>
+        </div>
 
-<!--        <ul>-->
-<!--            <li th:each="recipeId : ${recipeIds}" th:text="${recipeId}"></li>-->
-<!--        </ul>-->
+        전체 내용이 나오는 코드
+        <th:block th:each="recipe : ${recipe}">
+            <ul class="common_sp_list_ul ea4" style="padding:0 0 0 8px;">
+                <li class="common_sp_list_li">
+                    <div class="common_sp_thumb">
+                        <a th:href="@{'/recipe/recipeDetail/' + ${recipe.id}}" class="common_sp_link">
+          	<span class="common_vod_label">
+          	  <!--<img src="https://recipe1.ezmember.co.kr/img/icon_vod.png"> 동영상 링크가 있을때-->
+          	</span>
+<!--                            <img th:src="${recipe.imgUrl}" th:if="${myRecipeId.contains(recipe.id)}">-->
+<!--                            <th:block th:each="recipeIdss : ${myRecipeId}">-->
+<!--                                <div th:text="${recipeIdss}"></div>-->
+<!--                            </th:block>-->
+                        </a>
+                    </div>
 
-<!--전체 내용이 나오는 코드-->
-<!--        <th:block th:each="recipe : ${recipe}">-->
-<!--            <ul class="common_sp_list_ul ea4" style="padding:0 0 0 8px;">-->
-<!--                <li class="common_sp_list_li">-->
-<!--                    <div class="common_sp_thumb">-->
-<!--                        <a th:href="@{'/recipe/recipeDetail/' + ${recipe.id}}" class="common_sp_link">-->
-<!--          	<span class="common_vod_label">-->
-<!--          	  &lt;!&ndash;<img src="https://recipe1.ezmember.co.kr/img/icon_vod.png"> 동영상 링크가 있을때&ndash;&gt;-->
-<!--          	</span>-->
-<!--                            <img th:src="${recipe.imgUrl}">-->
-<!--                        </a>-->
-<!--                    </div>-->
+                    <div class="common_sp_caption">
+                        <!--                        <th:block th:if="${myRecipeId.contains(recipe.id)}">-->
+                        <!--                            <div class="common_sp_caption_tit line2" th:text="${recipe.title}">제목이 자동으로 나오게</div>-->
+                        <!--                        </th:block>-->
+                        <!--                        <div class="common_sp_caption_tit line2" th:text="${recipe.title}">제목이 자동으로 나오게</div>-->
+                        <div class="common_sp_caption_rv_name" style="display: inline-block; vertical-align: bottom;">
+                            <a href="/profile/recipe.html?uid=plc0410">
+                                <img src="https://recipe1.ezmember.co.kr/cache/rpf/2021/08/17/c2bf6753df6ec72baeebdb68cc8298531.db976a8912bda41df24720e5cc6912d0">
+                                회원 아이디
+                            </a>
+                        </div>
+                    </div>
 
-<!--                    <div class="common_sp_caption">-->
-<!--                        <div class="common_sp_caption_tit line2" th:text="${recipe.title}">제목이 자동으로 나오게</div>-->
-<!--                        <div class="common_sp_caption_rv_name" style="display: inline-block; vertical-align: bottom;">-->
-<!--                            <a href="/profile/recipe.html?uid=plc0410">-->
-<!--                                <img src="https://recipe1.ezmember.co.kr/cache/rpf/2021/08/17/c2bf6753df6ec72baeebdb68cc8298531.db976a8912bda41df24720e5cc6912d0">-->
-<!--                                회원 아이디-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                           <div class="row">-->
+                    <!--                                  <th:block th:each="recipe, status: ${recipe.getTitle()}}">-->
+                    <!--                                      <div class="col-md-4 margin">-->
+                    <!--                                          <div class="card">-->
+                    <!--                                              <a th:href="'/recipe/' + ${recipe.id}" class="text-dark">-->
+                    <!--                                                  <img th:src="${recipe.imgUrl}" class="card-img-top" th:alt="${recipe.title}" height="400">-->
+                    <!--                                              </a>-->
+                    <!--                                          </div>-->
 
-                    <!--          <div class="row">
-                                  <th:block th:each="recipe, status: ${recipe.getTitle()}}">
-                                      <div class="col-md-4 margin">
-                                          <div class="card">
-                                              <a th:href="'/recipe/' + ${recipe.id}" class="text-dark">
-                                                  <img th:src="${recipe.imgUrl}" class="card-img-top" th:alt="${recipe.title}" height="400">
-                                              </a>
-                                          </div>
-
-                                      </div>
-                                  </th:block>
-                              </div>-->
+                    <!--                                      </div>-->
+                    <!--                                  </th:block>-->
+                    <!--                              </div>-->
                 </li>
             </ul>
         </th:block>
     </ul>
 
-<!--   추가부분 시작-->
-<!--    <ul>-->
-<!--        &lt;!&ndash; recommendedKeywords 표시 &ndash;&gt;-->
-<!--        <li th:each="keyword : ${recommendedKeywords}" th:text="${keyword}"></li>-->
-<!--    </ul>-->
-<!--    <ul>-->
-<!--        &lt;!&ndash; recipeIds 표시 &ndash;&gt;-->
-<!--        <li th:each="recipeId : ${recipeIds}" th:text="${recipeId}"></li>-->
-<!--    </ul>-->
 
     <ul id="recipeIdsList"></ul>
-<!--    추가부분 끝-->
-<!--    <ul>-->
-<!--        &lt;!&ndash; recipeIds 표시 &ndash;&gt;-->
-<!--        <li th:each="recipeId : ${session.recipeIds}" th:text="${recipeId}"></li>-->
-<!--    </ul>-->
+
 
     <script>
 
@@ -239,7 +231,7 @@
   var rcsituationValue = '';
   var rcingredientValue = '';
   var rcmeansValue = '';
-
+  var myrecipecont = [];
   function goSearchRecipe2(category, value) {
     if (category === 'rctype') {
       rctypeValue = value;
@@ -257,36 +249,40 @@
       data: { rctype: rctypeValue, rcsituation: rcsituationValue,
        rcingredient: rcingredientValue, rcmeans: rcmeansValue },
       success: function(response) {
-        // 반환된 recipeIds 값을 화면에 출력
-      displayRecipeIds(response);
+      myrecipecont = response;
+      myrecipecont.forEach(function(recipecont){
+  });
+      console.log(myrecipecont);
     },
+
     error: function(xhr, status, error) {
       console.error(error);
     }
   });
 }
 
-function displayRecipeIds(recipeIds) {
-  var recipeIdsList = $('#recipeIdsList');
+<!--function displayRecipeIds(recipeIds) {-->
+<!--  var recipeIdsList = $('#recipeIdsList');-->
+<!--var myRecipeId = recipeId;-->
 
-  // 기존에 출력된 아이템 제거
-  recipeIdsList.empty();
+<!--  // 기존에 출력된 아이템 제거-->
+<!--  recipeIdsList.empty();-->
 
-  // recipeIds 값이 null인 경우
-  if (recipeIds === null) {
-    recipeIdsList.append('<li>NULL</li>');
-    return;
-  }
+<!--  // recipeIds 값이 null인 경우-->
+<!--  if (recipeIds === null) {-->
+<!--    recipeIdsList.append('<li>NULL</li>');-->
+<!--    return;-->
+<!--  }-->
 
-  // recipeIds 값이 List 형식인 경우
-  recipeIds.forEach(function(recipeId) {
-    recipeIdsList.append('<li>' + recipeId + '</li>');
-  });
-}
-</script>
+<!--  // recipeIds 값이 List 형식인 경우-->
+<!--  recipeIds.forEach(function(recipeId) {-->
+<!--    recipeIdsList.append('<li>' + recipeId + '</li>');-->
+<!--  });-->
+
+<!--}-->
+
+    </script>
 </div>
-
-
 
 
 <!-- javaScript 추가 -->
@@ -345,6 +341,7 @@ function displayRecipeIds(recipeIds) {
             $('#id_search_category_img').attr("src",'https://recipe1.ezmember.co.kr/img/icon_arrow9_down.gif');
         }
     }
+
 
 
 

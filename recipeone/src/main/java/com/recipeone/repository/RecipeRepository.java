@@ -23,21 +23,25 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 	List<Long> findRecipeIdByrecommendedKeywords(@Param("recommendedKeywords") List<String> recommendedKeywords);
 
 //	진행중
-//	@Query("select r.id from Recipe r where (r.title IN :recommendedKeywords or r.tag IN :recommendedKeywords)" +
-//			"and (r.rctype = :rctype) " +
-//			"and (r.rcsituation = :rcsituation) " +
-//			"and ( r.rcmeans = :rcmeans) " +
-//			"and ( r.rcingredient = :rcingredient)")
-//	List<Long> findRecipeIdByfilterSearched(@Param("recommendedKeywords") List<String> recommendedKeywords,
-//											@Param("rctype") String rctype,
-//											@Param("rcsituation") String rcsituation,
-//											@Param("rcmeans") String rcmeans,
-//											@Param("rcingredient") String rcingredient);
-@Query("select r.id from Recipe r where (r.title IN :recommendedKeywords or r.tag IN :recommendedKeywords)" +
-			"and (:rctype = '' or r.rctype = :rctype) " +
-			"and (:rcsituation = '' or r.rcsituation = :rcsituation) " +
-			"and (:rcmeans = '' or r.rcmeans = :rcmeans) " +
-			"and (:rcingredient = '' or r.rcingredient = :rcingredient)")
+
+	@Query("SELECT r FROM Recipe r " +
+			"WHERE (r.title IN :recommendedKeywords OR r.tag IN :recommendedKeywords) " +
+			"AND (:rctype IS NULL OR r.rctype = :rctype) " +
+			"AND (:rcsituation IS NULL OR r.rcsituation = :rcsituation) " +
+			"AND (:rcmeans IS NULL OR r.rcmeans = :rcmeans) " +
+			"AND (:rcingredient IS NULL OR r.rcingredient = :rcingredient)")
+	List<Recipe> findRecipesByFilterSearched(@Param("recommendedKeywords") List<String> recommendedKeywords,
+											 @Param("rctype") String rctype,
+											 @Param("rcsituation") String rcsituation,
+											 @Param("rcmeans") String rcmeans,
+											 @Param("rcingredient") String rcingredient);
+
+	@Query("SELECT r.id FROM Recipe r " +
+			"WHERE (r.title IN :recommendedKeywords OR r.tag IN :recommendedKeywords) " +
+			"AND (:rctype IS NULL OR r.rctype = :rctype) " +
+			"AND (:rcsituation IS NULL OR r.rcsituation = :rcsituation) " +
+			"AND (:rcmeans IS NULL OR r.rcmeans = :rcmeans) " +
+			"AND (:rcingredient IS NULL OR r.rcingredient = :rcingredient)")
 	List<Long> findRecipeIdByfilterSearched(@Param("recommendedKeywords") List<String> recommendedKeywords,
 											@Param("rctype") String rctype,
 											@Param("rcsituation") String rcsituation,

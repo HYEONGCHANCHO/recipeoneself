@@ -54,16 +54,40 @@ public class RecipeServiceImpl implements RecipeService {
   @Override
     public List<Long> filterSearched(List<String> recommendedKeywords, String rctype, String rcsituation, String rcmeans, String rcingredient) throws RecipeIdExistException {
         log.info("recommendedKeywords======" + recommendedKeywords);
-      log.info(rctype + "rcType2");
+//      if (rctype.isEmpty()){rctype = null;}
+//      if (rcsituation.isEmpty()){rcsituation = null;}
+//      if (rcingredient.isEmpty()){rcingredient = null;}
+//      if (rcmeans.isEmpty()){rcmeans = null;}
+      log.info("aaa"+rctype + "rcType2");
       log.info(rcsituation + "rcSituation2");
       log.info(rcingredient + "rcIngredient2");
       log.info(rcmeans + "rcMeans2");
-        List<Long> recipeIds = recipeRepository.findRecipeIdByfilterSearched(recommendedKeywords,rctype,rcsituation,rcmeans,rcingredient);
-      if (recipeIds.isEmpty()) {
-            throw new RecipeIdExistException();
-        }
+//        List<Long> recipeIds = recipeRepository.findRecipeIdByfilterSearched(recommendedKeywords,rctype,rcsituation,rcmeans,rcingredient);
+      List<Long> recipeIds = recipeRepository.findRecipeIdByfilterSearched(recommendedKeywords,rctype,rcsituation,rcmeans,rcingredient);
+//      if (recipeIds.isEmpty()) {
+//            throw new RecipeIdExistException();
+//        }
       log.info(recipeIds + "recipeIds222");
         return recipeIds;
+    }
+    @Override
+    public List<Recipe> filterSearched2(List<String> recommendedKeywords, String rctype, String rcsituation, String rcmeans, String rcingredient) throws RecipeIdExistException {
+        log.info("recommendedKeywords======" + recommendedKeywords);
+//      if (rctype.isEmpty()){rctype = null;}
+//      if (rcsituation.isEmpty()){rcsituation = null;}
+//      if (rcingredient.isEmpty()){rcingredient = null;}
+//      if (rcmeans.isEmpty()){rcmeans = null;}
+      log.info("aaa"+rctype + "rcType2");
+      log.info(rcsituation + "rcSituation2");
+      log.info(rcingredient + "rcIngredient2");
+      log.info(rcmeans + "rcMeans2");
+//        List<Long> recipeIds = recipeRepository.findRecipeIdByfilterSearched(recommendedKeywords,rctype,rcsituation,rcmeans,rcingredient);
+        List<Recipe> recipecont = recipeRepository.findRecipesByFilterSearched(recommendedKeywords,rctype,rcsituation,rcmeans,rcingredient);
+//      if (recipeIds.isEmpty()) {
+//            throw new RecipeIdExistException();
+//        }
+      log.info(recipecont + "recipeIds222");
+        return recipecont;
     }
 
     @Override
