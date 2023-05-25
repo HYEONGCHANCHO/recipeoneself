@@ -125,6 +125,8 @@
                                                                   src="https://recipe1.ezmember.co.kr/img/icon_arrow9_down.gif"></span></a>
     </div>
 
+
+
     <form id="srRecipeFrm" name="srRecipeFrm" method="post" action="/recipe/filtersearch">
         <input type="hidden" name="q" value="">
         <input type="hidden" id="q_query" name="query" value="">
@@ -155,59 +157,41 @@
                 </li>
             </ul>
         </div>
-        <div th:each="recipeId : ${myRecipeId}">
+
+
+        <div th:each="recipeId : ${myrecipecont}">
             <span th:text="${recipeId}"></span>
         </div>
 
-        전체 내용이 나오는 코드
-        <th:block th:each="recipe : ${recipe}">
-            <ul class="common_sp_list_ul ea4" style="padding:0 0 0 8px;">
-                <li class="common_sp_list_li">
-                    <div class="common_sp_thumb">
-                        <a th:href="@{'/recipe/recipeDetail/' + ${recipe.id}}" class="common_sp_link">
-          	<span class="common_vod_label">
-          	  <!--<img src="https://recipe1.ezmember.co.kr/img/icon_vod.png"> 동영상 링크가 있을때-->
-          	</span>
-<!--                            <img th:src="${recipe.imgUrl}" th:if="${myRecipeId.contains(recipe.id)}">-->
-<!--                            <th:block th:each="recipeIdss : ${myRecipeId}">-->
-<!--                                <div th:text="${recipeIdss}"></div>-->
-<!--                            </th:block>-->
-                        </a>
-                    </div>
 
-                    <div class="common_sp_caption">
-                        <!--                        <th:block th:if="${myRecipeId.contains(recipe.id)}">-->
-                        <!--                            <div class="common_sp_caption_tit line2" th:text="${recipe.title}">제목이 자동으로 나오게</div>-->
-                        <!--                        </th:block>-->
-                        <!--                        <div class="common_sp_caption_tit line2" th:text="${recipe.title}">제목이 자동으로 나오게</div>-->
-                        <div class="common_sp_caption_rv_name" style="display: inline-block; vertical-align: bottom;">
-                            <a href="/profile/recipe.html?uid=plc0410">
-                                <img src="https://recipe1.ezmember.co.kr/cache/rpf/2021/08/17/c2bf6753df6ec72baeebdb68cc8298531.db976a8912bda41df24720e5cc6912d0">
-                                회원 아이디
+        <th:block th:each="recipe : ${recipe}">
+            <th:block id="abc">
+<!--            <th:block  th:if="${myrecipecont.contains(recipe.id)}">-->
+                <ul class="common_sp_list_ul ea4" style="padding:0 0 0 8px;">
+                    <li class="common_sp_list_li">
+                        <div class="common_sp_thumb">
+                            <a th:href="@{'/recipe/recipeDetail/' + ${recipe.id}}" class="common_sp_link">
+                        <span class="common_vod_label">
+                            <!--<img src="https://recipe1.ezmember.co.kr/img/icon_vod.png"> 동영상 링크가 있을때-->
+                        </span>
+                                <img th:src="${recipe.imgUrl}">
                             </a>
                         </div>
-                    </div>
 
-                    <!--                           <div class="row">-->
-                    <!--                                  <th:block th:each="recipe, status: ${recipe.getTitle()}}">-->
-                    <!--                                      <div class="col-md-4 margin">-->
-                    <!--                                          <div class="card">-->
-                    <!--                                              <a th:href="'/recipe/' + ${recipe.id}" class="text-dark">-->
-                    <!--                                                  <img th:src="${recipe.imgUrl}" class="card-img-top" th:alt="${recipe.title}" height="400">-->
-                    <!--                                              </a>-->
-                    <!--                                          </div>-->
-
-                    <!--                                      </div>-->
-                    <!--                                  </th:block>-->
-                    <!--                              </div>-->
-                </li>
-            </ul>
+                        <div class="common_sp_caption">
+                            <div class="common_sp_caption_tit line2" th:text="${recipe.title}">제목이 자동으로 나오게</div>
+                            <div class="common_sp_caption_rv_name" style="display: inline-block; vertical-align: bottom;">
+                                <a href="/profile/recipe.html?uid=plc0410">
+                                    <img src="https://recipe1.ezmember.co.kr/cache/rpf/2021/08/17/c2bf6753df6ec72baeebdb68cc8298531.db976a8912bda41df24720e5cc6912d0">
+                                    회원 아이디
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </th:block>
         </th:block>
     </ul>
-
-
-    <ul id="recipeIdsList"></ul>
-
 
     <script>
 
@@ -249,16 +233,27 @@
       data: { rctype: rctypeValue, rcsituation: rcsituationValue,
        rcingredient: rcingredientValue, rcmeans: rcmeansValue },
       success: function(response) {
-      myrecipecont = response;
-      myrecipecont.forEach(function(recipecont){
+
+   myrecipecont = response;
+      myrecipecont.forEach(function(recipeId){
   });
       console.log(myrecipecont);
+      console.log("myrecipecont");
+      updateThymeleaf();
     },
 
     error: function(xhr, status, error) {
       console.error(error);
     }
   });
+}
+
+function updateThymeleaf() {
+  // 타임리프를 갱신하는 코드 작성
+  // 예시: 해당 요소를 선택하여 내용을 변경하는 방법
+<!--  $('#myThymeleafElement').text('Updated content');-->
+var blockElement = $('#abc');
+  blockElement.attr('th:if', '${myrecipecont.contains(recipe.id)}');
 }
 
 <!--function displayRecipeIds(recipeIds) {-->
@@ -280,8 +275,9 @@
 <!--  });-->
 
 <!--}-->
-
     </script>
+
+
 </div>
 
 

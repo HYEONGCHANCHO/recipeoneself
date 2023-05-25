@@ -1,5 +1,6 @@
 package com.recipeone.service;
 
+import com.recipeone.dto.ListRecipeDto;
 import com.recipeone.dto.RecipeFormDto;
 import com.recipeone.dto.RecipeIngredientDto;
 import com.recipeone.entity.Recipe;
@@ -15,14 +16,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.text.similarity.JaroWinklerDistance;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -71,7 +71,7 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeIds;
     }
     @Override
-    public List<Recipe> filterSearched2(List<String> recommendedKeywords, String rctype, String rcsituation, String rcmeans, String rcingredient) throws RecipeIdExistException {
+    public List<Recipe> filterSearched2(List<String> recommendedKeywords, String rctype, String rcsituation, String rcmeans, String rcingredient,  Model model) throws RecipeIdExistException {
         log.info("recommendedKeywords======" + recommendedKeywords);
 //      if (rctype.isEmpty()){rctype = null;}
 //      if (rcsituation.isEmpty()){rcsituation = null;}
@@ -83,10 +83,18 @@ public class RecipeServiceImpl implements RecipeService {
       log.info(rcmeans + "rcMeans2");
 //        List<Long> recipeIds = recipeRepository.findRecipeIdByfilterSearched(recommendedKeywords,rctype,rcsituation,rcmeans,rcingredient);
         List<Recipe> recipecont = recipeRepository.findRecipesByFilterSearched(recommendedKeywords,rctype,rcsituation,rcmeans,rcingredient);
+
 //      if (recipeIds.isEmpty()) {
 //            throw new RecipeIdExistException();
 //        }
-      log.info(recipecont + "recipeIds222");
+        List<ListRecipeDto> listRecipeDtoList = new ArrayList<>();
+        for (Recipe recipe : recipecont) {
+            ListRecipeDto listRecipeDto = new ListRecipeDto(recipe.getId(), recipe.getTitle(), recipe.getImgUrl());
+            listRecipeDtoList.add(listRecipeDto);
+        }
+        model.addAttribute("recipe", listRecipeDtoList);
+
+
         return recipecont;
     }
 
