@@ -29,25 +29,9 @@
     </style>
 </th:block>
 
-<div layout:fragment="content">
-  <button id="testaButton">testa</button>
-  <p id="responseText"></p>
-</div>
+
 
 <script>
-    $(document).ready(function() {
-      $('#testaButton').click(function() {
-        $.ajax({
-          url: '/recipe/testa',
-          type: 'POST',
-          success: function(response) {
-            $('#responseText').text(response);
-          },
-          error: function(xhr, status, error) {
-            console.error('Request failed. Status: ' + xhr.status);
-          }
-        });
-      });
-    });
+
   </script>
 </html>

@@ -5,10 +5,6 @@
 
 
 <div layout:fragment="content">
-    <div>
-
-    </div>
-
     <div id="id_search_category" style="display:none" class="rcp_m_cate">
         <table width="100%" cellspacing="0" cellpadding="0">
             <colgroup>
@@ -26,24 +22,49 @@
                 <td>
                     <div class="rcp_cate st3">
                         <div class="cate_list">
-                            <a href="#" onclick="goSearchRecipe2('rctype', null) " class="active">전체</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '63')">밑반찬</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '56')">메인반찬</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '54')">국/탕</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '55')">찌개</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '60')">디저트</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '53')">면/만두</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '52')">밥/죽/떡</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '61')">퓨전</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '57')">김치/젓갈/장류</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '58')">양념/소스/잼</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '65')">양식</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '64')">샐러드</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '68')">스프</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '66')">빵</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '69')">과자</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '59')">차/음료/술</a>
-                            <a href="#" onclick="goSearchRecipe2('rctype', '62')">기타</a>
+<!--                            <form action="/recipe/sendData" method="post">-->
+<!--                                <input type="hidden" name="rctype" value="56">-->
+<!--                                <button type="submit">메인반찬</button>-->
+<!--                            </form>-->
+
+                            <a href="#" onclick="submitForm('null')">전체</a>
+                            <a href="#" onclick="submitForm('56')">메인반찬</a>
+                            <a href="#" onclick="submitForm('54')">국/탕</a>
+                            <a href="#" onclick="submitForm('55')">찌개</a>
+
+                            <a href="#" onclick="submitForm1('null')">찌개000</a>
+                            <a href="#" onclick="submitForm1('12')">찌개12</a>
+                            <a href="#" onclick="submitForm1('18')">찌개18</a>
+                            <a href="#" onclick="submitForm1('13')">찌개13</a>
+
+                            <a href="#" onclick="submitForm2('null')">찌개00</a>
+                            <a href="#" onclick="submitForm2('70')">찌개70</a>
+                            <a href="#" onclick="submitForm2('71')">찌개71</a>
+                            <a href="#" onclick="submitForm2('72')">찌개72</a>
+
+                            <a href="#" onclick="submitForm3('null')">찌개0</a>
+                            <a href="#" onclick="submitForm3('6')">찌개6</a>
+                            <a href="#" onclick="submitForm3('1')">찌개1</a>
+                            <a href="#" onclick="submitForm3('7')">찌개7</a>
+
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', null) " class="active">전체</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '63')">밑반찬</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '56')">메인반찬</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '54')">국/탕</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '55')">찌개</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '60')">디저트</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '53')">면/만두</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '52')">밥/죽/떡</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '61')">퓨전</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '57')">김치/젓갈/장류</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '58')">양념/소스/잼</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '65')">양식</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '64')">샐러드</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '68')">스프</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '66')">빵</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '69')">과자</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '59')">차/음료/술</a>-->
+<!--                            <a href="#" onclick="goSearchRecipe2('rctype', '62')">기타</a>-->
                         </div>
                         <div class="cate_list">
                             <a href="#" onclick="goSearchRecipe2('rcsituation', null)" class="active">전체</a>
@@ -101,22 +122,22 @@
                     </div>
                 </td>
             </tr>
-            <tr>
-                <th>
-                    <span>테마별</span>
-                </th>
-                <td>
-                    <div id="id_search_category2" style="padding:6px 15px 0px 12px" class="rcp_cate st3">
-                        <div class="cate_list">
-                            <a href="/theme/list.html?t1=101012">여성/뷰티</a>
-                            <a href="/theme/list.html?t1=101013">엄마/아기</a>
-                            <a href="/theme/list.html?t1=101014">건강/질병</a>
-                            <a href="/theme/list.html?t1=101010">제철요리</a>
-                            <a href="/theme/list.html?t1=101016">추천</a>
-                        </div>
-                    </div>
-                </td>
-            </tr>
+<!--            <tr>-->
+<!--                <th>-->
+<!--                    <span>테마별</span>-->
+<!--                </th>-->
+<!--                <td>-->
+<!--                    <div id="id_search_category2" style="padding:6px 15px 0px 12px" class="rcp_cate st3">-->
+<!--                        <div class="cate_list">-->
+<!--                            <a href="/theme/list.html?t1=101012">여성/뷰티</a>-->
+<!--                            <a href="/theme/list.html?t1=101013">엄마/아기</a>-->
+<!--                            <a href="/theme/list.html?t1=101014">건강/질병</a>-->
+<!--                            <a href="/theme/list.html?t1=101010">제철요리</a>-->
+<!--                            <a href="/theme/list.html?t1=101016">추천</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </td>-->
+<!--            </tr>-->
             </tbody>
         </table>
     </div>
@@ -127,45 +148,40 @@
 
 
 
-    <form id="srRecipeFrm" name="srRecipeFrm" method="post" action="/recipe/filtersearch">
-        <input type="hidden" name="q" value="">
-        <input type="hidden" id="q_query" name="query" value="">
-        <input type="hidden" name="rctype" value="">
-        <input type="hidden" name="rcsituation" value="">
-        <input type="hidden" name="rcingredient" value="">
-        <input type="hidden" name="rcmeans" value="">
-        <input type="hidden" name="fct" value="">
-        <input type="hidden" name="order" value="reco">
-        <input type="hidden" name="lastcate">
-        <input type="hidden" name="dsearch">
-        <input type="hidden" id="dsf_copyshot" name="copyshot">
-        <input type="hidden" id="dsf_scrap" name="scrap">
-        <input type="hidden" id="dsf_degree" name="degree">
-        <input type="hidden" id="dsf_portion" name="portion">
-        <input type="hidden" id="dsf_time" name="time">
-        <input type="hidden" name="niresource">
-    </form>
+
+<!--    <form id="srRecipeFrm" name="srRecipeFrm" method="post" action="/recipe/recipelista">-->
+<!--        <input type="hidden" name="q" value="">-->
+<!--        <input type="hidden" id="q_query" name="query" value="">-->
+<!--        <input type="hidden" name="rctype" value="">-->
+<!--        <input type="hidden" name="rcsituation" value="">-->
+<!--        <input type="hidden" name="rcingredient" value="">-->
+<!--        <input type="hidden" name="rcmeans" value="">-->
+<!--        <input type="hidden" name="fct" value="">-->
+<!--        <input type="hidden" name="order" value="reco">-->
+<!--        <input type="hidden" name="lastcate">-->
+<!--        <input type="hidden" name="dsearch">-->
+<!--        <input type="hidden" id="dsf_copyshot" name="copyshot">-->
+<!--        <input type="hidden" id="dsf_scrap" name="scrap">-->
+<!--        <input type="hidden" id="dsf_degree" name="degree">-->
+<!--        <input type="hidden" id="dsf_portion" name="portion">-->
+<!--        <input type="hidden" id="dsf_time" name="time">-->
+<!--        <input type="hidden" name="niresource">-->
+<!--    </form>-->
     <ul class="rcp_m_list2">
         <div class="m_list_tit">
             총 <b>[[${#lists.size(recipe)}]]</b>개의 맛있는 레시피가 있습니다.
-            <ul class="nav nav-tabs2 pull-right" style="position:relative;">
-                <li role="presentation"><a href="javascript:void(0);"
-                                           onClick="goSearchRecipe('order','accuracy')">정확순</a></li>
-                <li role="presentation" class="active"><a href="javascript:void(0);"
-                                                          onClick="goSearchRecipe('order','date')">최신순</a></li>
-                <li role="presentation"><a href="javascript:void(0);" onClick="goSearchRecipe('order','reco')">추천순</a>
-                </li>
-            </ul>
+<!--            <ul class="nav nav-tabs2 pull-right" style="position:relative;">-->
+<!--                <li role="presentation"><a href="javascript:void(0);"-->
+<!--                                           onClick="goSearchRecipe('order','accuracy')">정확순</a></li>-->
+<!--                <li role="presentation" class="active"><a href="javascript:void(0);"-->
+<!--                                                          onClick="goSearchRecipe('order','date')">최신순</a></li>-->
+<!--                <li role="presentation"><a href="javascript:void(0);" onClick="goSearchRecipe('order','reco')">추천순</a>-->
+<!--                </li>-->
+<!--            </ul>-->
         </div>
 
-
-        <div th:each="recipeId : ${myrecipecont}">
-            <span th:text="${recipeId}"></span>
-        </div>
-
-
-        <th:block th:each="recipe : ${recipe}">
-            <th:block id="abc">
+        <th:block th:each="recipe : ${recipe2}" >
+<!--            <th:block id="abc" th:if="${#lists.contains(filt, recipe.id)}">-->
 <!--            <th:block  th:if="${myrecipecont.contains(recipe.id)}">-->
                 <ul class="common_sp_list_ul ea4" style="padding:0 0 0 8px;">
                     <li class="common_sp_list_li">
@@ -179,6 +195,8 @@
                         </div>
 
                         <div class="common_sp_caption">
+                            <span th:text="${recipe.id}"></span>
+
                             <div class="common_sp_caption_tit line2" th:text="${recipe.title}">제목이 자동으로 나오게</div>
                             <div class="common_sp_caption_rv_name" style="display: inline-block; vertical-align: bottom;">
                                 <a href="/profile/recipe.html?uid=plc0410">
@@ -189,99 +207,96 @@
                         </div>
                     </li>
                 </ul>
-            </th:block>
+<!--            </th:block>-->
         </th:block>
     </ul>
 
     <script>
+  function submitForm(rctype) {
+    var form = document.createElement('form');
+    form.action = '/recipe/sendData';
+    form.method = 'post';
+
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'rctype';
+    input.value = rctype;
+
+    form.appendChild(input);
+    document.body.appendChild(form);
+
+    form.submit();
+  } function submitForm1(rcsituation) {
+    var form = document.createElement('form');
+    form.action = '/recipe/sendData';
+    form.method = 'post';
+
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'rcsituation';
+    input.value = rcsituation;
+
+    form.appendChild(input);
+    document.body.appendChild(form);
+
+    form.submit();
+  } function submitForm2(rcingredient) {
+    var form = document.createElement('form');
+    form.action = '/recipe/sendData';
+    form.method = 'post';
+
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'rcingredient';
+    input.value = rcingredient;
+
+    form.appendChild(input);
+    document.body.appendChild(form);
+
+    form.submit();
+  } function submitForm3(rcmeans) {
+    var form = document.createElement('form');
+    form.action = '/recipe/sendData';
+    form.method = 'post';
+
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'rcmeans';
+    input.value = rcmeans;
+
+    form.appendChild(input);
+    document.body.appendChild(form);
+
+    form.submit();
+  }
+
+
+
 
 <!--필터링 누른곳 활성화-->
-       const cateLists = document.querySelectorAll('.cate_list');
+<!--       const cateLists = document.querySelectorAll('.cate_list');-->
 
-        cateLists.forEach(cateList => {
-            const links = cateList.querySelectorAll('a');
-            links.forEach(link => {
-                link.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    links.forEach(link => link.classList.remove('active'));
-                    link.classList.add('active');
-                });
-            });
-        });
+<!--        cateLists.forEach(cateList => {-->
+<!--            const links = cateList.querySelectorAll('a');-->
+<!--            links.forEach(link => {-->
+<!--                link.addEventListener('click', function (event) {-->
+<!--                    event.preventDefault();-->
+<!--                    links.forEach(link => link.classList.remove('active'));-->
+<!--                    link.classList.add('active');-->
+<!--                });-->
+<!--            });-->
+<!--        });-->
 
 <!--필터링 관련-->
 
-  var rctypeValue = '';
-  var rcsituationValue = '';
-  var rcingredientValue = '';
-  var rcmeansValue = '';
-  var myrecipecont = [];
-  function goSearchRecipe2(category, value) {
-    if (category === 'rctype') {
-      rctypeValue = value;
-    } else if (category === 'rcsituation') {
-      rcsituationValue = value;
-    }else if (category === 'rcingredient') {
-      rcingredientValue = value;
-    }else if (category === 'rcmeans') {
-      rcmeansValue = value;
-    }
 
-    $.ajax({
-      url: '/recipe/filtersearch',
-      method: 'POST',
-      data: { rctype: rctypeValue, rcsituation: rcsituationValue,
-       rcingredient: rcingredientValue, rcmeans: rcmeansValue },
-      success: function(response) {
-
-   myrecipecont = response;
-      myrecipecont.forEach(function(recipeId){
-  });
-      console.log(myrecipecont);
-      console.log("myrecipecont");
-      updateThymeleaf();
-    },
-
-    error: function(xhr, status, error) {
-      console.error(error);
-    }
-  });
-}
-
-function updateThymeleaf() {
-  // 타임리프를 갱신하는 코드 작성
-  // 예시: 해당 요소를 선택하여 내용을 변경하는 방법
-<!--  $('#myThymeleafElement').text('Updated content');-->
-var blockElement = $('#abc');
-  blockElement.attr('th:if', '${myrecipecont.contains(recipe.id)}');
-}
-
-<!--function displayRecipeIds(recipeIds) {-->
-<!--  var recipeIdsList = $('#recipeIdsList');-->
-<!--var myRecipeId = recipeId;-->
-
-<!--  // 기존에 출력된 아이템 제거-->
-<!--  recipeIdsList.empty();-->
-
-<!--  // recipeIds 값이 null인 경우-->
-<!--  if (recipeIds === null) {-->
-<!--    recipeIdsList.append('<li>NULL</li>');-->
-<!--    return;-->
-<!--  }-->
-
-<!--  // recipeIds 값이 List 형식인 경우-->
-<!--  recipeIds.forEach(function(recipeId) {-->
-<!--    recipeIdsList.append('<li>' + recipeId + '</li>');-->
-<!--  });-->
-
-<!--}-->
     </script>
 
 
 </div>
 
 
-<!-- javaScript 추가 -->
+ javaScript 추가
 <th:block layout:fragment="script">
     <script th:inline="javascript">
     var _IS_SEARCH_RESTRICT = false;

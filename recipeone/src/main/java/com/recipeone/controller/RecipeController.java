@@ -111,8 +111,89 @@ public class RecipeController {
 
         return recipeIds;
     }
+//    @GetMapping("/recipelista")
+
+    @RequestMapping(value = "/recipelista")
+//    @ResponseBody
+    public String handleRecipelistaRequest(@RequestParam Map<String, String> param, RedirectAttributes redirectAttributes) {
+        log.info("rctype: {}");
+        return "recipe/recipeList";
+    }
+    @PostMapping("/recipelista")
+    public String handleRecipelistaRequest2(@RequestParam Map<String, String> param, RedirectAttributes redirectAttributes) {
+        log.info("rctype: {}22");
+        return "recipe/recipeList";
+    }
+
+    // POST 요청 처리
+    @PostMapping("/sendData")
+    public String handleFormData(@RequestParam(value = "rctype", required = false) String rctype,
+                                 @RequestParam(value = "rcsituation", required = false) String rcsituation,
+                                 @RequestParam(value = "rcingredient", required = false) String rcingredient,
+                                 @RequestParam(value = "rcmeans", required = false) String rcmeans,HttpSession session, RedirectAttributes redirectAttributes) {
 
 
+        if (rctype != null) {
+            session.setAttribute("rctype", rctype);
+        } else {
+            rctype = (String) session.getAttribute("rctype");
+        }
+
+        if (rcsituation != null) {
+            session.setAttribute("rcsituation", rcsituation);
+        } else {
+            rcsituation = (String) session.getAttribute("rcsituation");
+        }
+
+        if (rcingredient != null) {
+            session.setAttribute("rcingredient", rcingredient);
+        } else {
+            rcingredient = (String) session.getAttribute("rcingredient");
+        }
+
+        if (rcmeans != null) {
+            session.setAttribute("rcmeans", rcmeans);
+        } else {
+            rcmeans = (String) session.getAttribute("rcmeans");
+        }
+
+        log.info("aaaddd");
+        List<String> recommendedKeywords = (List<String>) session.getAttribute("recommendedKeywords");
+   List<Recipe> recipeList = recipeRepository.findRecipesByFilterSearched(recommendedKeywords,rctype,rcsituation,rcingredient,rcmeans); // DB에서 레시피 목록 조회
+        List<ListRecipeDto> listRecipeDtoList = new ArrayList<>();
+        for (Recipe recipe : recipeList) {
+            ListRecipeDto listRecipeDto = new ListRecipeDto(recipe.getId(), recipe.getTitle(), recipe.getImgUrl());
+            listRecipeDtoList.add(listRecipeDto);
+        }
+        redirectAttributes.addFlashAttribute("recipe2", listRecipeDtoList);
+        log.info("aaaddd2");
+        return "redirect:/recipe/recipeList"; // 원래 페이지로 리다이렉트
+    }
+// @GetMapping("/recipelista")
+//    public String handleRecipelistaRequest(@RequestParam(value = "rctype", required = false) String rctype,
+//                                           @RequestParam(value = "rcsituation", required = false) String rcsituation,
+//                                           @RequestParam(value = "rcingredient", required = false) String rcingredient,
+//                                           @RequestParam(value = "rcmeans", required = false) String rcmeans,
+//                                           HttpSession session,Model model, RedirectAttributes redirectAttributes) {
+
+//        String rcsituation = null;
+//        String rcingredient = null;
+//        String rcmeans = null;
+//        List<String> recommendedKeywords = (List<String>) session.getAttribute("recommendedKeywords");
+//        log.info("aaaaaaaaaaaaaaaaaaa1");
+//   List<Recipe> recipeList = recipeRepository.findRecipesByFilterSearched(recommendedKeywords,rctype,rcsituation,rcingredient,rcmeans); // DB에서 레시피 목록 조회
+//        log.info("aaaaaaaaaaaaaaaaaaa2");
+//        List<ListRecipeDto> listRecipeDtoList = new ArrayList<>();
+//        for (Recipe recipe : recipeList) {
+//            ListRecipeDto listRecipeDto = new ListRecipeDto(recipe.getId(), recipe.getTitle(), recipe.getImgUrl());
+//            listRecipeDtoList.add(listRecipeDto);
+//        }
+//
+//        log.info(listRecipeDtoList+"aaaaaaaaaaaaaaaaaaa");
+//        log.info("aaaaaaaaaaaaaaaaaaa");
+//        model.addAttribute("recipe2", listRecipeDtoList);
+//        return "recipe/recipeList";
+//    }
 
 
     @RequestMapping(value = "/recommendKeywords", method = RequestMethod.POST)
