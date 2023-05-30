@@ -2,39 +2,57 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
+
 <th:block latout:fragment="css">
   <style>
-    .step-image {
-      width : 500px;
-    }
+
+
   </style>
 </th:block>
+
 <div layout:fragment="content">
   <div class="view" >
-    <img id="main_thumbs"  th:src="${recipe.imgUrl}" th:alt="${recipe.title}">
+    <img id="main_thumbs"  th:src="${recipe.mainPic}" th:alt="${recipe.title}">
     <h3 th:text="${recipe.title}">Recipe Title</h3>
+
+    <h3>요리 정보</h3>
+    <ul id="recipeInfo">
+      <th:block th:each="nop : ${recipe.nop}">
+        <li th:text="${nop}+인분"></li>
+      </th:block>
+      <th:block th:each="cooktime : ${recipe.cooktime}">
+        <li th:text="${cooktime}+분"></li>
+      </th:block>
+    </ul>
 
     <h3>재료</h3>
     <ul>
-      <th:block th:each="ingredient : ${recipe.recipeIngredients}">
-        <li th:text="${ingredient.igdName}"></li>
+      <th:block th:each="rm : ${rmList}">
+        <li th:text="'재료:' + ${rm.ingredient} + ', 수량:' + ${rm.amount}"></li>
       </th:block>
     </ul>
 
     <h3>요리 순서</h3>
-    <ol>
-      <th:block th:each="step : ${recipe.recipeSteps}">
-        <li>
-          <span th:text="${step.steptext}"></span>
-            <div class="step-image" th:if="${step.recipeImg != null}" >
-              <img th:src="@{'/images/item/' + ${step.recipeImg.imgUrl}}" th:alt="Step Image">
-            </div>
-        </li>
-      </th:block>
-    </ol>
-<!--    <div th:with="user=${#authentication.principal}">-->
-<!--      <a th:if="${user != null && user.username == dto.writer}" th:href="">modify</a>-->
-<!--    </div>-->
+      <ul>
+          <th:block th:each="rs : ${rsList}">
+              <li th:text="'순서'+${rs.recipeOrder}+': '+${rs.recipeDescription}"></li>
+              <div class="step-image" >
+                  <th:block th:each="recipeImg : ${rs.recipePicRename}" >
+                      <!--            <img th:src="@{'/images/item/' + ${recipeImg.imgUrl}}" th:alt="Step Image">-->
+                      <img th:src="@{'file:///c:/recipe/item/recipeImg/' + ${recipeImg}}" >
+                  </th:block>
+              </div>
+          </th:block>
+      </ul>
+
+
+    <h3>태그</h3>
+    <th:block th:each="recipe : ${recipe}">
+      <p th:text="${recipe.tag}"></p>
+    </th:block>
+<!--    <div th:with="user=${#authentication.principal}">
+      <a th:if="${user != null && user.username == dto.writer}" th:href="">modify</a>
+    </div>-->
   </div>
 </div>
 

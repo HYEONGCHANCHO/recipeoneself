@@ -1,0 +1,16 @@
+#main_thumbs {
+  width: 250px;
+  height: 250px;
+}
+
+#recipeInfo {
+    padding-left: 0;
+}
+
+#recipeInfo>li {
+    list-style: none;
+    display: inline-block;
+    padding: auto;
+    margin: 0px 20px 0px 5px;
+}
+

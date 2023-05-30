@@ -1,45 +1,27 @@
 package com.recipeone.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
-import com.recipeone.dto.RecipeIngredientDto;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter @Setter @ToString
-@Entity
-@Table(name = "recipeIngredient")
-public class RecipeIngredient extends BaseTimeEntity {
+public class RecipeIngredient {
 
-	@Id
-	@Column(name="recipe_ingd_id")
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+
+	private int recipeNo; // 레시피 번호
+	private int ingredientOrder; // 레시피 재료 번호
+	private String ingredient; // 재료명
+	private String amount; // 수량
 	
-	//@ManyToOne(targetEntity = Recipe.class)
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id")
-	private Recipe recipe; // 재료번호
+	public RecipeIngredient() {
+		
+	}
 	
-	private String gubun; // 큰 구분
-	private String igdName; // 재료이름
-	private String count; // 중량, 수량
-	
-	public void createRecipeIngredient(RecipeIngredientDto recipeIngredientDto) {
-		//this.id = recipeIngredientDto.getId();
-		//this.recipe = recipeIngredientDto.getRecipe();
-		this.gubun = recipeIngredientDto.getGubun();
-		this.igdName = recipeIngredientDto.getIgdName();
-		this.count = recipeIngredientDto.getCount();
+	public RecipeIngredient(int recipeNo, int ingredientOrder, String ingredient, String amount) {
+		super();
+		this.recipeNo = recipeNo;
+		this.ingredientOrder = ingredientOrder;
+		this.ingredient = ingredient;
+		this.amount = amount;
 	}
 }

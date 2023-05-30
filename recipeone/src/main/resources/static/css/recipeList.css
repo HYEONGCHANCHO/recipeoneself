@@ -136,7 +136,7 @@ body {min-width: 1240px;}
 .rcp_lately_list .thumbnail .caption p {color:#999; margin:0;}
 
 /*공통부분*/
-.common_sp_list_ul {margin: 0; vertical-align: top;}
+.common_sp_list_ul {margin: 0; vertical-align: top; display: inline-block;}
 .common_sp_list_ul.ea3 li {width: 381px;}
 .common_sp_list_ul.ea4 li {width: 282px;}
 .common_sp_list_ul.ea4_sm li {width:195px; margin : 0 6px 40px;}

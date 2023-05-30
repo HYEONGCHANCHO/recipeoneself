@@ -1,24 +1,76 @@
 package com.recipeone.service;
-
-import com.recipeone.dto.RecipeFormDto;
-import com.recipeone.dto.RecipeIngredientDto;
 import com.recipeone.entity.Recipe;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
+import com.recipeone.entity.RecipeIngredient;
+import com.recipeone.entity.RecipeStep;
+
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
+@Service
 public interface RecipeService {
     //추가
     List<String> recommendKeywords(String keyword) throws RecipeIdExistException;
-
-
     //    아래는 되는 기본코드
-    static class RecipeIdExistException extends Exception {
+    static class RecipeIdExistException extends Exception{
     }
+    List<Long> searched(String keyword) throws RecipeIdExistException;
+
+    public int registRecipe(Recipe recipe);
+
+	public int registStep(List<RecipeStep> rsList);
+
+	//public int registTag(RecipeTag rTag);
+
+	public int registIngredient(List<RecipeIngredient> rmList) ;
+	
+	//public List<RecipeComment> printRecipeCommentList(int recipeNo, int currentPage, int boardLimit);
+
+	public int checkRecommand(int recipeNo, String memberEmail);
+
+	public int allRecipeCommentList(int page, int limit, int recipeNo);
+
+	//public int setRecommand(Recommandation recommand) ;
+
+	//public int removeRecommand(Recommandation recommand) ;
+
+	public int modifyOneRecipe(Recipe recipe) ;
+
+	public int modifyOneRecipeStep(List<RecipeStep> rsList) ;
+
+	public int  modifyOneRecipeIngredient(List<RecipeIngredient> rmList);
+
+	//public int modifyOneRecipeTag(RecipeTag rTag);
+
+	public int removeOneRecipe(int recipeNo);
+
+	public List<Recipe> printRecipeList(int currentPage,int limit);
+	
+	public Recipe printOneRecipe(int recipeNo) ;
+	public List<RecipeStep> printOneRecipeStep(int recipeNo) ;
+	
+	public List<RecipeIngredient> printOneRecipeIngredient(int recipeNo) ;
+	
+	
+	//public RecipeTag printOneRecipeTag(int recipeNo)  ;
+
+	public int removeOneImg(String picName);
+
+	public List<Recipe> recomadRecipe(String recipeCategory);
+
+	public int getTotalCount(int recipeNo);
+
+	public String printMemberName(String memberEmail);
+
+	public int checkMyRecipe(int recipeNo, String memberEmail);
+
+	public String getMemberEmial(int recipeNo);
+	
+	
+    List<String> recommendKeywords(String keyword) throws RecipeIdExistException;
+
+    static class RecipeIdExistException extends Exception { }
+
+    static class RecipeExistException extends Exception { }
 
     List<Long> searched(String keyword) throws RecipeIdExistException;
 
@@ -28,8 +80,8 @@ public interface RecipeService {
 
     public Recipe getRecipeById(Long recipeId);
 
-    //    public List<Long> filterSearched(String keyword) throws RecipeIdExistException; //진행중
-    public List<Long> filterSearched(List<String> recommendedKeywords, String rctype, String rcsituation, String rcmeans, String rcingredient) throws RecipeIdExistException;
-    public List<Recipe> filterSearched2(List<String> recommendedKeywords, String rctype, String rcsituation, String rcmeans, String rcingredient,  Model model) throws RecipeIdExistException;
+    public List<Long> filterSearchedId(List<String> recommendedKeywords, String rctype, String rcsituation, String rcmeans, String rcingredient) throws RecipeIdExistException;
+
+    public List<Recipe> filterSearchedRecipe(List<String> recommendedKeywords, String rctype, String rcsituation, String rcmeans, String rcingredient,  Model model) throws RecipeExistException;
 
 }

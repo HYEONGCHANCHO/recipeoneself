@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <settings>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        <!-- null값이 있으면 null로 제대로 인식하게 한다. -->
+        <setting name="logImpl" value="SLF4J" />
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="com.recipeone.entity.Recipe" alias="Recipe" />
+        <typeAlias type="com.recipeone.entity.RecipeStep" alias="RecipeStep" />
+        <typeAlias type="com.recipeone.entity.RecipeIngredient" alias="RecipeIngredient" />
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="oracle.jdbc.OracleDriver"/>
+                <property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+                <property name="username" value="doodoo"/>
+                <property name="password" value="doodoo"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper resource="mybatis/mapper/recipe-mapper.xml" />
+    </mappers>
+
+</configuration>

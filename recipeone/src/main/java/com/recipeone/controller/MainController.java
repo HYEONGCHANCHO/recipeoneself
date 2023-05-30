@@ -1,5 +1,6 @@
 package com.recipeone.controller;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -18,5 +19,12 @@ public class MainController {
     @GetMapping(value = "/main2")
     public String main2(){
         return "main2";
+    }
+
+
+    // 챗GPT가 랜더링하라고 했다.
+    @GetMapping("/recipeListPage")
+    public String recipeListPage() {
+        return "recipeList";
     }
 }

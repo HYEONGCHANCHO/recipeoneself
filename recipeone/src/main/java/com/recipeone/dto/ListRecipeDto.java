@@ -12,11 +12,15 @@ public class ListRecipeDto {
 	private String title;
 
 	private String imgUrl;
+	private String tag;
+	private String writer;
 
 	@QueryProjection
-	public ListRecipeDto(Long id, String title, String imgUrl){
+	public ListRecipeDto(Long id, String title, String imgUrl, String tag, String writer){
 		this.id = id;
 		this.title = title;
 		this.imgUrl = imgUrl;
+		this.tag = tag;
+		this.writer = writer;
 	}
 }

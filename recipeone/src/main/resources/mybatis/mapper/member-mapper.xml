@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.recipeone.repository.RecipeStore">
+
+
+
+
+
+    <resultMap type="com.recipeone.entity.Recipe" id="recipeResultMap">
+        <id property="recipeNo" column="RECIPE_NO"/>
+        <result property="title" column="TITLE"/>
+        <result property="cooktime" column="COOKTIME"/>
+        <result property="nop" column="NOP"/>
+        <result property="mainPic" column="MAIN_PIC"/>
+        <result property="mainPicRename" column="MAIN_PIC_RENAME"/>
+        <result property="tag" column="TAG"/>
+        <result property="rcType" column="RC_TYPE"/>
+        <result property="rcSituation" column="RC_SITUATION"/>
+        <result property="rcIngredient" column="RC_INGREDIENT"/>
+        <result property="rcMeans" column="RC_MEANS"/>
+        <result property="insertDate" column="INSERT_DATE"/>
+		<result property="updateDate" column="UPDATE_DATE"/>
+        <result property="rcCount" column="RC_COUNT"/>
+		<result property="recipeStatus" column="RECIPE_STATUS"/>
+    </resultMap>
+
+
+	<resultMap type="com.recipeone.entity.RecipeIngredient" id="RecipeIngredientResultMap">
+		<id property="recipeNo"				column="RECIPE_NO" />
+		<result property="ingredientOrder" 	column="INGREDIENT_ORDER" />
+		<result property="ingredient" 		column="INGREDIENT" />
+		<result property="amount" 			column="AMOUNT" />
+	</resultMap>
+
+
+
+	<resultMap type="com.recipeone.entity.RecipeStep" id="RecipeStepResultMap">
+		<id property="recipeNo" 				column="recipe_No" />
+		<result property="recipeOrder" 			column="RECiPE_ORDER" />
+		<result property="recipeDescription"	column="RECIPE_DESCRIPTION" />
+		<result property="recipePic" 			column="RECIPE_PICTURE" />
+		<result property="recipePicRename"		column="RECIPE_PIC_RENAME" />
+	</resultMap>
+
+
+
+</mapper>
