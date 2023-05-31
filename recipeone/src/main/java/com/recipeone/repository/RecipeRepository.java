@@ -6,45 +6,45 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.recipeone.entity.Recipe;
 @Repository
-public interface RecipeRepository extends JpaRepository<Recipe, Long> {
+public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
 
 
-	Optional<Recipe> findById(Long id);
+	Optional<Recipe> findById(int id);
 
-	@Query("SELECT DISTINCT rs.title FROM Recipe rs")
+	@Query(value = "SELECT DISTINCT rs.title FROM Recipe rs", nativeQuery = true)
 	List<String> findtitlelist();
 	@Query("SELECT DISTINCT rs.tag FROM Recipe rs")
 	List<String> findtaglist();
 
 
-	@Query("select r.id from Recipe r where r.title IN :recommendedKeywords or r.tag IN :recommendedKeywords")
-	List<Long> findRecipeIdByrecommendedKeywords(@Param("recommendedKeywords") List<String> recommendedKeywords);
+	@Query(value ="select r.id from Recipe r where r.title IN :recommendedKeywords or r.tag IN :recommendedKeywords", nativeQuery = true)
+	List<Integer> findRecipeIdByrecommendedKeywords(@Param("recommendedKeywords") List<String> recommendedKeywords);
 
 //	진행중
 
-	@Query("SELECT r FROM Recipe r " +
+	@Query(value ="SELECT * FROM Recipe r " +
 			"WHERE (r.title IN :recommendedKeywords OR r.tag IN :recommendedKeywords) " +
 			"AND (:rctype IS NULL OR r.rctype = :rctype) " +
 			"AND (:rcsituation IS NULL OR r.rcsituation = :rcsituation) " +
-			"AND (:rcmeans IS NULL OR r.rcmeans = :rcmeans) " +
-			"AND (:rcingredient IS NULL OR r.rcingredient = :rcingredient)")
+			"AND (:rcingredient IS NULL OR r.rcingredient = :rcingredient)" +
+			"AND (:rcmeans IS NULL OR r.rcmeans = :rcmeans) "  , nativeQuery = true)
 	List<Recipe> findRecipesByFilterSearched(@Param("recommendedKeywords") List<String> recommendedKeywords,
 											 @Param("rctype") String rctype,
 											 @Param("rcsituation") String rcsituation,
-											 @Param("rcmeans") String rcmeans,
-											 @Param("rcingredient") String rcingredient);
+											 @Param("rcingredient") String rcingredient,
+											 @Param("rcmeans") String rcmeans);
 
-	@Query("SELECT r.id FROM Recipe r " +
+	@Query(value ="SELECT r.id FROM Recipe r " +
 			"WHERE (r.title IN :recommendedKeywords OR r.tag IN :recommendedKeywords) " +
 			"AND (:rctype IS NULL OR r.rctype = :rctype) " +
 			"AND (:rcsituation IS NULL OR r.rcsituation = :rcsituation) " +
-			"AND (:rcmeans IS NULL OR r.rcmeans = :rcmeans) " +
-			"AND (:rcingredient IS NULL OR r.rcingredient = :rcingredient)")
-	List<Long> findRecipeIdByfilterSearched(@Param("recommendedKeywords") List<String> recommendedKeywords,
-											@Param("rctype") String rctype,
-											@Param("rcsituation") String rcsituation,
-											@Param("rcmeans") String rcmeans,
-											@Param("rcingredient") String rcingredient);
+			"AND (:rcingredient IS NULL OR r.rcingredient = :rcingredient)" +
+			"AND (:rcmeans IS NULL OR r.rcmeans = :rcmeans) "  , nativeQuery = true)
+	List<Integer> findRecipeIdByfilterSearched(@Param("recommendedKeywords") List<String> recommendedKeywords,
+											   @Param("rctype") String rctype,
+											   @Param("rcsituation") String rcsituation,
+											   @Param("rcingredient") String rcingredient,
+											   @Param("rcmeans") String rcmeans);
 
 
 }

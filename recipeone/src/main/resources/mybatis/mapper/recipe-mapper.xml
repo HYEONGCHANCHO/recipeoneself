@@ -7,46 +7,46 @@
 
 	<insert id="insertRecipe">
 		<![CDATA[
-        INSERT INTO recipe (recipe_No,title,cooktime,nop,rc_Count,main_Pic,main_Pic_Rename,
-        					tag,rc_Type,rc_Situation,rc_Ingredient,rc_Means,recipe_Status,insert_Date, update_Date)
-        VALUES (recipe_seq.nextval, #{title}, #{cooktime}, #{nop}, default, #{mainPic}, #{mainPicRename},
-				#{tag}, #{rcType}, #{rcSituation}, #{rcIngredient}, #{rcMeans}, default, default, default)
+        INSERT INTO recipe (RECIPENO,title,cooktime,nop,RCCOUNT,MAINPIC,MAINPICRENAME,
+        					tag,rctype,rcsituation,rcingredient,rcmeans,recipestatus,insertdate, updatedate, writer)
+        VALUES (recipe_seq.nextval, #{title}, #{cooktime}, #{nop}, default, #{mainpic}, #{mainpicrename},
+				#{tag}, #{rctype}, #{rcsituation}, #{rcingredient}, #{rcmeans}, default, default, default, #{writer})
 		]]>
 	</insert>
 
 	<insert id="insertRecipeIngredient">
 		<![CDATA[
-        INSERT INTO recipe_ingredient (INGREDIENTORDER, recipe_No, INGREDIENT, AMOUNT)
-        VALUES (#{ingredientOrder}, recipe_seq.currval, #{ingredient}, #{amount})
+        INSERT INTO recipe_ingredient (INGREDIENTORDER, recipeno, INGREDIENT, AMOUNT)
+        VALUES (#{ingredientorder}, recipe_seq.currval, #{ingredient}, #{amount})
         ]]>
 	</insert>
 
 	<insert id="insertRecipeStep">
 		<![CDATA[
-        INSERT INTO recipe_step (RECIPEORDER, recipe_No, recipeDescription, recipe_Pic, recipe_Pic_Rename)
-        VALUES (#{recipeOrder}, recipe_seq.currval, #{recipeDescription}, #{recipePic}, #{recipePicRename})
+        INSERT INTO recipe_step (RECIPEORDER, recipeno, recipedescription, recipepic, recipepicrename)
+        VALUES (#{recipeorder}, recipe_seq.currval, #{recipedescription}, #{recipepic}, #{recipepicrename})
         ]]>
 	</insert>
 
 	<insert id="insertRecipeIngredientPlus">
 		<![CDATA[
-        INSERT INTO recipe_ingredient (INGREDIENTORDER, recipe_No, INGREDIENT, AMOUNT)
-        VALUES (#{ingredientOrder}, #{recipeNo}, #{ingredient}, #{amount})
+        INSERT INTO recipe_ingredient (INGREDIENTORDER, RECIPENO, INGREDIENT, AMOUNT)
+        VALUES (#{ingredientorder}, #{recipeno}, #{ingredient}, #{amount})
         ]]>
 	</insert>
 
 	<insert id="insertRstepPlus">
 		<![CDATA[
-        INSERT INTO recipe_step (RECIPEORDER, recipe_No, RECIPEDESCRIPTION, recipe_Pic, recipe_Pic_Rename)
-        VALUES (#{recipeOrder}, #{recipeNo}, #{recipeDescription}, #{recipePic}, #{recipePicRename})
+        INSERT INTO recipe_step (RECIPEORDER, recipeno, RECIPEDESCRIPTION, recipepic, recipepicrename)
+        VALUES (#{recipeorder}, #{recipeno}, #{recipedescription}, #{recipepic}, #{recipepicrename})
         ]]>
 	</insert>
 
 	<update id="deleteOneImg">
 		<![CDATA[
         UPDATE recipe_step
-        SET RECIPE_PIC = NULL, RECIPE_PIC_RENAME = NULL
-        WHERE RECIPE_PIC_RENAME = #{picName}
+        SET RECIPEPIC = NULL, RECIPEPICRENAME = NULL
+        WHERE RECIPEPICRENAME = #{picName}
         ]]>
 	</update>
 
@@ -54,107 +54,111 @@
 		<![CDATA[
         UPDATE recipe
         SET RECIPE_STATUS = 'N'
-        WHERE RECIPE_NO = #{recipeNo}
+        WHERE RECIPENO = #{recipeno}
         ]]>
 	</update>
 
 	<update id = "updateOneRecipe">
 		<![CDATA[
-		update recipe set TITLE = #{title}, MAIN_PIC = #{mainPic}, NOP = #{nop},
-		MAIN_PIC_RENAME = #{mainPicRename}, COOKTIME = #{cooktime}, UPDATE_DATE = default,
-		TAG = #{tag}, RC_TYPE = #{rcType}, RC_SITUATION = #{rcSituation}, RC_INGREDIENT = #{rcIngredient}, RC_MEANS = #{rcMeans},
-		where RECIPE_NO = #{recipeNo}
+		update recipe set TITLE = #{title}, MAINPIC = #{mainpic}, NOP = #{nop},
+		MAINPICRENAME = #{mainpicrename}, COOKTIME = #{cooktime}, UPDATEDATE = default,
+		TAG = #{tag}, RC_TYPE = #{rctype}, RCSITUATION = #{rcsituation}, RCINGREDIENT = #{rcingredient}, RCMEANS = #{rcmeans},
+		where RECIPENO = #{recipeno}
 		]]>
 	</update>
 
 	<update id = "updateOneStep">
 		<![CDATA[
-		update recipe_step set RECIPEDESCRIPTION = #{recipeDescription}, RECIPE_PIC = #{recipePic}, RECIPE_PIC_RENAME= #{recipePicRename}
-		where RECIPE_NO = #{recipeNo} and RECIPEORDER = #{recipeOrder}
+		update recipe_step set RECIPEDESCRIPTION = #{recipedescription}, recipepic = #{recipepic}, RECIPEPICRENAME= #{recipepicrename}
+		where RECIPENO = #{recipeno} and RECIPEORDER = #{recipeorder}
 		]]>
 	</update>
 
 	<update id = "updateOneIngredient">
 		<![CDATA[
 		update recipe_Ingredient set INGREDIENT = #{ingredient}, AMOUNT = #{amount}
-		where RECIPE_NO = #{recipeNo} and INGREDIENTORDER = #{ingredientOrder}
+		where RECIPENO = #{recipeno} and INGREDIENTORDER = #{ingredientorder}
 		]]>
 	</update>
 
 	<update id="countPlus">
 		<![CDATA[
-		update recipe set RC_COUNT = RC_COUNT+1 where RECIPE_NO = #{recipeNo}
+		update recipe set RCCOUNT = RCCOUNT+1 where RECIPENO = #{recipeno}
 		]]>
 	</update>
 
 	<delete id="deleteOneIngredient">
 		<![CDATA[
-		delete recipe_ingredient  where RECIPE_NO = #{recipeNo} and INGREDIENTORDER = #{ingredientOrder}
+		delete recipe_ingredient  where RECIPENO = #{recipeno} and INGREDIENTORDER = #{ingredientorder}
 		]]>
 	</delete>
 
 	<!-- resultMap 예시 -->
     <resultMap type="com.recipeone.entity.Recipe" id="recipeResultMap">
-        <id property="recipeNo" column="RECIPE_NO"/>
+        <id property="recipeno" column="RECIPENO"/>
         <result property="title" column="TITLE"/>
         <result property="cooktime" column="COOKTIME"/>
         <result property="nop" column="NOP"/>
-        <result property="mainPic" column="MAIN_PIC"/>
-        <result property="mainPicRename" column="MAIN_PIC_RENAME"/>
+        <result property="mainpic" column="MAINPIC"/>
+        <result property="mainpicrename" column="MAINPICRENAME"/>
         <result property="tag" column="TAG"/>
-        <result property="rcType" column="RC_TYPE"/>
-        <result property="rcSituation" column="RC_SITUATION"/>
-        <result property="rcIngredient" column="RC_INGREDIENT"/>
-        <result property="rcMeans" column="RC_MEANS"/>
-        <result property="insertDate" column="INSERT_DATE"/>
-		<result property="updateDate" column="UPDATE_DATE"/>
-        <result property="rcCount" column="RC_COUNT"/>
-		<result property="recipeStatus" column="RECIPE_STATUS"/>
+        <result property="rctype" column="RCTYPE"/>
+        <result property="rcsituation" column="RCSITUATION"/>
+        <result property="rcingredient" column="RCINGREDIENT"/>
+        <result property="rcmeans" column="RCMEANS"/>
+        <result property="insertdate" column="INSERTDATE"/>
+		<result property="updatedate" column="UPDATEDATE"/>
+        <result property="rccount" column="RCCOUNT"/>
+		<result property="recipestatus" column="RECIPESTATUS"/>
+		<result property="writer" column="WRITER"/>
     </resultMap>
 
 	<select id="selectAllRecipe" resultMap="recipeResultMap">
 		<![CDATA[
-		select * from recipe where RECIPE_STATUS = 'Y'
+		select * from recipe where RECIPESTATUS = 'Y'
 		]]>
 	</select>
 
 	<select id="selectOneRecipe" resultMap="recipeResultMap">
 		<![CDATA[
-		select * from recipe where RECIPE_NO = #{recipeNo} and RECIPE_STATUS = 'Y'
+		select * from recipe where RECIPENO = #{recipeno} and RECIPESTATUS = 'Y'
 		]]>
 	</select>
 
+	<select id="selectMember" resultType="string">
+		select USERNICKNAME from recipe where RECIPENO = #{recipeno}
+	</select>
+
 	<resultMap type="com.recipeone.entity.RecipeIngredient" id="RecipeIngredientResultMap">
-		<id property="recipeNo"				column="RECIPE_NO" />
-		<result property="ingredientOrder" 	column="INGREDIENTORDER" />
+		<id property="recipeno"				column="RECIPENO" />
+		<result property="ingredientorder" 	column="INGREDIENTORDER" />
 		<result property="ingredient" 		column="INGREDIENT" />
 		<result property="amount" 			column="AMOUNT" />
 	</resultMap>
 
 	<select id="selectOneRIngredient" resultMap="RecipeIngredientResultMap">
 		<![CDATA[
-		select * from recipe_ingredient where RECIPE_NO = #{recipeNo} order by INGREDIENTORDER
+		select * from recipe_Ingredient where RECIPENO = #{recipeno} order by INGREDIENTORDER
 		]]>
-
 	</select>
 
 	<select id="countIngredient" resultType="_int">
 		<![CDATA[
-		select count(*) from recipe_ingredient where RECIPE_NO = #{recipeNo}
+		select count(*) from recipe_Ingredient where RECIPENO = #{recipeno}
 		]]>
 	</select>
 
 	<resultMap type="com.recipeone.entity.RecipeStep" id="RecipeStepResultMap">
-		<id property="recipeNo" 				column="recipe_No" />
-		<result property="recipeOrder" 			column="RECiPEORDER" />
-		<result property="recipeDescription"	column="RECIPEDESCRIPTION" />
-		<result property="recipePic" 			column="RECIPE_PICTURE" />
-		<result property="recipePicRename"		column="RECIPE_PIC_RENAME" />
+		<id property="recipeno" 				column="RECIPENO" />
+		<result property="recipeorder" 			column="RECIPEORDER" />
+		<result property="recipedescription"	column="RECIPEDESCRIPTION" />
+		<result property="recipepic" 			column="RECIPEPIC" />
+		<result property="recipepicrename"		column="RECIPEPICRENAME" />
 	</resultMap>
 
 	<select id="selectOneRStep" resultMap="RecipeStepResultMap">
 		<![CDATA[
-		select * from recipe_Step where recipe_no = #{recipeNo} order by RECIPEORDER
+		select * from recipe_Step where RECIPENO = #{recipeno} order by RECIPEORDER
 		]]>
 	</select>
 

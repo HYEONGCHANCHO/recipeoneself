@@ -28,95 +28,87 @@
  </style>
 
   <script>
-
-
   $(document).ready(function() {
-  var typingTimer;
-  var doneTypingInterval = 500; // 입력 후 0.5초를 기다린 후에 서버에 요청을 보냄
+    var typingTimer;
+    var doneTypingInterval = 500; // 입력 후 0.5초를 기다린 후에 서버에 요청을 보냄
 
-  // 검색창 입력 시
-  $('#searchBox').on('input', function() {
-    clearTimeout(typingTimer); // 이전 타이머를 취소
-    typingTimer = setTimeout(doneTyping, doneTypingInterval); // 새로운 타이머 시작
-  });
+    // 검색창 입력 시
+    $('#searchBox').on('input', function() {
+      clearTimeout(typingTimer); // 이전 타이머를 취소
+      typingTimer = setTimeout(doneTyping, doneTypingInterval); // 새로운 타이머 시작
+    });
 
-  // 검색 버튼 클릭 시
-  $('#search-button').click(function() {
-    doneTyping();
-  });
+    // 검색 버튼 클릭 시
+    $('#search-button').click(function() {
+      doneTyping();
+    });
 
-
-
-  // 입력이 끝나고 doneTypingInterval 시간이 경과하면 서버에 요청을 보냄
-  function doneTyping() {
-    var keyword = $('#searchBox').val();
-    if (keyword.trim() !== '') {
-      sendKeywordToServer(keyword);
+    // 입력이 끝나고 doneTypingInterval 시간이 경과하면 서버에 요청을 보냄
+    function doneTyping() {
+      var keyword = $('#searchBox').val();
+      if (keyword.trim() !== '') {
+        sendKeywordToServer(keyword);
+      }
     }
-  }
 
-  // 서버에 키워드를 전송하는 함수
-  function sendKeywordToServer(keyword) {
-    $.ajax({
-      url: '/recipe/recommendKeywords',
-      method: 'POST',
-      data: { keyword: keyword },
-      success: function(response) {
-        // 서버에서 받은 응답을 처리하는 코드
-      },
-      error: function(xhr, status, error) {
-        // 에러 처리 코드
-      }
-    });
-  }
-
-  // 검색창 입력값이 변경될 때마다 예상어 리스트를 가져와 보여줍니다.
-  $('#searchBox').on('input', function() {
-    var keyword = $('#searchBox').val();
-    $.ajax({
-      type: 'POST',
-      url: '/recipe/recommendKeywords',
-      data: {keyword: keyword},
-      success: function(recommendedKeywords) {
-        $('#keywordList').empty();
-        for (var i = 0; i < recommendedKeywords.length && i < 10; i=i+1) {
-          var keyword = recommendedKeywords[i];
-          var keywordElement = $('<div>').text(keyword);
-          keywordElement.on('click', function() {
-            $('#searchBox').val($(this).text());
-            $('#keywordList').empty();
-          });
-          $('#keywordList').append(keywordElement);
+    // 서버에 키워드를 전송하는 함수
+    function sendKeywordToServer(keyword) {
+      $.ajax({
+        url: '/recipe/recommendKeywords',
+        method: 'POST',
+        data: { keyword: keyword },
+        success: function(response) {
+          // 서버에서 받은 응답을 처리하는 코드
+        },
+        error: function(xhr, status, error) {
+          // 에러 처리 코드
         }
-      }
+      });
+    }
+
+    // 검색창 입력값이 변경될 때마다 예상어 리스트를 가져와 보여줍니다.
+    $('#searchBox').on('input', function() {
+      var keyword = $('#searchBox').val();
+      $.ajax({
+        type: 'POST',
+        url: '/recipe/recommendKeywords',
+        data: {keyword: keyword},
+        success: function(recommendedKeywords) {
+          $('#keywordList').empty();
+          for (var i = 0; i < recommendedKeywords.length && i < 10; i=i+1) {
+            var keyword = recommendedKeywords[i];
+            var keywordElement = $('<div>').text(keyword);
+            keywordElement.on('click', function() {
+              $('#searchBox').val($(this).text());
+              $('#keywordList').empty();
+            });
+            $('#keywordList').append(keywordElement);
+          }
+        }
+      });
+    });
+
+    // 레시피 목록 링크 클릭 시
+    $(document).on('click', '#recipeListLink', function(event) {
+      event.preventDefault(); // 기본 이벤트 동작을 막음
+
+      var keyword = null; // keyword 값을 null로 설정
+
+      // AJAX 요청
+      $.ajax({
+        url: '/recipe/recipeList',
+        method: 'POST',
+        data: { keyword: keyword },
+        success: function(response) {
+          // 요청 성공 시 처리할 코드
+          // 예: 페이지 이동 등
+        },
+        error: function(xhr, status, error) {
+          // 에러 처리 코드
+        }
+      });
     });
   });
-
-$(document).ready(function() {
-  // 레시피 목록 링크 클릭 시
-  $('#recipeListLink').click(function(event) {
-    event.preventDefault(); // 기본 이벤트 동작을 막음
-
-    var keyword = null; // keyword 값을 null로 설정
-
-    // AJAX 요청
-    $.ajax({
-      url: '/recipe/recipeList',
-      method: 'POST',
-      data: { keyword: keyword },
-      success: function(response) {
-        // 요청 성공 시 처리할 코드
-        // 예: 페이지 이동 등
-      },
-      error: function(xhr, status, error) {
-        // 에러 처리 코드
-      }
-    });
-  });
-
-
-
-
 </script>
 
   <!-- First Line -->

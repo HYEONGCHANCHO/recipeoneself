@@ -99,6 +99,8 @@
 <div layout:fragment="content">
 	<div class="container">
 	<form role="form" method="post" enctype="multipart/form-data" th:object="${recipe}">
+
+		<input type="hidden" name="writer" th:value="${#authentication.principal.usernickname}">
 		<p class="h1">레시피 등록</p><br />
 		
 		<h3 class="subheading">썸네일 사진선택</h3>
@@ -116,7 +118,7 @@
       	
       	<h3 class="subheading">레시피 제목&nbsp;&nbsp;&nbsp;</h3>
 		<div class="input-group">
-			<input type="text" name="title" placeholder="예) 미역국 끓이기" style="width:610px;" th:value="${recipe.title}"><br />
+			<input type="text" name="title" placeholder="예) 미역국 끓이기" style="width:610px;" ><br />
 		</div>
 		
 		<h3 class="subheading">요리순서</h3>
@@ -128,11 +130,11 @@
 					<!-- 레시피 설명영역 -->
 					<div class="container-md p-3  col-md-6 p-2">
 						<div class="form-floating col-md-12 p-0 pt-3">
-								<textarea class="form-control" name="recipeDescription"  placeholder="설명을 입력하세요"
+								<textarea class="form-control" name="recipedescription"  placeholder="설명을 입력하세요"
 										  id="floatingTextarea1" style="height: 250px" required="required"></textarea>
 						</div>
 						<!-- 설명에 쉼표를 넣었을때 배열로 만들지 않기위한 더미 value -->
-						<input type="text" name="recipeDescription" value="ab22bb" style="display: none">
+						<input type="text" name="recipedescription" value="ab22bb" style="display: none">
 					</div><!-- 레시피 설명영역종료 -->
 
 					<!-- 이미지 미리보기 이미지 파일 -->
@@ -160,10 +162,10 @@
 					<div class="container-md p-3 col-md-6 p-2">
 						<div class="form-floating col-md-12 p-0 pt-3">
 							<textarea class="form-control" placeholder="설명을 입력하세요"
-									  id="floatingTextarea2" name="recipeDescription"  style="height: 250px"></textarea>
+									  id="floatingTextarea2" name="recipedescription"  style="height: 250px"></textarea>
 						</div>
 						<!-- 설명에 쉼표를 넣었을때 배열로 만들지 않기위한 더미 value -->
-						<input type="text" name="recipeDescription" value="ab22bb" style="display: none">
+						<input type="text" name="recipedescription" value="ab22bb" style="display: none">
 					</div><!-- 레시피 설명영역 종료 -->
 					<!-- 이미지 미리보기 이미지 파일 -->
 					<div class="col-md-6 p-2">
@@ -190,10 +192,10 @@
 					<div class="container-md p-3 col-md-6 p-2">
 						<div class="form-floating col-md-12 p-0 pt-3">
 							<textarea class="form-control" placeholder="설명을 입력하세요"
-									  id="floatingTextarea3" name="recipeDescription" style="height: 250px"></textarea>
+									  id="floatingTextarea3" name="recipedescription" style="height: 250px"></textarea>
 						</div>
 						<!-- 설명에 쉼표를 넣었을때 배열로 만들지 않기위한 더미 value -->
-						<input type="text" name="recipeDescription" value="ab22bb" style="display: none">
+						<input type="text" name="recipedescription" value="ab22bb" style="display: none">
 					</div><!-- 레시피 설명영역 종료 -->
 					<!-- 이미지 미리보기 이미지 파일 -->
 					<div class="col-md-6 p-2">
@@ -229,7 +231,7 @@
 
 		<h3 class="subheading">카테고리</h3>
 		<div class="input-group">
-			<select name="rcType" id="rcType" text="종류별">
+			<select name="rctype" id="rctype" text="종류별">
 				<option value="" >종류별</option>
 				<option value="56">메인반찬</option>
 				<option value="54">국/탕</option>
@@ -249,8 +251,9 @@
 				<option value="62">기타</option>
 				<option value="63">밑반찬</option>
 			</select>
-	        <select name="rcSituation" id="rcSituation" text="상황별">
-				<option value="" >상황별</option><option value="12">일상</option>
+	        <select name="rcsituation" id="rcsituation" text="상황별">
+				<option value="" >상황별</option>
+				<option value="12">일상</option>
 				<option value="18">초스피드</option>
 				<option value="13">손님접대</option>
 				<option value="19">술안주</option>
@@ -265,24 +268,9 @@
 				<option value="14">이유식</option>
 				<option value="22">기타</option>
 			</select>
-        	<select name="rcMeans" id="rcMeans" text="방법별">
-				<option value="" >방법별</option><option value="6">볶음</option>
-				<option value="1">끓이기</option>
-				<option value="7">부침</option>
-				<option value="36">조림</option>
-				<option value="41">무침</option>
-				<option value="42">비빔</option>
-				<option value="8">찜</option>
-				<option value="10">절임</option>
-				<option value="9">튀김</option>
-				<option value="38">삶기</option>
-				<option value="67">굽기</option>
-				<option value="39">데치기</option>
-				<option value="37">회</option>
-				<option value="11">기타</option>
-			</select>
-        	<select name="rcIngredient" id="rcIngredient"  text="재료별">
-				<option value="" >재료별</option><option value="70">소고기</option>
+        	<select name="rcingredient" id="rcingredient"  text="재료별">
+				<option value="" >재료별</option>
+				<option value="70">소고기</option>
 				<option value="71">돼지고기</option>
 				<option value="72">닭고기</option>
 				<option value="23">육류</option>
@@ -299,8 +287,25 @@
 				<option value="26">곡류</option>
 				<option value="34">기타</option>
 			</select>
+        	<select name="rcmeans" id="rcmeans" text="방법별">
+				<option value="" >방법별</option>
+				<option value="6">볶음</option>
+				<option value="1">끓이기</option>
+				<option value="7">부침</option>
+				<option value="36">조림</option>
+				<option value="41">무침</option>
+				<option value="42">비빔</option>
+				<option value="8">찜</option>
+				<option value="10">절임</option>
+				<option value="9">튀김</option>
+				<option value="38">삶기</option>
+				<option value="67">굽기</option>
+				<option value="39">데치기</option>
+				<option value="37">회</option>
+				<option value="11">기타</option>
+			</select>
 		</div><br /><!-- 카테고리 END  -->
-		
+
 		<h3 class="subheading">요리정보</h3>
 		<div class="input-group">
       		<span>인원 </span>

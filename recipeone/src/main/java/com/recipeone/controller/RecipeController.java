@@ -8,10 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 
+import com.recipeone.dto.ListRecipeDto;
 import com.recipeone.entity.Recipe;
 import com.recipeone.entity.RecipeIngredient;
 import com.recipeone.entity.RecipeStep;
@@ -19,6 +21,7 @@ import com.recipeone.repository.RecipeRepository;
 import com.recipeone.service.RecipeService;
 import lombok.extern.log4j.Log4j2;
 
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +29,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.recipeone.dto.RecipeFormDto;
 
 
 import lombok.RequiredArgsConstructor;
@@ -44,12 +46,11 @@ public class RecipeController {
 	private final SqlSessionTemplate sqlSession;
 
 
-    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_CHEF')")
-    @GetMapping(value = "/recipeForm")
-    public String recipeForm(Model model) {
-        model.addAttribute("recipeFormDto", new RecipeFormDto());
-        return "recipe/recipeForm";
-    }
+	@PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_CHEF')")
+	@GetMapping(value = "/recipeForm")
+	public String recipeForm() {
+		return "recipe/recipeForm";
+	}
 
 	@PostMapping("/recipeForm")
 	public String saveRecipe(@ModelAttribute Recipe recipe,
@@ -78,8 +79,8 @@ public class RecipeController {
 				}
 
 				mainPicture.transferTo(new File(savePath + "\\" + mainPicRename));// 파일을 buploadFile경로에 저장
-				recipe.setMainPic(mainPic);
-				recipe.setMainPicRename(mainPicRename);
+				recipe.setMainpic(mainPic);
+				recipe.setMainpicrename(mainPicRename);
 			}
 			log.info(">>>mainPic는======" + mainPic);
 
@@ -97,7 +98,7 @@ public class RecipeController {
 					RecipeIngredient rIngredientOne = new RecipeIngredient();
 					rIngredientOne.setAmount(amount[i]);
 					rIngredientOne.setIngredient(ingredient[i]);
-					rIngredientOne.setIngredientOrder(count++);
+					rIngredientOne.setIngredientorder(count++);
 					rmList.add(rIngredientOne);
 				}
 			}
@@ -107,8 +108,8 @@ public class RecipeController {
 
 			// 레시피 순서 리스트 만들어서 전달하기
 			ArrayList<RecipeStep> rsList = new ArrayList<RecipeStep>();
-			recipeStep.getRecipeDescription();
-			String arrDescription[] = recipeStep.getRecipeDescription().split(",ab22bb,");
+			recipeStep.getRecipedescription();
+			String arrDescription[] = recipeStep.getRecipedescription().split(",ab22bb,");
 			// 더미 value까지 배열을 나누는것으로 인식해서 사용자가 ,를 입력했을때 정상적으로 table에 저장되게 한다
 			arrDescription[arrDescription.length - 1] = arrDescription[arrDescription.length - 1].replace(",ab22bb",
 					"");
@@ -143,11 +144,11 @@ public class RecipeController {
 				// 여기서부터 레시피 step 테이블에 저장할 값 List화 시키는 코드
 				RecipeStep rStepOne = new RecipeStep();
 
-				rStepOne.setRecipeDescription(arrDescription[i]);
+				rStepOne.setRecipedescription(arrDescription[i]);
 
-				rStepOne.setRecipeOrder(countStep++);
-				rStepOne.setRecipePic(recipePic);
-				rStepOne.setRecipePicRename(recipePicRename);
+				rStepOne.setRecipeorder(countStep++);
+				rStepOne.setRecipepic(recipePic);
+				rStepOne.setRecipepicrename(recipePicRename);
 
 				rsList.add(rStepOne);
 				log.info(">>>rStepOne은======" + rStepOne);
@@ -162,108 +163,149 @@ public class RecipeController {
 
 		return "redirect:/";
 	}
-    
-//    수정된 부분
-    @GetMapping(value = "/recipeList")
-    public String recipeList() {
-        return "recipe/recipeList";
-    }
+
+	//    수정된 부분
+//	@GetMapping(value = "/recipeList")
+//	public String recipeList() {
+//		return "recipe/recipeList";
+//	}
+	@PostMapping("/recipeList")
+	public String recipelistPOST(@RequestParam(value = "keyword", required = false) String keyword, RedirectAttributes redirectAttributes) {
+		try {
+			List<String> recommendedKeywords = recipeService.recommendKeywords(keyword);
+			redirectAttributes.addAttribute("keyword", keyword);
+			redirectAttributes.addAttribute("recipe", recommendedKeywords);
+		} catch (RecipeService.RecipeIdExistException e) {
+			redirectAttributes.addFlashAttribute("error", "id");
+		}
+		return "redirect:/recipe/recipeList";
+	}
+
+	@GetMapping("/recipeList")
+	public String recipeListGET(@RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "recipe", required = false) List<String> recipe, Model model,HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		if (keyword != null) {
+			session.setAttribute("recommendedKeywords", recipe);
+			session.setAttribute("rctype", null);
+			session.setAttribute("rcsituation", null);
+			session.setAttribute("rcingredient", null);
+			session.setAttribute("rcmeans", null);
+		}
+		List<Recipe> recipeList = recipeRepository.findRecipesByFilterSearched(recipe, null, null, null, null); // DB에서 레시피 목록 조회
+		List<ListRecipeDto> listRecipeDtoList = new ArrayList<>();
+		for (Recipe recipeItem : recipeList) {
+			ListRecipeDto listRecipeDto = new ListRecipeDto(recipeItem.getRecipeno(), recipeItem.getTitle(), recipeItem.getMainpicrename(), recipeItem.getTag(), recipeItem.getWriter());
+			listRecipeDtoList.add(listRecipeDto);
+		}
+		model.addAttribute("recipe", listRecipeDtoList);
+		return "recipeList";
+	}
+
+//	@PostMapping("/recipeList")
+//	public String recipelistPOST(@RequestParam(value = "keyword", required = false) String keyword, RedirectAttributes redirectAttributes, HttpSession session) {
+//		try {
+//			List<String> recommendedKeywords = recipeService.recommendKeywords(keyword);
+//			session.setAttribute("recommendedKeywords", recommendedKeywords); // recommendedKeywords를 세션에 저장
+//			session.setAttribute("rctype", null);
+//			session.setAttribute("rcsituation", null);
+//			session.setAttribute("rcingredient", null);
+//			session.setAttribute("rcmeans", null);
+//			List<Recipe> recipeList = recipeRepository.findRecipesByFilterSearched(recommendedKeywords, null, null, null, null); // DB에서 레시피 목록 조회
+//			List<ListRecipeDto> listRecipeDtoList = new ArrayList<>();
+//			for (Recipe recipe : recipeList) {
+//				ListRecipeDto listRecipeDto = new ListRecipeDto(recipe.getRecipeno(), recipe.getTitle(), recipe.getMainpicrename(), recipe.getTag(), recipe.getWriter());
+//				listRecipeDtoList.add(listRecipeDto);
+//			}
+//			redirectAttributes.addFlashAttribute("recipe", listRecipeDtoList);
+//		} catch (RecipeService.RecipeIdExistException e) {
+//			redirectAttributes.addFlashAttribute("error", "id");
+//		}
+//		return "redirect:/recipe/recipeList";
+//	}
 
 //    @PreAuthorize("principal.username==#boardDTO.writer") //작성자와 동일한 user만 수정 페이지 가능
 //    @GetMapping("/modify")
 //    public void modify() {
 //    }
 
-//추가된 부분 카테고리 반영부분
-    // POST 요청 처리
-    @PostMapping("/sendData")
-    public String handleFormData(@RequestParam(value = "rctype", required = false) String rctype,
-                                 @RequestParam(value = "rcsituation", required = false) String rcsituation,
-                                 @RequestParam(value = "rcingredient", required = false) String rcingredient,
-                                 @RequestParam(value = "rcmeans", required = false) String rcmeans,HttpSession session, RedirectAttributes redirectAttributes) {
+	//추가된 부분 카테고리 반영부분
+	// POST 요청 처리
+	@PostMapping("/sendData")
+	public String handleFormData(@RequestParam(value = "rctype", required = false) String rctype,
+								 @RequestParam(value = "rcsituation", required = false) String rcsituation,
+								 @RequestParam(value = "rcingredient", required = false) String rcingredient,
+								 @RequestParam(value = "rcmeans", required = false) String rcmeans, HttpSession session, RedirectAttributes redirectAttributes) {
 
 
-        if (rctype != null) {
-            session.setAttribute("rctype", rctype);
-        } else {
-            rctype = (String) session.getAttribute("rctype");
-        }
+		if (rctype != null) {
+			session.setAttribute("rctype", rctype);
+		} else {
+			rctype = (String) session.getAttribute("rctype");
+		}
 
-        if (rcsituation != null) {
-            session.setAttribute("rcsituation", rcsituation);
-        } else {
-            rcsituation = (String) session.getAttribute("rcsituation");
-        }
+		if (rcsituation != null) {
+			session.setAttribute("rcsituation", rcsituation);
+		} else {
+			rcsituation = (String) session.getAttribute("rcsituation");
+		}
 
-        if (rcingredient != null) {
-            session.setAttribute("rcingredient", rcingredient);
-        } else {
-            rcingredient = (String) session.getAttribute("rcingredient");
-        }
+		if (rcingredient != null) {
+			session.setAttribute("rcingredient", rcingredient);
+		} else {
+			rcingredient = (String) session.getAttribute("rcingredient");
+		}
 
-        if (rcmeans != null) {
-            session.setAttribute("rcmeans", rcmeans);
-        } else {
-            rcmeans = (String) session.getAttribute("rcmeans");
-        }
+		if (rcmeans != null) {
+			session.setAttribute("rcmeans", rcmeans);
+		} else {
+			rcmeans = (String) session.getAttribute("rcmeans");
+		}
+	if (rcingredient != null) {
+			session.setAttribute("rcingredient", rcingredient);
+		} else {
+			rcingredient = (String) session.getAttribute("rcingredient");
+		}
 
-        List<String> recommendedKeywords = (List<String>) session.getAttribute("recommendedKeywords");
-        List<Recipe> recipeList = recipeRepository.findRecipesByFilterSearched(recommendedKeywords,rctype,rcsituation,rcingredient,rcmeans); // DB에서 레시피 목록 조회
-        List<ListRecipeDto> listRecipeDtoList = new ArrayList<>();
-        for (Recipe recipe : recipeList) {
-            ListRecipeDto listRecipeDto = new ListRecipeDto(recipe.getId(), recipe.getTitle(), recipe.getImgUrl(),recipe.getTag(),recipe.getWriter());
-            listRecipeDtoList.add(listRecipeDto);
-        }
-        redirectAttributes.addFlashAttribute("recipe", listRecipeDtoList);
-        return "redirect:/recipe/recipeList"; // 원래 페이지로 리다이렉트
-    }
+		if (rcmeans != null) {
+			session.setAttribute("rcmeans", rcmeans);
+		} else {
+			rcmeans = (String) session.getAttribute("rcmeans");
+		}
 
-
-//추천 키워드 부분
-    @RequestMapping(value = "/recommendKeywords", method = RequestMethod.POST)
-    @ResponseBody
-    public List<String> getRecommendedKeywords(@RequestParam String keyword) {
-        List<String> recommendedKeywords = null;
-        try {
-            recommendedKeywords = recipeService.recommendKeywords(keyword);
-        } catch (RecipeService.RecipeIdExistException e) {
-        }
-        return recommendedKeywords;
-    }
+		List<String> recommendedKeywords = (List<String>) session.getAttribute("recommendedKeywords");
+		List<Recipe> recipeList = recipeRepository.findRecipesByFilterSearched(recommendedKeywords, rctype, rcsituation, rcingredient, rcmeans); // DB에서 레시피 목록 조회
+		List<ListRecipeDto> listRecipeDtoList = new ArrayList<>();
+		for (Recipe recipe : recipeList) {
+			ListRecipeDto listRecipeDto = new ListRecipeDto(recipe.getRecipeno(), recipe.getTitle(), recipe.getMainpicrename(), recipe.getTag(), recipe.getWriter());
+			listRecipeDtoList.add(listRecipeDto);
+		}
+		redirectAttributes.addFlashAttribute("recipe", listRecipeDtoList);
+		return "redirect:/recipe/recipeList"; // 원래 페이지로 리다이렉트
+	}
 
 
-    @PostMapping("/recipeList")
-    public String recipelistPOST(@RequestParam(value = "keyword", required = false) String keyword, RedirectAttributes redirectAttributes, HttpSession session) {
-        try {
-            List<String> recommendedKeywords = recipeService.recommendKeywords(keyword);
-            session.setAttribute("recommendedKeywords", recommendedKeywords); // recommendedKeywords를 세션에 저장
-            session.setAttribute("rctype", null);
-            session.setAttribute("rcsituation", null);
-            session.setAttribute("rcingredient", null);
-            session.setAttribute("rcmeans", null);
-            List<Recipe> recipeList = recipeRepository.findRecipesByFilterSearched(recommendedKeywords,null,null,null,null); // DB에서 레시피 목록 조회
-            List<ListRecipeDto> listRecipeDtoList = new ArrayList<>();
-            for (Recipe recipe : recipeList) {
-                ListRecipeDto listRecipeDto = new ListRecipeDto(recipe.getId(), recipe.getTitle(), recipe.getImgUrl(),recipe.getTag(),recipe.getWriter());
-                listRecipeDtoList.add(listRecipeDto);
-            }
-            redirectAttributes.addFlashAttribute("recipe", listRecipeDtoList);
-        } catch (RecipeService.RecipeIdExistException e) {
-            redirectAttributes.addFlashAttribute("error", "id");
-        }
-        return "redirect:/recipe/recipeList";
-    }
-
-}
+	//추천 키워드 부분
+	@RequestMapping(value = "/recommendKeywords", method = RequestMethod.POST)
+	@ResponseBody
+	public List<String> getRecommendedKeywords(@RequestParam String keyword) {
+		List<String> recommendedKeywords = null;
+		try {
+			recommendedKeywords = recipeService.recommendKeywords(keyword);
+		} catch (RecipeService.RecipeIdExistException e) {
+		}
+		return recommendedKeywords;
+	}
 
 
-	@GetMapping(value = "/recipeDetail/{recipeNo}")
-	public String viewRecipeStep(@PathVariable int recipeNo, Model model) {
+
+
+	@GetMapping(value = "/recipeDetail/{recipeno}")
+	public String viewRecipeStep(@PathVariable int recipeno, Model model) {
 
 		try {
-			Recipe recipe = recipeService.printOneRecipe(recipeNo);
-			List<RecipeIngredient> rmList = recipeService.printOneRecipeIngredient(recipeNo);
-			List<RecipeStep> rsList = recipeService.printOneRecipeStep(recipeNo);
+			Recipe recipe = recipeService.printOneRecipe(recipeno);
+			List<RecipeIngredient> rmList = recipeService.printOneRecipeIngredient(recipeno);
+			List<RecipeStep> rsList = recipeService.printOneRecipeStep(recipeno);
 
 			model.addAttribute("recipe", recipe);
 			model.addAttribute("rmList", rmList);
@@ -274,7 +316,7 @@ public class RecipeController {
 		}
 		return "recipe/recipeDetail";
 	}
-
+}
 
 
 

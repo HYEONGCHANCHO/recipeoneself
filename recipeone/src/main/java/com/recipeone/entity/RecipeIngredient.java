@@ -8,8 +8,8 @@ import lombok.ToString;
 public class RecipeIngredient {
 
 
-	private int recipeNo; // 레시피 번호
-	private int ingredientOrder; // 레시피 재료 번호
+	private int recipeno; // 레시피 번호
+	private int ingredientorder; // 레시피 재료 번호
 	private String ingredient; // 재료명
 	private String amount; // 수량
 	
@@ -17,10 +17,10 @@ public class RecipeIngredient {
 		
 	}
 	
-	public RecipeIngredient(int recipeNo, int ingredientOrder, String ingredient, String amount) {
+	public RecipeIngredient(int recipeno, int ingredientorder, String ingredient, String amount) {
 		super();
-		this.recipeNo = recipeNo;
-		this.ingredientOrder = ingredientOrder;
+		this.recipeno = recipeno;
+		this.ingredientorder = ingredientorder;
 		this.ingredient = ingredient;
 		this.amount = amount;
 	}

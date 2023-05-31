@@ -18,7 +18,7 @@ public class RecipeDetailController {
         this.recipeRepository = recipeRepository;
     }
 
-    @GetMapping(value = "/recipe/recipeDetail/{recipeNo}")
+    @GetMapping(value = "/recipe/recipeDetail/{recipeno}")
     public String recipeDetail(@PathVariable Long id, Model model) {
         Optional<Recipe> recipeOptional = recipeRepository.findById(id);
         if (recipeOptional.isPresent()) {

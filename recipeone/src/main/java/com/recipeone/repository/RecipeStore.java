@@ -22,17 +22,17 @@ public interface RecipeStore {
 
     public List<Recipe> selectAllRecipe(int currentPage, int limit,SqlSessionTemplate session);
 
-    public Recipe selectOneRecipe(int recipeNo, SqlSessionTemplate session);
+    public Recipe selectOneRecipe(int recipeno, SqlSessionTemplate session);
 
-    public List<RecipeStep> selectOneRecipeDetail(int recipeNo, SqlSessionTemplate session);
+    public List<RecipeStep> selectOneRecipeDetail(int recipeno, SqlSessionTemplate session);
 
-    public List<RecipeIngredient> selectOneRecipeIngredient(int recipeNo,SqlSessionTemplate session);
+    public List<RecipeIngredient> selectOneRecipeIngredient(int recipeno,SqlSessionTemplate session);
 
-    /*public RecipeTag selectOneRecipeTag(int recipeNo,SqlSessionTemplate session);
+    /*public RecipeTag selectOneRecipeTag(int recipeno,SqlSessionTemplate session);
 
-    public List<RecipeComment> selectRecipeCommentList(int recipeNo, SqlSessionTemplate session, int currentPage,int limit);
+    public List<RecipeComment> selectRecipeCommentList(int recipeno, SqlSessionTemplate session, int currentPage,int limit);
 
-    public int selectRecommand(SqlSessionTemplate session,int recipeNo,String memberEmail);
+    public int selectRecommand(SqlSessionTemplate session,int recipeno,String memberEmail);
 
 
 
@@ -55,11 +55,11 @@ public interface RecipeStore {
 
     public List<Recipe> selectRecomandRecipe(SqlSessionTemplate session, String recipeCategory);
 
-    public int selectTotalCount(SqlSessionTemplate session, int recipeNo);
+    public int selectTotalCount(SqlSessionTemplate session, int recipeno);
 
     public String selectMemberName(String memberEmail, SqlSessionTemplate session);
 
-    public int selectMyRecipe(SqlSessionTemplate session, int recipeNo, String memberEmail);
+    public int selectMyRecipe(SqlSessionTemplate session, int recipeno, String memberEmail);
 
-    public String selectMemberEmail(SqlSessionTemplate session, int recipeNo);
+    public String selectMemberEmail(SqlSessionTemplate session, int recipeno);
 }

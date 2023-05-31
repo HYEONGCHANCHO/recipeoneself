@@ -133,12 +133,12 @@
             <ul class="common_sp_list_ul ea4" style="padding:0 0 0 8px;">
                 <li class="common_sp_list_li">
                     <div class="common_sp_thumb">
-                        <a th:href="@{'/recipe/recipeDetail/' + ${recipe.id}}" class="common_sp_link">
-                            <!-- <a th:href="@{'/recipe/recipeDetail/' + ${recipe.recipeNo}}" class="common_sp_link"></a> -->
+                        <a th:href="@{'/recipe/recipeDetail/' + ${recipe.recipeno}}" class="common_sp_link">
+                            <!-- <a th:href="@{'/recipe/recipeDetail/' + ${recipe.recipeno}}" class="common_sp_link"></a> -->
                         <span class="common_vod_label">
                             <!--<img src="https://recipe1.ezmember.co.kr/img/icon_vod.png"> 동영상 링크가 있을때-->
                         </span>
-                            <img th:src="${recipe.imgUrl}">
+                            <img th:src="${recipe.mainpicrename}">
                             <!-- <img th:src="${recipe.mainPicRename}"> -->
                         </a>
                     </div>
@@ -148,7 +148,7 @@
                         <div class="common_sp_caption_tit line2" th:text="${recipe.tag}">태그</div>
                         <div class="common_sp_caption_rv_name" style="display: inline-block; vertical-align: bottom;">
                             <a href="/profile/recipe.html?uid=plc0410">
-                                <img src="https://recipe1.ezmember.co.kr/cache/rpf/2021/08/17/c2bf6753df6ec72baeebdb68cc8298531.db976a8912bda41df24720e5cc6912d0">
+                                <img src="../img/food.jpg">
                                 <div class="common_sp_caption_tit line2" th:text="${recipe.writer}">작성자</div>
                             </a>
                         </div>

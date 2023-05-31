@@ -22,7 +22,7 @@ import javax.sql.DataSource;
 @Primary
 public class MybatisConfig {
 
-    @Bean
+/*    @Bean
     public DataSource dataSource() {
         return DataSourceBuilder.create()
                 .url("jdbc:oracle:thin:@localhost:1521:xe")
@@ -30,7 +30,7 @@ public class MybatisConfig {
                 .username("doodoo")
                 .password("doodoo")
                 .build();
-    }
+    }*/
 
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {

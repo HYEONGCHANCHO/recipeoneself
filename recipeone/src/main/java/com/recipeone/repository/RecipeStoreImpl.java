@@ -48,21 +48,21 @@ public class RecipeStoreImpl implements RecipeStore {
     }
 
     @Override
-    public Recipe selectOneRecipe(int recipeNo, SqlSessionTemplate session) {
-        int result = session.update("com.recipeone.repository.RecipeStore.countPlus", recipeNo);
-        Recipe recipe = session.selectOne("com.recipeone.repository.RecipeStore.selectOneRecipe", recipeNo);
+    public Recipe selectOneRecipe(int recipeno, SqlSessionTemplate session) {
+        int result = session.update("com.recipeone.repository.RecipeStore.countPlus", recipeno);
+        Recipe recipe = session.selectOne("com.recipeone.repository.RecipeStore.selectOneRecipe", recipeno);
         return recipe;
     }
 
     @Override
-    public List<RecipeStep> selectOneRecipeDetail(int recipeNo, SqlSessionTemplate session) {
-        List<RecipeStep> rsList = session.selectList("com.recipeone.repository.RecipeStore.selectOneRStep", recipeNo);
+    public List<RecipeStep> selectOneRecipeDetail(int recipeno, SqlSessionTemplate session) {
+        List<RecipeStep> rsList = session.selectList("com.recipeone.repository.RecipeStore.selectOneRStep", recipeno);
         return rsList;
     }
 
     @Override
-    public List<RecipeIngredient> selectOneRecipeIngredient(int recipeNo, SqlSessionTemplate session) {
-        List<RecipeIngredient> rmList = session.selectList("com.recipeone.repository.RecipeStore.selectOneRIngredient", recipeNo);
+    public List<RecipeIngredient> selectOneRecipeIngredient(int recipeno, SqlSessionTemplate session) {
+        List<RecipeIngredient> rmList = session.selectList("com.recipeone.repository.RecipeStore.selectOneRIngredient", recipeno);
         return rmList;
     }
 
@@ -106,11 +106,11 @@ public class RecipeStoreImpl implements RecipeStore {
             }
         }
 
-        int count =session.selectOne("com.recipeone.repository.RecipeStore.countIngredient",rmList.get(0).getRecipeNo());
+        int count =session.selectOne("com.recipeone.repository.RecipeStore.countIngredient",rmList.get(0).getRecipeno());
         if(count>rmList.size()) {
             for(int i =rmList.size(); i<count; i++) {
                 HashMap<String, Integer> paraMap = new HashMap<String, Integer>();
-                paraMap.put("recipeNo", rmList.get(0).getRecipeNo());
+                paraMap.put("recipeno", rmList.get(0).getRecipeno());
                 paraMap.put("ingredientOrder", i);
                 result = session.delete("com.recipeone.repository.RecipeStore.deleteOneIngredient",paraMap);
             }
@@ -137,8 +137,8 @@ public class RecipeStoreImpl implements RecipeStore {
 
     // 댓글 갯수 가져오기
     @Override
-    public int selectTotalCount(SqlSessionTemplate session, int recipeNo) {
-        int count = session.selectOne("com.recipeone.repository.RecipeStore.selectCommentCount",recipeNo);
+    public int selectTotalCount(SqlSessionTemplate session, int recipeno) {
+        int count = session.selectOne("com.recipeone.repository.RecipeStore.selectCommentCount",recipeno);
         return count;
     }
 
@@ -148,12 +148,12 @@ public class RecipeStoreImpl implements RecipeStore {
     }
 
     @Override
-    public int selectMyRecipe(SqlSessionTemplate session, int recipeNo, String memberEmail) {
+    public int selectMyRecipe(SqlSessionTemplate session, int recipeno, String memberEmail) {
         return 0;
     }
 
     @Override
-    public String selectMemberEmail(SqlSessionTemplate session, int recipeNo) {
+    public String selectMemberEmail(SqlSessionTemplate session, int recipeno) {
         return null;
     }
 }

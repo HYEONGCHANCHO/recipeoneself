@@ -7,15 +7,13 @@ import lombok.ToString;
 @Getter @Setter @ToString
 public class RecipeStep {
 	
-	public RecipeStep() {
-		
-	}
-	
-	private int recipeNo; // 레시피 번호
-	private int recipeOrder; // 레시피 순서 번호
-	private String recipeDescription; // 레시피 설명
-	private String recipePic; // 레시피 사진
-	private String recipePicRename; // 레시피 사진 재업로드시 이름
+	private int recipeno; // 레시피 번호
+	private int recipeorder; // 레시피 순서 번호
+	private String recipedescription; // 레시피 설명
+	private String recipepic; // 레시피 사진
+	private String recipepicrename; // 레시피 사진 재업로드시 이름
 
-	
+	public RecipeStep() {
+
+	}
 }

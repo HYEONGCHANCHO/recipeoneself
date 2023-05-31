@@ -5,32 +5,53 @@
 
 <mapper namespace="com.recipeone.repository.RecipeStore">
 
+	<resultMap id="memberResultMap" type="com.recipeone.entity.Member">
+		<id property="mid" column="mid" />
+		<result property="password" column="password" />
+		<result property="useremail" column="useremail" />
+		<result property="usernickname" column="usernickname" />
+		<result property="loginFailCount" column="loginFailCount" />
+		<result property="userfullname" column="userfullname" />
+		<result property="userphone" column="userphone" />
+		<result property="useraddr" column="useraddr" />
+		<result property="social" column="social" />
+		<result property="userlev" column="userlev" />
+	</resultMap>
+
+	<select id="selectOneByEmail" resultMap="memberResultMap">
+		SELECT * FROM MEMBER
+		WHERE USEREMAIL = #{useremail}
+	</select>
 
 
+	<resultMap type="com.recipeone.entity.Recipe" id="recipeResultMap">
+		<id property="recipeno" column="RECIPENO"/>
+		<result property="title" column="TITLE"/>
+		<result property="cooktime" column="COOKTIME"/>
+		<result property="nop" column="NOP"/>
+		<result property="mainpic" column="MAINPIC"/>
+		<result property="mainpicrename" column="MAINPICRENAME"/>
+		<result property="tag" column="TAG"/>
+		<result property="rctype" column="RCTYPE"/>
+		<result property="rcsituation" column="RCSITUATION"/>
+		<result property="rcingredient" column="RCINGREDIENT"/>
+		<result property="rcmeans" column="RCMEANS"/>
+		<result property="insertdate" column="INSERTDATE"/>
+		<result property="updatedate" column="UPDATEDATE"/>
+		<result property="rccount" column="RCCOUNT"/>
+		<result property="recipestatus" column="RECIPESTATUS"/>
+		<result property="writer" column="WRITER"/>
+	</resultMap>
 
+	<select id="selectRecipeNumber" resultMap="recipeResultMap">
+		select * from recipe where USEREMAIL = #{useremail} order by UPDATE_DATE DESC
+	</select>
 
-    <resultMap type="com.recipeone.entity.Recipe" id="recipeResultMap">
-        <id property="recipeNo" column="RECIPE_NO"/>
-        <result property="title" column="TITLE"/>
-        <result property="cooktime" column="COOKTIME"/>
-        <result property="nop" column="NOP"/>
-        <result property="mainPic" column="MAIN_PIC"/>
-        <result property="mainPicRename" column="MAIN_PIC_RENAME"/>
-        <result property="tag" column="TAG"/>
-        <result property="rcType" column="RC_TYPE"/>
-        <result property="rcSituation" column="RC_SITUATION"/>
-        <result property="rcIngredient" column="RC_INGREDIENT"/>
-        <result property="rcMeans" column="RC_MEANS"/>
-        <result property="insertDate" column="INSERT_DATE"/>
-		<result property="updateDate" column="UPDATE_DATE"/>
-        <result property="rcCount" column="RC_COUNT"/>
-		<result property="recipeStatus" column="RECIPE_STATUS"/>
-    </resultMap>
 
 
 	<resultMap type="com.recipeone.entity.RecipeIngredient" id="RecipeIngredientResultMap">
-		<id property="recipeNo"				column="RECIPE_NO" />
-		<result property="ingredientOrder" 	column="INGREDIENT_ORDER" />
+		<id property="recipeno"				column="RECIPENO" />
+		<result property="ingredientorder" 	column="INGREDIENTORDER" />
 		<result property="ingredient" 		column="INGREDIENT" />
 		<result property="amount" 			column="AMOUNT" />
 	</resultMap>
@@ -38,11 +59,11 @@
 
 
 	<resultMap type="com.recipeone.entity.RecipeStep" id="RecipeStepResultMap">
-		<id property="recipeNo" 				column="recipe_No" />
-		<result property="recipeOrder" 			column="RECiPE_ORDER" />
-		<result property="recipeDescription"	column="RECIPE_DESCRIPTION" />
-		<result property="recipePic" 			column="RECIPE_PICTURE" />
-		<result property="recipePicRename"		column="RECIPE_PIC_RENAME" />
+		<id property="recipeno" 				column="RECIPENO" />
+		<result property="recipeorder" 			column="RECIPEORDER" />
+		<result property="recipedescription"	column="RECIPEDESCRIPTION" />
+		<result property="recipepic" 			column="RECIPEPIC" />
+		<result property="recipepicrename"		column="RECIPEPICRENAME" />
 	</resultMap>
 
 
