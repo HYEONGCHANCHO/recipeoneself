@@ -15,40 +15,41 @@ import java.util.stream.IntStream;
 @SpringBootTest
 @Log4j2
 class MemberRepositoryTest {
-
     @Autowired
     private MemberRepository memberRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+// 3차병합때 수정한 부분
 
     @Test
-    public void insertMembers(){
-        IntStream.rangeClosed(1,10).forEach(i -> {
-            Member member = Member.builder()
-                    .mid("member"+i)
-                    .password(passwordEncoder.encode("1111"))
-                    .useremail("email"+i+"@aaa.bbb")
-                    .build();
-            member.addRole(MemberRole.USER);
+    @Commit
+    public void insertMembers() {
+        String email = "wjstktpghd2@naver.com";
+        String password = "156321Qaz!";
+        String nickname = "조형찬";
 
-            if (i>=5){
-                member.addRole(MemberRole.ADMIN);
-            }
-            memberRepository.save(member);
+        Member member = Member.builder()
+                .mid(email)
+                .password(passwordEncoder.encode(password))
+                .useremail(email)
+                .build();
 
+        member.addRole(MemberRole.USER);
+        member.setUsernickname(nickname);
 
-        });
-        Optional<Member> result = memberRepository.getWithRoles("member5");
+        // ADMIN 권한 부여
+        member.addRole(MemberRole.ADMIN);
 
-        Member member = result.orElseThrow();
+        memberRepository.save(member);
 
-        log.info(member);
-        log.info(member.getRoleSet());
+        Optional<Member> result = memberRepository.getWithRoles(email);
 
-        member.getRoleSet().forEach(memberRole -> log.info(memberRole.name()));
+        Member savedMember = result.orElseThrow();
+
+        log.info(savedMember);
+        log.info(savedMember.getRoleSet());
+
+        savedMember.getRoleSet().forEach(memberRole -> log.info(memberRole.name()));
     }
-
-
-
 }

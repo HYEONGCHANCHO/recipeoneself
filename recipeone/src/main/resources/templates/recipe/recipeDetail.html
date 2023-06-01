@@ -3,16 +3,23 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
-<th:block latout:fragment="css">
-  <style>
-
-
-  </style>
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        window.addEventListener('popstate', function(event) {
+        // 이전 페이지의 URL이 저장되어 있다면 해당 URL로 이동
+        if (document.referrer !== '') {
+            window.location.href = document.referrer;
+        } else {
+            // 이전 페이지의 URL이 없는 경우, 원하는 URL로 이동
+            // 여기에 원하는 URL을 지정해주세요.
+            window.location.href = history.back();
+        }
+    });
+    </script>
 </th:block>
-
 <div layout:fragment="content">
   <div class="view" >
-    <img id="main_thumbs"  th:src="${recipe.mainPic}" th:alt="${recipe.title}">
+    <img id="main_thumbs"  th:src="@{'/recipeImg/'+${recipe.mainpicrename}}" th:alt="${recipe.title}">
     <h3 th:text="${recipe.title}">Recipe Title</h3>
 
     <h3>요리 정보</h3>
@@ -35,11 +42,13 @@
     <h3>요리 순서</h3>
       <ul>
           <th:block th:each="rs : ${rsList}">
-              <li th:text="'순서'+${rs.recipeOrder}+': '+${rs.recipeDescription}"></li>
+              <li th:text="'순서'+${rs.recipeorder}+': '+${rs.recipedescription}"></li>
               <div class="step-image" >
-                  <th:block th:each="recipeImg : ${rs.recipePicRename}" >
+                  <th:block th:each="recipeImg : ${rs.recipepicrename}" >
                       <!--            <img th:src="@{'/images/item/' + ${recipeImg.imgUrl}}" th:alt="Step Image">-->
-                      <img th:src="@{'file:///c:/recipe/item/recipeImg/' + ${recipeImg}}" >
+                      <!--<img th:src="@{'file:///c:/recipe/item/recipeImg/' + ${recipeImg}}" >-->
+                      <img th:src="@{'/recipeImg/'+ ${recipeImg}}">
+
                   </th:block>
               </div>
           </th:block>
@@ -50,9 +59,19 @@
     <th:block th:each="recipe : ${recipe}">
       <p th:text="${recipe.tag}"></p>
     </th:block>
-<!--    <div th:with="user=${#authentication.principal}">
-      <a th:if="${user != null && user.username == dto.writer}" th:href="">modify</a>
-    </div>-->
+
+    <th:block th:each="recipe : ${recipe}">
+    <div th:with="user=${#authentication.principal}">
+        <div th:text="${user}"></div>
+        <div th:text="${recipe}"></div>
+
+        <a th:href="@{'/recipe/recipeModify/' + ${recipe.recipeno}}">
+        <button type="submit" style="width: 55px; height: 30px; " th:text="수정" th:if="${user.usernickname.equals(recipe.writer)}">modify</button>
+        </a>
+    </div>
+    </th:block>
+
+
   </div>
 </div>
 

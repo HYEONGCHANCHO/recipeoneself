@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<!-- 썸네일 자바스크립트 추가 -->
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+
+	function loadFile(event) {
+		var output = document.getElementById('output');
+		output.src = URL.createObjectURL(event.target.files[0]);
+		output.onload = function() {
+			URL.revokeObjectURL(output.src) // free memory
+		};
+		imgCheck()
+	};
+
+	//// 이미지파일 체크 시작 ////
+		var imgFile = document.querySelectorAll('.isFile');
+		var fileForm = /(.*?)\.(jpg|jpeg|png|gif|bmp)$/i;
+		var fileSize;
+		function checkMainPic() {
+			if (imgFile[0].value == "") {
+				alert("대표사진은 필수입니다!");
+			}
+		};
+
+
+
+	var detailForm =document.querySelector('#REdetail');
+	var addplace =document.querySelector('#addplace');
+	var count = 3;
+	function addDe(){
+		if(count<=10){
+		addplace.appendChild(detailForm.cloneNode(true));
+		document.querySelectorAll('.REdetailC')[document.querySelectorAll('.REdetailC').length-1].childNodes[3].childNodes[1].childNodes[1].value="";
+		document.querySelectorAll('.REdetailC')[document.querySelectorAll('.REdetailC').length-1].childNodes[8].childNodes[1].childNodes[1].childNodes[3].childNodes[1].src='';
+
+		count++;
+		}
+	}
+
+	function removeDe(){
+	var detailFormClass =document.querySelectorAll('.REdetailC');
+		if(count>3){
+			 detailFormClass[detailFormClass.length-1].remove();
+		count--;
+		}
+	}
+
+	function imgView(obj) {
+
+			var imgid = obj.previousElementSibling;
+
+			imgid.src = URL.createObjectURL(event.target.files[0]);
+			imgid.onload = function() {
+				URL.revokeObjectURL(imgid.src) // free memory
+			}
+			imgCheck()
+		};
+
+	function imgCheck() {
+			for (var i = 0; i < imgFile.length; i++) {
+				if (imgFile[i].value != "") {
+
+					if (!imgFile[i].value.match(fileForm)) {
+						alert("이미지 파일만 업로드 가능");
+						imgFile[i].value = "";
+					}
+				}
+			}
+		};
+
+	function mainPicDel() {
+			console.log("Button clicked!");
+			var imgFile = document.getElementById("imgFile");
+			imgFile.value = "";
+			output.removeAttribute('src');
+	}
+
+	function PicDel(obj) {
+		var imgfiles = obj.nextElementSibling.childNodes[1];
+		var imgfilesinput = obj.nextElementSibling.childNodes[3];
+		imgfilesinput.value = "";
+		imgfiles.removeAttribute('src');
+		}
+	//재료 유효성 검사//
+		var check = /,/
+		function materialCheck(obj){
+				if(check.test(obj.value)){
+					alert(",는 사용할수 없습니다.");
+					obj.value="";
+			}
+		}
+    </script>
+</th:block>
+
+<div layout:fragment="content">
+    <div class="container">
+        <form role="form" method="post" enctype="multipart/form-data" th:object="${recipe}">
+
+            <input type="hidden" name="recipeno" th:value="${recipe.recipeno}">
+            <p class="h1">레시피 수정</p><br />
+
+            <h3 class="subheading">썸네일 사진선택</h3>
+            <div class="row col-md-4 m-2 "> <!-- 이미지input + 이미지 삭제 버튼 -->
+                <input type="file" id="imgFile" style="display: none;">
+                <svg class="delButton" width="40" height="40" onclick="mainPicDel()">
+                    <circle cx="20" cy="20" r="10" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
+                    <text x="50%" y="50%" style="font-size: 15px;" dominant-baseline="middle" text-anchor="middle">X</text>
+                </svg>
+                <label class="input-file-button float-md-start col-md-12"   for="input-file">
+                    <img id="output" class="mx-auto " width="400px" height="270px" style=" border-radius: 10px;" th:src="'/recipeImg/' + ${recipe.mainpicrename }">
+                </label>
+                <input type="file" id="input-file" style="display: none" name="mainPicture" class="isFile" onchange="loadFile(event)"/>
+                <!-- 수정 전 이미지이름 전송 -->
+                <input type="hidden" name="mainpicrename" th:value="${recipe.mainpicrename}">
+                <input type="hidden" name="mainpic" value="${recipe.mainpic }">
+            </div>
+
+            <h3 class="subheading">레시피 제목&nbsp;&nbsp;&nbsp;</h3>
+            <div class="input-group">
+                <input type="text" name="title" th:value="${recipe.title}" placeholder="예) 미역국 끓이기" style="width:610px;" ><br />
+            </div>
+
+            <h3 class="subheading">요리순서</h3>
+            <div class="input-group">
+                <div class="recipeDetail container-md row" id="article2-area"  th:each="rStep : ${rsList}">
+                    <!-- 여기서부터 레시피 설명-->
+
+                    <!-- 요리순서1 시작-->
+                    <div id="REdetail"  class="REdetailC">
+                        <!-- 레시피 설명역역 -->
+                        <div class="row container-md p-3 col-md-6 p-2">
+                            <div class="form-floating col-md-12 p-0 pt-3">
+							<textarea class="form-control" placeholder="설명을 입력하세요"
+                                      id="floatingTextarea3" name="recipedescription" style="height: 250px"></textarea>
+                            </div>
+                            <!-- 설명에 쉼표를 넣었을때 배열로 만들지 않기위한 더미 value -->
+                            <input type="text" name="recipedescription" value="ab22bb" style="display: none">
+                        </div><!-- 레시피 설명영역 종료 -->
+                        <!-- 이미지 미리보기 이미지 파일 -->
+                        <div class="col-md-6 p-2">
+                            <div class="col-md-5 container-md align-items-center m-0">
+                                <div class="row col-md-4  align-items-center">
+                                    <svg class="delButton" width="40" height="40" onclick="PicDel(this)">
+                                        <circle cx="20" cy="20" r="10" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
+                                        <text x="50%" y="50%" style="font-size: 15px;" dominant-baseline="middle" text-anchor="middle">X</text>
+                                    </svg>
+                                    <label class="input-file-button float-md-start">
+                                        <img class="detailImg mx-auto" width="400px" height="270px"
+                                             style="background-color: gray; border-radius: 10px;">
+                                        <input type="file" name="recipePicture" class="isFile"
+                                               style="display: none" accept="image/jpeg, image/png, image/jpg"
+                                               onchange="imgView(this);">
+                                    </label>
+                                </div>
+                            </div>
+                        </div><!-- 이미지 영역 종료 -->
+                    </div>
+                    <!-- 요리순서1 종료-->
+
+                    <!-- 요리순서2 시작 -->
+                    <div id="oneStep-area" class="row border-top">
+                        <!-- 레시피 설명영역 -->
+                        <div class="container-md p-3  col-md-6 p-2">
+                            <div class="form-floating col-md-12 p-0 pt-3">
+								<textarea class="form-control" name="recipedescription"  placeholder="설명을 입력하세요"
+                                          id="floatingTextarea1" style="height: 250px" required="required"></textarea>
+                            </div>
+                            <!-- 설명에 쉼표를 넣었을때 배열로 만들지 않기위한 더미 value -->
+                            <input type="text" name="recipedescription" value="ab22bb" style="display: none">
+                        </div><!-- 레시피 설명영역종료 -->
+
+                        <!-- 이미지 미리보기 이미지 파일 -->
+                        <div class="col-md-6 p-2">
+                            <div class="col-md-5 col-sm-12 container-md align-items-center m-0">
+                                <div class="row col-md-4 col-sm-12  align-items-center">
+                                    <svg class="delButton" width="40" height="40" onclick="PicDel(this)">
+                                        <circle cx="20" cy="20" r="10" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
+                                        <text x="50%" y="50%" style="font-size: 15px;" dominant-baseline="middle" text-anchor="middle">X</text>
+                                    </svg>
+                                    <label class="input-file-button float-md-start">
+                                        <img class="detailImg mx-auto" width="400px" height="270px"
+                                             style="background-color: gray; border-radius: 10px;">
+                                        <input type="file" name="recipePicture" class="isFile"
+                                               style="display: none" accept="image/jpeg, image/png, image/jpg"
+                                               onchange="imgView(this);">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 요리순서1 종료 -->
+
+                    <!-- 요리순서3 시작 -->
+                    <div class="row">
+                        <!-- 레시피 설명역역 -->
+                        <div class="container-md p-3 col-md-6 p-2">
+                            <div class="form-floating col-md-12 p-0 pt-3">
+							<textarea class="form-control" placeholder="설명을 입력하세요"
+                                      id="floatingTextarea2" name="recipedescription"  style="height: 250px"></textarea>
+                            </div>
+                            <!-- 설명에 쉼표를 넣었을때 배열로 만들지 않기위한 더미 value -->
+                            <input type="text" name="recipedescription" value="ab22bb" style="display: none">
+                        </div><!-- 레시피 설명영역 종료 -->
+                        <!-- 이미지 미리보기 이미지 파일 -->
+                        <div class="col-md-6 p-2">
+                            <div class="col-md-5 container-md align-items-center m-0">
+                                <div class="row col-md-4  align-items-center">
+                                    <svg class="delButton" width="40" height="40" onclick="PicDel(this)">
+                                        <circle cx="20" cy="20" r="10" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
+                                        <text x="50%" y="50%" style="font-size: 15px;" dominant-baseline="middle" text-anchor="middle">X</text>
+                                    </svg>
+                                    <label class="input-file-button float-md-start">
+                                        <img class="detailImg mx-auto" width="400px" height="270px"
+                                             style="background-color: gray; border-radius: 10px;">
+                                        <input type="file" name="recipePicture" class="isFile"
+                                               style="display: none" accept="image/jpeg, image/png, image/jpg"
+                                               onchange="imgView(this);">
+                                    </label>
+                                </div>
+                            </div>
+                        </div><!-- 이미지 영역 종료 -->
+                    </div>
+                    <!-- 요리순서3 종료 -->
+
+                    <span id="addplace"></span>
+                </div>
+                <svg class="addBtn" width="50" height="50" onclick="addDe()" >
+                    <circle cx="25" cy="25" r="15" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
+                    <text x="50%" y="50%" style="font-size: 20px; font-weight: bold;" dominant-baseline="middle" text-anchor="middle">+</text>
+                </svg>
+                <svg class="removeBtn" width="50" height="50" onclick="removeDe()">
+                    <circle cx="25" cy="25" r="15" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
+                    <text x="50%" y="50%" style="font-size: 25px; font-weight: bold;" dominant-baseline="middle" text-anchor="middle">-</text>
+                </svg>
+            </div> <!-- 요리순서 END -->
+
+
+            <h3 class="subheading">카테고리</h3>
+            <div class="input-group">
+                <select name="rctype" id="rctype" text="종류별">
+                    <option value="" >종류별</option>
+                    <option value="56">메인반찬</option>
+                    <option value="54">국/탕</option>
+                    <option value="55">찌개</option>
+                    <option value="60">디저트</option>
+                    <option value="53">면/만두</option>
+                    <option value="52">밥/죽/떡</option>
+                    <option value="61">퓨전</option>
+                    <option value="57">김치/젓갈/장류</option>
+                    <option value="58">양념/소스/잼</option>
+                    <option value="65">양식</option>
+                    <option value="64">샐러드</option>
+                    <option value="68">스프</option>
+                    <option value="66">빵</option>
+                    <option value="69">과자</option>
+                    <option value="59">차/음료/술</option>
+                    <option value="62">기타</option>
+                    <option value="63">밑반찬</option>
+                </select>
+                <select name="rcsituation" id="rcsituation" text="상황별">
+                    <option value="" >상황별</option>
+                    <option value="12">일상</option>
+                    <option value="18">초스피드</option>
+                    <option value="13">손님접대</option>
+                    <option value="19">술안주</option>
+                    <option value="21">다이어트</option>
+                    <option value="15">도시락</option>
+                    <option value="43">영양식</option>
+                    <option value="17">간식</option>
+                    <option value="45">야식</option>
+                    <option value="20">푸드스타일링</option>
+                    <option value="46">해장</option>
+                    <option value="44">명절</option>
+                    <option value="14">이유식</option>
+                    <option value="22">기타</option>
+                </select>
+                <select name="rcmeans" id="rcmeans" text="방법별">
+                    <option value="" >방법별</option>
+                    <option value="6">볶음</option>
+                    <option value="1">끓이기</option>
+                    <option value="7">부침</option>
+                    <option value="36">조림</option>
+                    <option value="41">무침</option>
+                    <option value="42">비빔</option>
+                    <option value="8">찜</option>
+                    <option value="10">절임</option>
+                    <option value="9">튀김</option>
+                    <option value="38">삶기</option>
+                    <option value="67">굽기</option>
+                    <option value="39">데치기</option>
+                    <option value="37">회</option>
+                    <option value="11">기타</option>
+                </select>
+                <select name="rcingredient" id="rcingredient"  text="재료별">
+                    <option value="" >재료별</option>
+                    <option value="70">소고기</option>
+                    <option value="71">돼지고기</option>
+                    <option value="72">닭고기</option>
+                    <option value="23">육류</option>
+                    <option value="28">채소류</option>
+                    <option value="24">해물류</option>
+                    <option value="50">달걀/유제품</option>
+                    <option value="33">가공식품류</option>
+                    <option value="47">쌀</option>
+                    <option value="32">밀가루</option>
+                    <option value="25">건어물류</option>
+                    <option value="31">버섯류</option>
+                    <option value="48">과일류</option>
+                    <option value="27">콩/견과류</option>
+                    <option value="26">곡류</option>
+                    <option value="34">기타</option>
+                </select>
+            </div><br /><!-- 카테고리 END  -->
+
+            <h3 class="subheading">요리정보</h3>
+            <div class="input-group">
+                <span>인원 </span>
+                <select name="nop" id="nop"  text="인원">
+                    <option value="" >인원선택</option>
+                    <option value="1">1인분</option>
+                    <option value="2">2인분</option>
+                    <option value="3">3인분</option>
+                    <option value="4">4인분</option>
+                    <option value="5">5인분</option>
+                    <option value="6">6인분이상</option>
+                </select>
+                <span>시간 </span>
+                <select name="cooktime" id="cooktime"  text="요리시간">
+                    <option value="" >시간선택</option>
+                    <option value="5">5분이내</option>
+                    <option value="10">10분이내</option>
+                    <option value="15">15분이내</option>
+                    <option value="20">20분이내</option>
+                    <option value="30">30분이내</option>
+                    <option value="60">60분이내</option>
+                    <option value="90">90분이내</option>
+                    <option value="120">2시간이내</option>
+                    <option value="999">2시간이상</option>
+                </select>
+            </div><br /> <!-- 요리정보 END -->
+
+            <h3 class="subheading">재료</h3>
+            <th:block th:each="rmList : ${rmList}">
+            <div class="container-md align-items-center" >
+                <div class=" col-md-12 m-0 p-0">
+                    <div class="row col-md-6 col-12 float-md-start p-3 me-1">
+                        <div class="form-floating col-6">
+                            <input type="text" class="form-control" maxlength="10", th:value="${rmList.get(0).ingredient}"
+                                   name="ingredient" onblur="materialCheck(this);" placeholder="재료명">
+                        </div>
+                        <div class="form-floating col-6">
+                            <input type="text" class="form-control" maxlength="10", th:value="${rmList.get(0).amount}"
+                                   name="amount" onblur="materialCheck(this);" placeholder="재료수량">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container-md align-items-center" >
+                <div class=" col-md-12 m-0 p-0">
+                    <div class="row col-md-6 col-12 float-md-start p-3 me-1">
+                        <div class="form-floating col-6">
+                            <input type="text" class="form-control" maxlength="10", th:value="${rmList.get(1).ingredient}"
+                                   name="ingredient" onblur="materialCheck(this);" placeholder="재료명">
+                        </div>
+                        <div class="form-floating col-6">
+                            <input type="text" class="form-control" maxlength="10", th:value="${rmList.get(1).amount}"
+                                   name="amount" onblur="materialCheck(this);" placeholder="재료수량">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </th:block>
+
+            <h3 class="subheading" >태그&nbsp;&nbsp;&nbsp;</h3>
+            <div class="input-group">
+                <input type="text" name="tag" placeholder="#감자 #춘식이" style="width:610px;", th:value="${recipe.tag}"><br />
+            </div><br />
+
+            <!--	    <div class="regi_btm" th:if="${#strings.isEmpty(recipe.id)}">
+                        <button th:formaction="@{/recipe/recipeForm}" id="savebutton" type="submit" class="btn-lg btn-primary">저장</button>
+                        <button type="button" onclick="history.back();" class="btn-lg btn-default">취소</button>
+                    </div>
+                    <div th:unless="${#strings.isEmpty(recipeFormDto.id)}" style="text-align: center">
+                      <button th:formaction="@{'/recipe/recipeModify/' + ${recipeFormDto.id} }" type="submit" class="btn btn-primary">수정</button>
+                    </div>-->
+            <article id="recipe-button">
+                <div class="col-md-12 row ">
+                    <div class="col-md-6">
+                        <button th:formaction="@{/recipe/recipeForm}" type="submit" value="등록" onclick="checkMainPic();" class="btn-lg btn-primary" />
+                    </div>
+                    <div class="col-md-6">
+                        <button class="button btn btn-outline-primary" type="button" onclick="history.back();">취소</button>
+                    </div>
+                </div>
+            </article><!-- 버튼영역 종료 -->
+        </form>
+    </div> <!-- container END -->
+</div> <!-- content END -->
+
+
+
+</html>

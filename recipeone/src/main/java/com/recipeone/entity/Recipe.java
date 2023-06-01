@@ -15,12 +15,11 @@ public class Recipe {
 	
 	@Id
 	private int recipeno; // 레시피 아이디
-	//private String writer; // 사용자 아이디
 	private String title; // 레시피 제목
 	private String cooktime; // 조리시간 (요리정보)
 	private String nop; // @인분 (요리정보)
 	private String mainpic; // 썸네일 이미지
-	private String mainpicrename; // 썸네일 이미지 수정 후 이름
+	private String mainpicrename; // 썸네일 이미지 업로드 날짜 이름
 	private String tag; // 태그
 	private String rctype; // 카테고리 종류별
 	private String rcsituation; // 카테고리 상황별
@@ -29,16 +28,16 @@ public class Recipe {
 	//private String rcTheme; // 카테고리 테마별
 	private Date insertdate; // 레시피 최초 입력 시간
 	private Date updatedate; // 레시피 업데이트 시간
-	private Integer rccount; // 레시피 조회수
-	private String recipestatus;
-	private String writer;
+	private int rccount; // 레시피 조회수
+	private String recipestatus; // 레시피 삭제 여부
+	private String writer; // 사용자 닉네임
 
 	public Recipe() {
 	}
 
 	public Recipe(int recipeno, String title, String cooktime, String nop, String mainpic,
 			String mainpicrename, String tag, String rctype, String rcsituation, String rcingredient,
-			String rcmeans, Date insertdate, Date updatedate, Integer rccount, String recipestatus, String writer) {
+			String rcmeans, Date insertdate, Date updatedate, int rccount, String recipestatus, String writer) {
 		this.recipeno = recipeno;
 		//this.writer = writer;
 		this.title = title; 

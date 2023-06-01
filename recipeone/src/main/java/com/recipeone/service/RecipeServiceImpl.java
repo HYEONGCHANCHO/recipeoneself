@@ -81,7 +81,6 @@ public class RecipeServiceImpl implements RecipeService {
 
         List<String> titleList = recipeRepository.findtitlelist();
         List<String> taglist = recipeRepository.findtaglist();
-//        List<String> taglist = new ArrayList<>(Arrays.asList("a", "b")); //레시피 등록할 때 태그 들어가면 삭제
         double similarityRatio = 0.5;
         log.info("titleList======" + titleList);
         log.info("taglist======" + taglist);
