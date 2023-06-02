@@ -5,6 +5,7 @@ import com.recipeone.dto.MemberMofifyDTO;
 import com.recipeone.entity.Member;
 import com.recipeone.entity.MemberRole;
 import com.recipeone.repository.MemberRepository;
+import com.recipeone.repository.RecipeRepository;
 import com.recipeone.security.dto.MemberSecurityDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -31,6 +32,7 @@ public class MemberServiceImpl implements MemberService {
     private final ModelMapper modelMapper;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RecipeRepository recipeRepository;
 
     @Override
     public void join(MemberJoinDTO memberJoinDTO) throws MidExistException, UserNickNameExistException, UserEmailExistException, ConfirmedPasswordException { //문제없는 코드
@@ -56,7 +58,7 @@ public class MemberServiceImpl implements MemberService {
         log.info(member.getRoleSet());
     }
 
-    @Override //수정이 필요함 닉네임 수정 안됨 비밀번호는 될듯?
+    @Override
     public void socialmodify(MemberMofifyDTO memberMofifyDTO) throws MidExistException, UserNickNameExistException, UserEmailExistException, ConfirmedPasswordException { //문제없는 코드
         Optional<Member> result = memberRepository.memberset(memberMofifyDTO.getMid());
         if (result.isEmpty()) {
@@ -74,6 +76,9 @@ public class MemberServiceImpl implements MemberService {
         if (!oldusernickname.equals(usernickname) && memberRepository.findByUserNickName(usernickname).isEmpty()) { memberRepository.updateusernickname(usernickname, mid);}
         password = passwordEncoder.encode(password);
         memberRepository.updatePassword(password, mid);
+
+        //레시피 작성자 활동명 수정
+        recipeRepository.updaterecipeusernickname(usernickname,oldusernickname);
 
         MemberSecurityDTO memberSecurityDTO = (MemberSecurityDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         memberSecurityDTO.setUsernickname(usernickname);
@@ -104,6 +109,9 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.updateuserfullname(userfullname, mid);
         memberRepository.updateuserphone(userphone, mid);
         memberRepository.updatemoddate(now, mid);
+        
+        //레시피 작성자 활동명 수정
+        recipeRepository.updaterecipeusernickname(usernickname,oldusernickname);
 
         // memberSecurityDTO 업데이트
         MemberSecurityDTO memberSecurityDTO = (MemberSecurityDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

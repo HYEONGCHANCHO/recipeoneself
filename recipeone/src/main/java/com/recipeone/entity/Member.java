@@ -1,8 +1,10 @@
 package com.recipeone.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,6 +29,7 @@ public class Member extends BaseEntity2 {
     private String useraddr;
     private boolean social;
     private long userlev;
+    private LocalDateTime loginlog;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default

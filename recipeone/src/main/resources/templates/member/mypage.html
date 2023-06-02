@@ -53,6 +53,10 @@
         <input type="text" name="usernickname" class="form-control" placeholder="입력값 없음 수정필요"
                th:value="${#authentication.principal.usernickname}" readonly>
     </div>
+    <div>레벨
+        <input type="text" name="userlev" class="form-control" 
+               th:value="${#authentication.principal.userlev}" readonly>
+    </div>
 <div> 전화 번호
         <input type="text" name="userphone" class="form-control" placeholder="입력값 없음 수정필요"
                th:value="${#authentication.principal.userphone}" readonly>
@@ -67,5 +71,10 @@
     <form method="get" action="/member/passwordmodify">
         <button type="submit">비밀 번호 수정</button>
     </form>
+    <form method="get" action="/member/myregist">
+        <input type="hidden" name="usernickname" th:value="${#authentication.principal.usernickname}">
+        <button type="submit">내가 쓴 글 보기</button>
+    </form>
+
 
 </div>

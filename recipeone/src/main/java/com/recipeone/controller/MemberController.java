@@ -1,12 +1,16 @@
 package com.recipeone.controller;
 
+import com.recipeone.dto.ListRecipeDto;
 import com.recipeone.dto.MemberJoinDTO;
 import com.recipeone.dto.MemberMofifyDTO;
 import com.recipeone.entity.Member;
+import com.recipeone.entity.Recipe;
 import com.recipeone.repository.MemberRepository;
+import com.recipeone.repository.RecipeRepository;
 import com.recipeone.security.dto.MemberSecurityDTO;
 import com.recipeone.service.MemberService;
 import com.recipeone.service.MemberServiceImpl;
+import com.recipeone.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +22,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -29,9 +36,14 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    private final MemberRepository memberRepository;
+
     private final PasswordEncoder passwordEncoder;
 
-    private final MemberRepository memberRepository;
+    private final RecipeRepository recipeRepository;
+
+    private final RecipeService recipeService;
+
 
     @GetMapping("/login") //그냥 /login으로 요청왔을 때
     public void loginGET(String error, String logout) {
@@ -177,6 +189,29 @@ public class MemberController {
         }
         return result;
     }
+
+    // 4차 병합 부분
+    @PostMapping(value = "/myregist")
+    public String myregistPost() {
+        return "member/myregist";
+    }
+
+   // 4차 병합 부분
+    @GetMapping(value = "/myregist" )
+    public String myregistGet(@RequestParam("usernickname") String usernickname, Model model) {
+        List<Recipe> recipeList = recipeRepository.findRecipeByUserNickname(usernickname);
+        List<ListRecipeDto> listRecipeDtoList = new ArrayList<>();
+        for (Recipe recipe : recipeList) {
+            ListRecipeDto listRecipeDto = new ListRecipeDto(recipe.getRecipeno(), recipe.getTitle(), recipe.getMainpicrename(), recipe.getTag(), recipe.getWriter());
+            listRecipeDtoList.add(listRecipeDto);
+        }
+        model.addAttribute("recipe", listRecipeDtoList);
+        return "member/myregist";
+    }
+
+
+
+
 
 
 }

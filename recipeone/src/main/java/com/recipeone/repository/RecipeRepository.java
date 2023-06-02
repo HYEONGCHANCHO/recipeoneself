@@ -1,10 +1,13 @@
 package com.recipeone.repository;
 import java.util.*;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.recipeone.entity.Recipe;
+import org.springframework.transaction.annotation.Transactional;
+
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
 
@@ -20,7 +23,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
 	@Query(value ="select r.id from Recipe r where r.title IN :recommendedKeywords or r.tag IN :recommendedKeywords", nativeQuery = true)
 	List<Integer> findRecipeIdByrecommendedKeywords(@Param("recommendedKeywords") List<String> recommendedKeywords);
 
-//	진행중
+//	4차 병합 수정
 
 	@Query(value ="SELECT * FROM Recipe r " +
 			"WHERE (r.title IN :recommendedKeywords OR r.tag IN :recommendedKeywords) " +
@@ -31,8 +34,8 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
 	List<Recipe> findRecipesByFilterSearched(@Param("recommendedKeywords") List<String> recommendedKeywords,
 											 @Param("rctype") String rctype,
 											 @Param("rcsituation") String rcsituation,
-											 @Param("rcmeans") String rcmeans,
-											 @Param("rcingredient") String rcingredient);
+											 @Param("rcingredient") String rcingredient,
+											 @Param("rcmeans") String rcmeans);
 
 	@Query(value ="SELECT r.id FROM Recipe r " +
 			"WHERE (r.title IN :recommendedKeywords OR r.tag IN :recommendedKeywords) " +
@@ -43,8 +46,19 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
 	List<Integer> findRecipeIdByfilterSearched(@Param("recommendedKeywords") List<String> recommendedKeywords,
 											   @Param("rctype") String rctype,
 											   @Param("rcsituation") String rcsituation,
-											   @Param("rcmeans") String rcmeans,
-											   @Param("rcingredient") String rcingredient);
+											   @Param("rcingredient") String rcingredient,
+											   @Param("rcmeans") String rcmeans);
+
+	@Modifying
+	@Transactional
+	@Query(value ="update Recipe r set r.writer = :usernickname where r.writer = :oldusernickname", nativeQuery = true)
+	void updaterecipeusernickname(@Param("usernickname")String usernickname,@Param("oldusernickname") String oldusernickname);
+
+	@Query(value ="SELECT * FROM Recipe r WHERE r.writer = :usernickname", nativeQuery = true)
+	List<Recipe> findRecipeByUserNickname(@Param("usernickname") String usernickname);
+
+	@Query(value ="SELECT COUNT(r.recipeno) FROM Recipe r WHERE r.writer = :usernickname", nativeQuery = true)
+	int countByUserNickname(@Param("usernickname") String usernickname);
 
 
 }

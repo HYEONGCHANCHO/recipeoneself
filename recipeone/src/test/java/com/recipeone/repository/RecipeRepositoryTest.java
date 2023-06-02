@@ -38,6 +38,7 @@ public class RecipeRepositoryTest {
 			recipe.setCooktime(random.nextInt(60) + " minutes");
 			recipe.setNop(random.nextInt(4) + 1 + " servings");
 			recipe.setMainpic("thumbnail_" + i + ".jpg");
+			recipe.setRccount(0);
 			recipe.setTag("tag" + random.nextInt(10));
 			recipe.setRctype(categoryTypes[random.nextInt(categoryTypes.length)]);
 			recipe.setRcsituation(categorySituations[random.nextInt(categorySituations.length)]);

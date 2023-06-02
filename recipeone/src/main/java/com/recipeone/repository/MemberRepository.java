@@ -70,6 +70,11 @@ public interface MemberRepository extends JpaRepository<Member,String> {
     @Query("update Member m set m.moddate = :moddate where m.mid = :mid")
     void updatemoddate(@Param("moddate") LocalDateTime moddate, @Param("mid") String mid);
 
+    @Modifying
+    @Transactional
+    @Query("update Member m set m.userlev = :userlev where m.usernickname = :usernickname")
+    void updateuserlev(@Param("userlev") Long userlev, @Param("usernickname") String usernickname);
+
 
 
 }

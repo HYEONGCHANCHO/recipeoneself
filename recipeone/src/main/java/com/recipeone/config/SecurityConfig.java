@@ -1,5 +1,6 @@
 package com.recipeone.config;
 
+import com.recipeone.repository.MemberLogRepository;
 import com.recipeone.repository.MemberRepository;
 import com.recipeone.security.CustomUserDetailService;
 import com.recipeone.security.handler.*;
@@ -39,6 +40,8 @@ public class SecurityConfig  {
     private final DataSource dataSource;
     private final CustomUserDetailService userDetailService;
     private final MemberRepository memberRepository;
+    private final MemberLogRepository memberlogRepository;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -102,7 +105,7 @@ public class SecurityConfig  {
 
     @Bean //소셜 로그인 성공
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
-        return new CustomSocialLoginSuccessHandler(passwordEncoder());
+        return new CustomSocialLoginSuccessHandler(passwordEncoder(),memberRepository,memberlogRepository);
     }
 
     @Bean//일반 로그인 실패
@@ -111,7 +114,7 @@ public class SecurityConfig  {
     }
     @Bean //일반 로그인 성공
     public AuthenticationSuccessHandler customLoginSuccessHandler() {
-        return new CustomLoginSuccessHandler(memberRepository);
+        return new CustomLoginSuccessHandler(memberRepository,memberlogRepository);
     }
 
 
