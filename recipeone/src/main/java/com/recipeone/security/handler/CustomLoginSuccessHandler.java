@@ -30,17 +30,19 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         HttpSession session = request.getSession();
 
         Optional<Member> optionalMember = memberRepository.findById(username);
-        Optional<MemberLoginlog> optionalMemberLoginlog = memberlogRepository.findById(username);
         Member member = null;
-        MemberLoginlog memberLoginlog = null;
         if (optionalMember.isPresent()) {
             member = optionalMember.get();
             member.setLoginFailCount(0);
             member.setLoginlog(LocalDateTime.now());
-            memberLoginlog.setMid(username);
-            memberLoginlog.setLoginlog(LocalDateTime.now());
-            memberRepository.save(member);
+
+            MemberLoginlog memberLoginlog = MemberLoginlog.builder()
+                    .mid(username)
+                    .loginlog(LocalDateTime.now())
+                    .build();
             memberlogRepository.save(memberLoginlog);
+
+            memberRepository.save(member);
         }
         session.setAttribute("loginFailCount", member.getLoginFailCount());
 

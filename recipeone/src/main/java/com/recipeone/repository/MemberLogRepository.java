@@ -10,11 +10,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
-public interface MemberLogRepository extends JpaRepository<MemberLoginlog,String> {
+public interface MemberLogRepository extends JpaRepository<MemberLoginlog,Long> {
 
 
-  Optional<MemberLoginlog> findById(String mid);
+  Optional<MemberLoginlog> findByMid(String mid);
+  List<MemberLoginlog> findAll();
 
 }

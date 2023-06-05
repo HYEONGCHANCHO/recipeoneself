@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Log4j2
@@ -32,21 +35,12 @@ public class CustomSocialLoginSuccessHandler implements AuthenticationSuccessHan
         MemberSecurityDTO memberSecurityDTO = (MemberSecurityDTO) authentication.getPrincipal();
         String encodedPw = memberSecurityDTO.getPassword();
 
-        Optional<Member> optionalMember = memberRepository.findById(memberSecurityDTO.getMid());
-        Optional<MemberLoginlog> optionalMemberLoginlog = memberlogRepository.findById(memberSecurityDTO.getMid());
+        MemberLoginlog memberLoginlog = MemberLoginlog.builder()
+                .mid(memberSecurityDTO.getMid())
+                .loginlog(LocalDateTime.now())
+                .build();
+        memberlogRepository.save(memberLoginlog);
 
-        Member member = null;
-        MemberLoginlog memberLoginlog = null;
-
-        if (optionalMember.isPresent()) {
-            member = optionalMember.get();
-            member.setLoginlog(LocalDateTime.now());
-            memberLoginlog.setMid(memberSecurityDTO.getMid());
-            memberLoginlog.setLoginlog(LocalDateTime.now());
-            memberRepository.save(member);
-            memberlogRepository.save(memberLoginlog);
-
-        }
         //소셜 로그인이고 회원의 패스워드가 1111(초기값)
         if (memberSecurityDTO.isSocial()&&(memberSecurityDTO.getPassword().equals("1111") || passwordEncoder.matches("1111",memberSecurityDTO.getPassword()))){
             response.sendRedirect("/member/socialmodify");
