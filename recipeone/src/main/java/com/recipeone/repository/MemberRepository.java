@@ -1,6 +1,7 @@
 package com.recipeone.repository;
 
 import com.recipeone.entity.Member;
+import com.recipeone.entity.Recipe;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member,String> {
@@ -73,8 +75,19 @@ public interface MemberRepository extends JpaRepository<Member,String> {
     @Modifying
     @Transactional
     @Query("update Member m set m.userlev = :userlev where m.usernickname = :usernickname")
-    void updateuserlev(@Param("userlev") Long userlev, @Param("usernickname") String usernickname);
+    void updateuserlev(@Param("userlev") Integer userlev, @Param("usernickname") String usernickname);
 
+  @Modifying
+  @Transactional
+  @Query("update Member m set m.useryear = :useryear where m.mid = :mid")
+  void updateuseryear(@Param("useryear") String useryear, @Param("mid") String mid);
 
+  @Modifying
+  @Transactional
+  @Query("update Member m set m.usergender = :usergender where m.mid = :mid")
+  void updateusergender(@Param("usergender") String usergender, @Param("mid") String mid);
+
+  @Query(value ="SELECT * FROM Member m", nativeQuery = true)
+  List<Member> findMembers();
 
 }

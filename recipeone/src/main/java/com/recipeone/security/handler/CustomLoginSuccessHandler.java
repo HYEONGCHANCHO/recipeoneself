@@ -39,6 +39,9 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
             MemberLoginlog memberLoginlog = MemberLoginlog.builder()
                     .mid(username)
                     .loginlog(LocalDateTime.now())
+                    .useryear(member.getUseryear())
+                    .usergender(member.getUsergender())
+                    .userlev(member.getUserlev())
                     .build();
             memberlogRepository.save(memberLoginlog);
 

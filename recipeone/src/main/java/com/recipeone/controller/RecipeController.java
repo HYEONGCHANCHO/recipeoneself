@@ -29,6 +29,7 @@ import com.recipeone.entity.Member;
 import com.recipeone.entity.Recipe;
 import com.recipeone.entity.RecipeIngredient;
 import com.recipeone.entity.RecipeStep;
+import com.recipeone.repository.MemberLogRepository;
 import com.recipeone.repository.MemberRepository;
 import com.recipeone.repository.RecipeRepository;
 import com.recipeone.security.dto.MemberSecurityDTO;
@@ -71,6 +72,7 @@ public class RecipeController {
     private final MemberService memberService;
 
     private final MemberRepository memberRepository;
+    private final MemberLogRepository memberLogRepository;
 
 
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_CHEF')")
@@ -215,7 +217,7 @@ public class RecipeController {
 //        4차병합 게시글 수에 따라 유저 레벨 상승
         int count  = recipeRepository.countByUserNickname(recipe.getWriter());
         int[] levelRanges = {2, 6, 16, 51};
-        int userlev = 1;
+        Integer userlev = 1;
 
         for (int i = 0; i < levelRanges.length; i++) {
             if (count >= levelRanges[i]) {
@@ -224,14 +226,15 @@ public class RecipeController {
                 break;
             }
         }
-        memberRepository.updateuserlev((long) userlev, recipe.getWriter());
+        memberRepository.updateuserlev(userlev, recipe.getWriter());
         // memberSecurityDTO 업데이트
         MemberSecurityDTO memberSecurityDTO = (MemberSecurityDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        memberSecurityDTO.setUserlev((long) userlev);
+        memberSecurityDTO.setUserlev(userlev);
         // Authentication 객체 업데이트
         Authentication newAuthentication = new UsernamePasswordAuthenticationToken(memberSecurityDTO, memberSecurityDTO.getPassword(), memberSecurityDTO.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(newAuthentication);
-
+        //memberlog 업데이트
+        memberLogRepository.updateMemberLoginLoglev(userlev,recipe.getWriter());
 
 
         return "redirect:/";

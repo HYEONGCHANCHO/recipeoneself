@@ -33,6 +33,88 @@
     </style>
 </th:block>
 
-<div>
-    관리자페이지
+<!--로그 기록등 나오게 하는 건 구현 완료-->
+<div layout:fragment="content">
+    <h1>Member List</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Member ID</th>
+            <th>Email</th>
+            <th>Nickname</th>
+            <th>Login Fail Count</th>
+            <th>User Full Name</th>
+            <th>User Phone</th>
+            <th>User Gender</th>
+            <th>User Year</th>
+            <th>User Address</th>
+            <th>Social</th>
+            <th>User Level</th>
+            <!-- 다른 컬럼들에 대한 헤더 추가 -->
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 멤버 데이터를 반복문으로 출력 -->
+        <tr th:each="member : ${members}">
+            <td th:text="${member.mid}"></td>
+            <td th:text="${member.useremail}"></td>
+            <td th:text="${member.usernickname}"></td>
+            <td th:text="${member.loginFailCount}"></td>
+            <td th:text="${member.userfullname}"></td>
+            <td th:text="${member.userphone}"></td>
+            <td th:text="${member.usergender}"></td>
+            <td th:text="${member.useryear}"></td>
+            <td th:text="${member.useraddr}"></td>
+            <td th:text="${member.social}"></td>
+            <td th:text="${member.userlev}"></td>
+            <!-- 다른 컬럼들에 대한 데이터 추가 -->
+        </tr>
+        </tbody>
+    </table>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Member ID</th>
+            <th>Login Time</th>
+            <th>Year</th>
+            <th>Gender</th>
+            <th>Level</th>
+            <!-- 다른 컬럼들에 대한 헤더 추가 -->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="log : ${memberLoginLogs}">
+            <td th:text="${log.mid}"></td>
+            <td th:text="${log.loginlog}"></td>
+            <td th:text="${log.useryear}"></td>
+            <td th:text="${log.usergender}"></td>
+            <td th:text="${log.userlev}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <table>
+        <thead>
+        <tr>
+            <th>Member ID</th>
+            <th>Login Count</th>
+            <th>Gender</th>
+            <th>Year</th>
+            <th>Level</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="loginCount : ${loginCounts}">
+            <td th:text="${loginCount.mid}"></td>
+            <td th:text="${loginCount.loginCount}"></td>
+            <td th:text="${loginCount.usergender}"></td>
+            <td th:text="${loginCount.useryear}"></td>
+            <td th:text="${loginCount.userlev}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+
 </div>

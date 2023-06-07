@@ -38,6 +38,9 @@ public class CustomSocialLoginSuccessHandler implements AuthenticationSuccessHan
         MemberLoginlog memberLoginlog = MemberLoginlog.builder()
                 .mid(memberSecurityDTO.getMid())
                 .loginlog(LocalDateTime.now())
+                .useryear(memberSecurityDTO.getUseryear())
+                .usergender(memberSecurityDTO.getUsergender())
+                .userlev(memberSecurityDTO.getUserlev())
                 .build();
         memberlogRepository.save(memberLoginlog);
 

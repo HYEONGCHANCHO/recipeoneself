@@ -95,6 +95,23 @@
                    th:value="${#authentication.principal.useraddr}">
         </div>
 
+        <div>
+            출생년도:
+            <select name="useryear" class="form-control" id="birthYearSelect">
+                <option value="">년도 선택</option>
+            </select>
+        </div>
+
+        <div>
+            성별:
+            <select name="usergender" class="form-control">
+                <option value="남성">남성</option>
+                <option value="여성">여성</option>
+            </select>
+        </div>
+
+
+
         <div class="button-container">
             <form method="post" action="/member/membermodify">
                 <button type="submit">수정확인</button>
@@ -107,6 +124,19 @@
             </form>
         </div>
     </form>
+
+    <script type="text/javascript">
+    var currentYear = new Date().getFullYear();
+    var startYear = currentYear - 100; // 출생년도 범위의 시작년도 설정
+    var selectElement = document.getElementById("birthYearSelect");
+
+    for (var year = currentYear; year >= startYear; year--) {
+        var optionElement = document.createElement("option");
+        optionElement.value = year;
+        optionElement.text = year + "년";
+        selectElement.appendChild(optionElement);
+    }
+</script>
 </div>
 
 

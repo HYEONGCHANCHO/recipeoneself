@@ -71,7 +71,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             memberRepository.save(member);
 
             //MemberSecurityDTO 구성 및 반환
-            MemberSecurityDTO memberSecurityDTO = new MemberSecurityDTO(useremail,"1111",useremail,useremail,true, "","","",1,Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
+            MemberSecurityDTO memberSecurityDTO = new MemberSecurityDTO(useremail,"1111",useremail,useremail,true, "","","","","",1,Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
             memberSecurityDTO.setProps(params);
 
             return memberSecurityDTO;
@@ -88,6 +88,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                             member.getUserfullname(),
                             member.getUserphone(),
                             member.getUseraddr(),
+                            member.getUseryear(),
+                            member.getUsergender(),
                             member.getUserlev(),
                             member.getRoleSet()
                                     .stream().map(memberRole -> new SimpleGrantedAuthority("ROLE_"+memberRole.name())).collect(Collectors.toList())

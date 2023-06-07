@@ -28,9 +28,9 @@ public class MemberLoginlog {
     @Column(name = "id")
     private Long id;
     private String mid;
-//    private String usersex;
-//    private String userage;
-//    private long userlev;
+    private String useryear;
+    private String usergender;
+    private Integer userlev;
     private LocalDateTime loginlog;
 
 

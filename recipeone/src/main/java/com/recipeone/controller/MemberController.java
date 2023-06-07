@@ -4,7 +4,9 @@ import com.recipeone.dto.ListRecipeDto;
 import com.recipeone.dto.MemberJoinDTO;
 import com.recipeone.dto.MemberMofifyDTO;
 import com.recipeone.entity.Member;
+import com.recipeone.entity.MemberLoginlog;
 import com.recipeone.entity.Recipe;
+import com.recipeone.repository.MemberLogRepository;
 import com.recipeone.repository.MemberRepository;
 import com.recipeone.repository.RecipeRepository;
 import com.recipeone.security.dto.MemberSecurityDTO;
@@ -23,10 +25,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Controller
 @RequestMapping("/member")
@@ -43,6 +45,8 @@ public class MemberController {
     private final RecipeRepository recipeRepository;
 
     private final RecipeService recipeService;
+
+    private final MemberLogRepository memberLogRepository;
 
 
     @GetMapping("/login") //그냥 /login으로 요청왔을 때
@@ -207,6 +211,18 @@ public class MemberController {
         }
         model.addAttribute("recipe", listRecipeDtoList);
         return "member/myregist";
+    }
+
+    //일단 기록만 나오는건 구현 완료
+    @GetMapping("/admin")
+    public String getMembers(Model model) {
+        List<Member> members = memberRepository.findMembers();
+        model.addAttribute("members", members);
+        List<MemberLoginlog> memberLoginLogs = memberLogRepository.findAllMemberLoginLogs();
+        model.addAttribute("memberLoginLogs", memberLoginLogs);
+
+
+        return "member/admin";
     }
 
 

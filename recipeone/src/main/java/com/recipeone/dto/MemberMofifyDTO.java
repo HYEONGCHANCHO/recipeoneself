@@ -15,4 +15,6 @@ public class MemberMofifyDTO {
     private String userphone;
     private String useraddr;
     private String useremail;
+    private String useryear;
+    private String usergender;
 }

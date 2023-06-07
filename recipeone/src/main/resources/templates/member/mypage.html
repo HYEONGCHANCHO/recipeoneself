@@ -65,6 +65,14 @@
         <input type="text" name="useraddr" class="form-control" placeholder="입력값 없음 수정필요"
                th:value="${#authentication.principal.useraddr}" readonly>
     </div>
+    <div> 출생년도
+        <input type="text" name="useryear" class="form-control" placeholder="입력값 없음 수정필요"
+               th:value="${#authentication.principal.useryear}" readonly>
+    </div>
+    <div> 성별
+        <input type="text" name="usergender" class="form-control" placeholder="입력값 없음 수정필요"
+               th:value="${#authentication.principal.usergender}" readonly>
+    </div>
     <form method="get" action="/member/membermodify">
         <button type="submit">기본 회원정보 수정</button>
     </form>
