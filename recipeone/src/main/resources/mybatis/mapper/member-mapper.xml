@@ -44,10 +44,8 @@
 	</resultMap>
 
 	<select id="selectRecipeNumber" resultMap="recipeResultMap">
-		select * from recipe where USEREMAIL = #{useremail} order by UPDATE_DATE DESC
+		select * from recipe where USEREMAIL = #{useremail} order by UPDATEDATE DESC
 	</select>
-
-
 
 	<resultMap type="com.recipeone.entity.RecipeIngredient" id="RecipeIngredientResultMap">
 		<id property="recipeno"				column="RECIPENO" />

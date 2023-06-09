@@ -27,8 +27,4 @@ public class MainController {
         return "main2";
     }
 
-
-
-
-
 }

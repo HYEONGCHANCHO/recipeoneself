@@ -7,6 +7,7 @@ import com.recipeone.entity.Member;
 import com.recipeone.entity.MemberLoginlog;
 import com.recipeone.entity.Recipe;
 import com.recipeone.repository.MemberLogRepository;
+import com.recipeone.entity.Recipe;
 import com.recipeone.repository.MemberRepository;
 import com.recipeone.repository.RecipeRepository;
 import com.recipeone.security.dto.MemberSecurityDTO;
@@ -25,10 +26,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/member")
@@ -53,7 +54,6 @@ public class MemberController {
     public void loginGET(String error, String logout) {
         log.info("login get...........");
         log.info("log out:" + logout);
-
         if (logout != null) {
             log.info("user logout.........");
         }
@@ -206,7 +206,7 @@ public class MemberController {
         List<Recipe> recipeList = recipeRepository.findRecipeByUserNickname(usernickname);
         List<ListRecipeDto> listRecipeDtoList = new ArrayList<>();
         for (Recipe recipe : recipeList) {
-            ListRecipeDto listRecipeDto = new ListRecipeDto(recipe.getRecipeno(), recipe.getTitle(), recipe.getMainpicrename(), recipe.getTag(), recipe.getWriter());
+            ListRecipeDto listRecipeDto = new ListRecipeDto(recipe.getRecipeno(), recipe.getTitle(), recipe.getMainpicrename(), recipe.getTag(), recipe.getWriter(),recipe.getRecipestatus());
             listRecipeDtoList.add(listRecipeDto);
         }
         model.addAttribute("recipe", listRecipeDtoList);

@@ -1,4 +1,5 @@
 package com.recipeone.service;
+import com.recipeone.entity.Pagination;
 import com.recipeone.entity.Recipe;
 import com.recipeone.entity.RecipeIngredient;
 import com.recipeone.entity.RecipeStep;
@@ -45,7 +46,7 @@ public interface RecipeService {
 
 	public int removeOneRecipe(int recipeno);
 
-	public List<Recipe> printRecipeList(int currentPage,int limit);
+	public List<Recipe> printRecipeList(Pagination pagination);
 
 	public Recipe printOneRecipe(int recipeno) ;
 	public List<RecipeStep> printOneRecipeStep(int recipeno) ;
@@ -77,4 +78,5 @@ public interface RecipeService {
 
     public List<Recipe> filterSearchedRecipe(List<String> recommendedKeywords, String rctype, String rcsituation, String rcmeans, String rcingredient,  Model model) throws RecipeExistException;
 
+	public int totalRecord();
 }

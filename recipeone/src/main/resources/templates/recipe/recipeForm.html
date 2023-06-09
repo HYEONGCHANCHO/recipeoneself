@@ -3,9 +3,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
-<!-- 썸네일 자바스크립트 추가 -->
+<!-- 자바스크립트 추가 -->
 <th:block layout:fragment="script">
-	<script th:inline="javascript">
+	<script defer th:inline="javascript">
 
 	function loadFile(event) {
 		var output = document.getElementById('output');
@@ -26,14 +26,12 @@
 			}
 		};
 
-
-
-	var detailForm =document.querySelector('#REdetail');
-	var addplace =document.querySelector('#addplace');
+	//var detailForm = document.querySelector('#REdetail');
+	//var addplace = document.querySelector('#addplace');
 	var count = 3;
 	function addDe(){
 		if(count<=10){
-		addplace.appendChild(detailForm.cloneNode(true));
+		document.querySelector('#addplace').appendChild(document.querySelector('#REdetail').cloneNode(true));
 		document.querySelectorAll('.REdetailC')[document.querySelectorAll('.REdetailC').length-1].childNodes[3].childNodes[1].childNodes[1].value="";
 		document.querySelectorAll('.REdetailC')[document.querySelectorAll('.REdetailC').length-1].childNodes[8].childNodes[1].childNodes[1].childNodes[3].childNodes[1].src='';
 
@@ -198,7 +196,7 @@
 						<input type="text" name="recipedescription" value="ab22bb" style="display: none">
 					</div><!-- 레시피 설명영역 종료 -->
 					<!-- 이미지 미리보기 이미지 파일 -->
-					<div class="col-md-6 p-2">
+					<div class="row col-md-6 p-2">
 						<div class="col-md-5 container-md align-items-center m-0">
 							<div class="row col-md-4  align-items-center">
 								<svg class="delButton" width="40" height="40" onclick="PicDel(this)">
@@ -216,9 +214,9 @@
 						</div>
 					</div><!-- 이미지 영역 종료 -->
 				</div><!-- 레시피 한블럭 설명종료 -->
-				<span id="addplace"></span>
+				<div id="addplace"></div>
 			</div>
-			<svg class="addBtn" width="50" height="50" onclick="addDe()" >
+			<svg class="addBtn" width="50" height="50" onclick="addDe()">
 				<circle cx="25" cy="25" r="15" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
 				<text x="50%" y="50%" style="font-size: 20px; font-weight: bold;" dominant-baseline="middle" text-anchor="middle">+</text>
 			</svg>
@@ -368,19 +366,10 @@
 			<input type="text" name="tag" placeholder="#감자 #춘식이" style="width:610px;"><br />
 		</div><br />
 
-<!--	    <div class="regi_btm" th:if="${#strings.isEmpty(recipe.id)}">
-		    <button th:formaction="@{/recipe/recipeForm}" id="savebutton" type="submit" class="btn-lg btn-primary">저장</button>
-			<button type="button" onclick="history.back();" class="btn-lg btn-default">취소</button>
-		</div>
-		<div th:unless="${#strings.isEmpty(recipeFormDto.id)}" style="text-align: center">
-	      <button th:formaction="@{'/recipe/recipeModify/' + ${recipeFormDto.id} }" type="submit" class="btn btn-primary">수정</button>
-	    </div>-->
 			<article id="recipe-button">
 				<div class="col-md-12 row ">
 					<div class="col-md-6">
-						<button th:formaction="@{/recipe/recipeForm}" type="submit" value="등록" onclick="checkMainPic();" class="btn-lg btn-primary" />
-					</div>
-					<div class="col-md-6">
+						<button th:formaction="@{/recipe/recipeForm}" type="submit" onclick="checkMainPic();" class="button btn btn-outline-primary">등록</button>
 						<button class="button btn btn-outline-primary" type="button" onclick="history.back();">취소</button>
 					</div>
 				</div>
@@ -388,7 +377,4 @@
 	</form>
 	</div> <!-- container END -->
 </div> <!-- content END -->
-
-
-
 </html>

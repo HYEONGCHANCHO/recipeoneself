@@ -1,8 +1,6 @@
 package com.recipeone.service;
 
-import com.recipeone.entity.Recipe;
-import com.recipeone.entity.RecipeIngredient;
-import com.recipeone.entity.RecipeStep;
+import com.recipeone.entity.*;
 
 import com.recipeone.repository.RecipeRepository;
 import com.recipeone.repository.RecipeStore;
@@ -65,18 +63,18 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> filterSearchedRecipe(List<String> recommendedKeywords, String rctype, String rcsituation, String rcmeans, String rcingredient, Model
-		model) throws RecipeExistException {
+			model) throws RecipeExistException {
         List<Recipe> recipecont = recipeRepository.findRecipesByFilterSearched(recommendedKeywords,rctype,rcsituation,rcmeans,rcingredient);
         List<ListRecipeDto> listRecipeDtoList = new ArrayList<>();
         for (Recipe recipe : recipecont) {
-            ListRecipeDto listRecipeDto = new ListRecipeDto(recipe.getRecipeno(), recipe.getTitle(), recipe.getMainpicrename(),recipe.getTag(),recipe.getWriter());
+            ListRecipeDto listRecipeDto = new ListRecipeDto(recipe.getRecipeno(), recipe.getTitle(), recipe.getMainpicrename(),recipe.getTag(),recipe.getWriter(), recipe.getRecipestatus());
             listRecipeDtoList.add(listRecipeDto);
         }
         model.addAttribute("recipe", listRecipeDtoList);
         return recipecont;
     }
 
-    @Override
+	@Override
     public List<String> recommendKeywords(String keyword) throws RecipeIdExistException {
 
         List<String> titleList = recipeRepository.findtitlelist();
@@ -171,9 +169,10 @@ public class RecipeServiceImpl implements RecipeService {
 	}
 
 	@Override
-	public List<Recipe> printRecipeList(int currentPage, int limit) {
-		List<Recipe> rList = rStore.selectAllRecipe(currentPage, limit, session);
-		return rList;
+	public List<Recipe> printRecipeList(Pagination pagination) {
+		List<Recipe> recipeList = rStore.selectAllRecipe(pagination);
+		return recipeList;
+
 	}
 
 	@Override
@@ -227,6 +226,11 @@ public class RecipeServiceImpl implements RecipeService {
 	public String getMemberEmail(int recipeno) {
 		String useremail = rStore.selectMemberEmail(session, recipeno);
 		return useremail;
+	}
+
+	@Override
+	public int totalRecord() {
+		return rStore.totalRecord(session);
 	}
 
 }

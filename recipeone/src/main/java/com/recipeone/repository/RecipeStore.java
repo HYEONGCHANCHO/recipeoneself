@@ -1,5 +1,6 @@
 package com.recipeone.repository;
 
+import com.recipeone.entity.Pagination;
 import com.recipeone.entity.Recipe;
 import com.recipeone.entity.RecipeIngredient;
 import com.recipeone.entity.RecipeStep;
@@ -20,7 +21,7 @@ public interface RecipeStore {
     public int insertIngredient(List<RecipeIngredient> rmList, SqlSessionTemplate session);
 
 
-    public List<Recipe> selectAllRecipe(int currentPage, int limit,SqlSessionTemplate session);
+    public List<Recipe> selectAllRecipe(Pagination pagination);
 
     public Recipe selectOneRecipe(int recipeno, SqlSessionTemplate session);
 
@@ -49,7 +50,7 @@ public interface RecipeStore {
 
 //    public int  updateOneRecipeTag(SqlSessionTemplate session,RecipeTag rTag) ;
 
-    public int deleteOneRecipe(SqlSessionTemplate session,int redipeNo);
+    public int deleteOneRecipe(SqlSessionTemplate session,int redipeno);
 
     public int deleteOneImg(SqlSessionTemplate session, String picName);
 
@@ -62,4 +63,7 @@ public interface RecipeStore {
     public int selectMyRecipe(SqlSessionTemplate session, int recipeno, String memberEmail);
 
     public String selectMemberEmail(SqlSessionTemplate session, int recipeno);
+
+    public int totalRecord(SqlSessionTemplate session);
+
 }

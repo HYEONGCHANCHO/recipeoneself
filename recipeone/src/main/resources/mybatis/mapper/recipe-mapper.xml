@@ -9,8 +9,8 @@
 		<![CDATA[
         INSERT INTO recipe (RECIPENO,title,cooktime,nop,RCCOUNT,MAINPIC,MAINPICRENAME,
         					tag,rctype,rcsituation,rcingredient,rcmeans,recipestatus,insertdate, updatedate, writer)
-        VALUES (recipe_seq.nextval, #{title}, #{cooktime}, #{nop}, default, #{mainpic}, #{mainpicrename},
-				#{tag}, #{rctype}, #{rcsituation}, #{rcingredient}, #{rcmeans}, default, default, default, #{writer})
+        VALUES (recipe_seq.nextval, #{title}, #{cooktime}, #{nop}, 0, #{mainpic}, #{mainpicrename},
+				#{tag}, #{rctype}, #{rcsituation}, #{rcingredient}, #{rcmeans}, 'Y', sysdate, sysdate, #{writer})
 		]]>
 	</insert>
 
@@ -53,7 +53,7 @@
 	<update id="deleteRecipe">
 		<![CDATA[
         UPDATE recipe
-        SET RECIPE_STATUS = 'N'
+        SET RECIPESTATUS = 'N'
         WHERE RECIPENO = #{recipeno}
         ]]>
 	</update>
@@ -61,8 +61,8 @@
 	<update id = "updateOneRecipe">
 		<![CDATA[
 		update recipe set TITLE = #{title}, MAINPIC = #{mainpic}, NOP = #{nop},
-		MAINPICRENAME = #{mainpicrename}, COOKTIME = #{cooktime}, UPDATEDATE = default,
-		TAG = #{tag}, RC_TYPE = #{rctype}, RCSITUATION = #{rcsituation}, RCINGREDIENT = #{rcingredient}, RCMEANS = #{rcmeans},
+		MAINPICRENAME = #{mainpicrename}, COOKTIME = #{cooktime}, UPDATEDATE = sysdate,
+		TAG = #{tag}, RCTYPE = #{rctype}, RCSITUATION = #{rcsituation}, RCINGREDIENT = #{rcingredient}, RCMEANS = #{rcmeans}
 		where RECIPENO = #{recipeno}
 		]]>
 	</update>
@@ -89,7 +89,7 @@
 
 	<delete id="deleteOneIngredient">
 		<![CDATA[
-		delete recipe_ingredient  where RECIPENO = #{recipeno} and INGREDIENTORDER = #{ingredientorder}
+		delete from recipe_ingredient where RECIPENO = #{recipeno} and INGREDIENTORDER = #{ingredientorder}
 		]]>
 	</delete>
 
@@ -113,9 +113,26 @@
 		<result property="writer" column="WRITER"/>
     </resultMap>
 
-	<select id="selectAllRecipe" resultMap="recipeResultMap">
+<!--	<select id="selectAllRecipe" resultMap="recipeResultMap">
 		<![CDATA[
-		select * from recipe where RECIPESTATUS = 'Y'
+		select * from recipe WHERE RECIPESTATUS = 'Y'
+		]]>
+	</select>-->
+
+	<select id="selectAllRecipe" resultMap="recipeResultMap" parameterType="com.recipeone.entity.Pagination">
+		<![CDATA[
+			SELECT recipeno, title, mainpicrename, tag, writer, recipestatus
+			FROM (
+				SELECT rownum rn, recipeno, title, mainpicrename, tag, writer, recipestatus
+				FROM (
+					SELECT recipeno, title, mainpicrename, tag, writer, recipestatus
+					FROM recipe
+					WHERE recipestatus = 'Y'
+					ORDER BY recipeno DESC
+				)
+				WHERE rownum <= #{limit}
+			)
+			WHERE rn >= #{startIndex}
 		]]>
 	</select>
 
@@ -160,6 +177,12 @@
 		<![CDATA[
 		select * from recipe_Step where RECIPENO = #{recipeno} order by RECIPEORDER
 		]]>
+	</select>
+
+	<select id="totalRecord" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM recipe WHERE RECIPESTATUS = 'Y'
+    	]]>
 	</select>
 
 </mapper>

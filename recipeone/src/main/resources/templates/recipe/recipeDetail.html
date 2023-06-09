@@ -62,16 +62,25 @@
 
     <th:block th:each="recipe : ${recipe}">
     <div th:with="user=${#authentication.principal}">
-        <div th:text="${user}"></div>
-        <div th:text="${recipe}"></div>
+<!--        <div th:text="${user}"></div>
+        <div th:text="${recipe}"></div>-->
 
-        <a th:href="@{'/recipe/recipeModify/' + ${recipe.recipeno}}">
-        <button type="submit" style="width: 55px; height: 30px; " th:text="수정" th:if="${user.usernickname.equals(recipe.writer)}">modify</button>
-        </a>
+
+      <article id="recipe-button">
+          <div class="col-md-12 row ">
+              <div class="col-md-6">
+                  <a th:href="@{'/recipe/recipeModify/' + ${recipe.recipeno}}">
+                      <button class="button btn btn-outline-primary" type="submit" th:text="수정" th:if="${user.usernickname.equals(recipe.writer)}">modify</button>
+                  </a>
+                  <a th:href="@{'/recipe/recipeDelete/' + ${recipe.recipeno}}">
+                      <button class="button btn btn-outline-primary" type="submit" th:text="삭제" th:if="${user.usernickname.equals(recipe.writer)}">Delete</button>
+                  </a>
+              </div>
+          </div>
+      </article><!-- 버튼영역 종료 -->
+
     </div>
     </th:block>
-
-
   </div>
 </div>
 

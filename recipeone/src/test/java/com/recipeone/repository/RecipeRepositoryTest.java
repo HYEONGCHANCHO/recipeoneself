@@ -30,15 +30,17 @@ public class RecipeRepositoryTest {
 		String[] categoryIngredients = {"70", "71", "72", "23", "28", "24", "50", "33", "47", "32", "25", "31", "48", "27", "26", "34"};
 		String[] categoryMethods = {"6", "1", "7", "36", "41", "42", "8", "10", "9", "38", "67", "39", "37", "11"};
 
-		for (int i = 1; i <= 450; i++) {
+		for (int i = 1; i <= 7; i++) {
 			Recipe recipe = new Recipe();
 			recipe.setRecipeno(i);
-			recipe.setWriter("User " + random.nextInt(10));
+//			recipe.setWriter("User " + random.nextInt(10));
+			recipe.setWriter("조형찬");
 			recipe.setTitle("Recipe " + i);
 			recipe.setCooktime(random.nextInt(60) + " minutes");
 			recipe.setNop(random.nextInt(4) + 1 + " servings");
 			recipe.setMainpic("thumbnail_" + i + ".jpg");
 			recipe.setRccount(0);
+			recipe.setRecipestatus("Y");
 			recipe.setTag("tag" + random.nextInt(10));
 			recipe.setRctype(categoryTypes[random.nextInt(categoryTypes.length)]);
 			recipe.setRcsituation(categorySituations[random.nextInt(categorySituations.length)]);

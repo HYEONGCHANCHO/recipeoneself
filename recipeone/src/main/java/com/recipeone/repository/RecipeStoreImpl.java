@@ -1,11 +1,15 @@
 package com.recipeone.repository;
 
+import com.recipeone.entity.Pagination;
 import com.recipeone.entity.Recipe;
 import com.recipeone.entity.RecipeIngredient;
 import com.recipeone.entity.RecipeStep;
 import com.recipeone.repository.RecipeStore;
+import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -14,6 +18,9 @@ import java.util.List;
 @Repository
 @Primary
 public class RecipeStoreImpl implements RecipeStore {
+    @Autowired
+    SqlSessionTemplate sqlSessionTemplate;
+
     @Override
     public int insertRecipe(Recipe recipe, SqlSessionTemplate session) {
         int result = session.insert("com.recipeone.repository.RecipeStore.insertRecipe", recipe);
@@ -42,9 +49,9 @@ public class RecipeStoreImpl implements RecipeStore {
     }
 
     @Override
-    public List<Recipe> selectAllRecipe(int currentPage, int limit, SqlSessionTemplate session) {
-        List<Recipe> rList = session.selectList("com.recipeone.repository.RecipeStore.selectAllRecipe");
-        return rList;
+    public List<Recipe> selectAllRecipe(Pagination pagination) {
+        return sqlSessionTemplate.selectList("com.recipeone.repository.RecipeStore.selectAllRecipe", pagination);
+
     }
 
     @Override
@@ -119,8 +126,8 @@ public class RecipeStoreImpl implements RecipeStore {
     }
 
     @Override
-    public int deleteOneRecipe(SqlSessionTemplate session, int redipeNo) {
-        int result = session.update("com.recipeone.repository.RecipeStore.deleteRecipe", redipeNo);
+    public int deleteOneRecipe(SqlSessionTemplate session, int redipeno) {
+        int result = session.update("com.recipeone.repository.RecipeStore.deleteRecipe", redipeno);
         return result;
     }
 
@@ -155,6 +162,12 @@ public class RecipeStoreImpl implements RecipeStore {
     @Override
     public String selectMemberEmail(SqlSessionTemplate session, int recipeno) {
         return null;
+    }
+
+    @Override
+    public int totalRecord(SqlSessionTemplate session) {
+        return sqlSessionTemplate.selectOne("com.recipeone.repository.RecipeStore.totalRecord");
+
     }
 }
 

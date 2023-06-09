@@ -18,12 +18,15 @@ public class ListRecipeDto {
 	private String tag;
 	private String writer;
 
+	private String recipestatus;
+
 	@QueryProjection
-	public ListRecipeDto(int recipeno, String title, String mainpicrename, String tag, String writer){
+	public ListRecipeDto(int recipeno, String title, String mainpicrename, String tag, String writer, String recipestatus){
 		this.recipeno = recipeno;
 		this.title = title;
 		this.mainpicrename = mainpicrename;
 		this.tag = tag;
 		this.writer = writer;
+		this.recipestatus = recipestatus;
 	}
 }

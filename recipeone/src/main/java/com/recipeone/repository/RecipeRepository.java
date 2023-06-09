@@ -1,5 +1,8 @@
 package com.recipeone.repository;
 import java.util.*;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -25,12 +28,13 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
 
 //	4차 병합 수정
 
-	@Query(value ="SELECT * FROM Recipe r " +
+	@Query(value ="SELECT r.* FROM Recipe r " +
 			"WHERE (r.title IN :recommendedKeywords OR r.tag IN :recommendedKeywords) " +
 			"AND (:rctype IS NULL OR r.rctype = :rctype) " +
 			"AND (:rcsituation IS NULL OR r.rcsituation = :rcsituation) " +
 			"AND (:rcmeans IS NULL OR r.rcmeans = :rcmeans) " +
-			"AND (:rcingredient IS NULL OR r.rcingredient = :rcingredient)", nativeQuery = true)
+			"AND (:rcingredient IS NULL OR r.rcingredient = :rcingredient)" +
+			"AND r.recipestatus = 'Y'", nativeQuery = true)
 	List<Recipe> findRecipesByFilterSearched(@Param("recommendedKeywords") List<String> recommendedKeywords,
 											 @Param("rctype") String rctype,
 											 @Param("rcsituation") String rcsituation,
@@ -59,7 +63,6 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
 
 	@Query(value ="SELECT COUNT(r.recipeno) FROM Recipe r WHERE r.writer = :usernickname", nativeQuery = true)
 	int countByUserNickname(@Param("usernickname") String usernickname);
-
 
 }
 

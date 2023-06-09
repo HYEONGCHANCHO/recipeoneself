@@ -37,7 +37,7 @@
 
     내가쓴글
 
-    <th:block th:each="recipe : ${recipe}">
+    <th:block th:each="recipe : ${recipe}" th:if="${recipe.recipestatus == 'Y'}" >
         <ul class="common_sp_list_ul ea4" style="padding:0 0 0 8px;">
             <li class="common_sp_list_li">
                 <div class="common_sp_thumb">
