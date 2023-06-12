@@ -1,5 +1,14 @@
 package com.recipeone.security.handler;
 
+import com.recipeone.entity.MemberLoginlog;
+import com.recipeone.entity.Memberpagelog;
+import com.recipeone.repository.MemberLogRepository;
+import com.recipeone.repository.MemberPageRepository;
+import com.recipeone.security.dto.MemberSecurityDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -10,10 +19,15 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class SessionInterceptor implements HandlerInterceptor {
+    private final MemberPageRepository memberPageRepository;
 
+    public SessionInterceptor(MemberPageRepository memberPageRepository) {
+        this.memberPageRepository = memberPageRepository;
+    }
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         HttpSession session = request.getSession(false);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (session != null) {
             // 이전 페이지와 현재 페이지 비교
@@ -30,9 +44,23 @@ public class SessionInterceptor implements HandlerInterceptor {
                 LocalDateTime accessTime = (LocalDateTime) session.getAttribute("accessTime");
                 LocalDateTime currentTime = LocalDateTime.now();
                 Duration duration = Duration.between(accessTime, currentTime);
-//                System.out.println("Duration: " + duration);
-                System.out.println("사용자: " + request.getRemoteUser() + ", 머무른 페이지: " + previousPage +"머무른 시간: " + duration);
+                long seconds = duration.getSeconds();
+                long absSeconds = Math.abs(seconds);
+                String formattedDuration = String.format("%02d:%02d:%02d", absSeconds / 3600, (absSeconds % 3600) / 60, absSeconds % 60);
+                String username = (request.getRemoteUser() != null) ? request.getRemoteUser() : "비로그인 사용자";
+                System.out.println("사용자: " + username + ", 머무른 페이지: " + previousPage +"머무른 시간: " + duration);
+                System.out.println("사용자: " + username + ", 머무른 페이지: " + previousPage +"머무른 시간: " + formattedDuration);
+                MemberSecurityDTO memberSecurityDTO = (MemberSecurityDTO) authentication.getPrincipal();
 
+                Memberpagelog memberpagelog = Memberpagelog.builder()
+                        .mid(username)
+                        .page(previousPage)
+                        .duration(String.valueOf(formattedDuration))
+                        .useryear(memberSecurityDTO.getUseryear())
+                        .userlev(memberSecurityDTO.getUserlev())
+                        .usergender(memberSecurityDTO.getUsergender())
+                        .build();
+                memberPageRepository.save(memberpagelog);
             }
 
             // 페이지 입장 로그 출력

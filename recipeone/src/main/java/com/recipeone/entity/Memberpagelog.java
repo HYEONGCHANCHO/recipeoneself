@@ -31,7 +31,7 @@ public class Memberpagelog {
     private String page;
     private String duration;
     private Integer userlev;
-    private String userage;
+    private String useryear;
     private String usergender;
 
 

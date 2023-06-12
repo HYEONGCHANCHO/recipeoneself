@@ -1,6 +1,9 @@
 package com.recipeone.config;
 
+import com.recipeone.entity.Memberpagelog;
+import com.recipeone.repository.MemberPageRepository;
 import com.recipeone.security.handler.SessionInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,7 +14,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebSecurity
 public class MvcConfiguration implements WebMvcConfigurer {
-
+	@Autowired
+	private MemberPageRepository memberPageRepository;
 	/*
 	 * @Bean public CommonsMultipartResolver multipartResolver() {
 	 * CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
@@ -19,10 +23,10 @@ public class MvcConfiguration implements WebMvcConfigurer {
 	 * multipartResolver.setMaxUploadSizePerFile(10 * 1024 * 1024); // 파일당 업로드 크기 제한
 	 * (5MB) return multipartResolver; }
 	 */
-
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new SessionInterceptor())
+
+		registry.addInterceptor(new SessionInterceptor(memberPageRepository))
 				.addPathPatterns("/**")
 				.excludePathPatterns("/**/*.js")
 				.excludePathPatterns("/**/*.css")

@@ -3,11 +3,10 @@ package com.recipeone.controller;
 import com.recipeone.dto.ListRecipeDto;
 import com.recipeone.dto.MemberJoinDTO;
 import com.recipeone.dto.MemberMofifyDTO;
-import com.recipeone.entity.Member;
-import com.recipeone.entity.MemberLoginlog;
-import com.recipeone.entity.Recipe;
+import com.recipeone.entity.*;
 import com.recipeone.repository.MemberLogRepository;
 import com.recipeone.entity.Recipe;
+import com.recipeone.repository.MemberPageRepository;
 import com.recipeone.repository.MemberRepository;
 import com.recipeone.repository.RecipeRepository;
 import com.recipeone.security.dto.MemberSecurityDTO;
@@ -48,6 +47,8 @@ public class MemberController {
     private final RecipeService recipeService;
 
     private final MemberLogRepository memberLogRepository;
+
+    private final MemberPageRepository memberPageRepository;
 
 
     @GetMapping("/login") //그냥 /login으로 요청왔을 때
@@ -220,7 +221,8 @@ public class MemberController {
         model.addAttribute("members", members);
         List<MemberLoginlog> memberLoginLogs = memberLogRepository.findAllMemberLoginLogs();
         model.addAttribute("memberLoginLogs", memberLoginLogs);
-
+        List<Memberpagelog> memberpagelogs = memberPageRepository.findAll();
+        model.addAttribute("memberpagelogs",memberpagelogs);
 
         return "member/admin";
     }

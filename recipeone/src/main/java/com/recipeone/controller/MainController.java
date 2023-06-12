@@ -21,10 +21,4 @@ public class MainController {
         return "main";
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping(value = "/main2")
-    public String main2(){
-        return "main2";
-    }
-
 }

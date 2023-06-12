@@ -30,27 +30,48 @@
         .center{
             text-align:center;
         }
+
+            .data-table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .data-table th,
+    .data-table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .data-table th {
+        background-color: #f2f2f2;
+    }
+
+    .toggle-button {
+        margin-bottom: 10px;
+    }
     </style>
 </th:block>
 
 <!--로그 기록등 나오게 하는 건 구현 완료-->
 <div layout:fragment="content">
-    <h1>Member List</h1>
-    <table>
+
+    <!-- Member Table -->
+    <h2>사용자 정보</h2>
+    <button type="button" class="toggle-button" onclick="toggleTable('memberTable')">사용자 정보 열기/접기</button>
+    <table id="memberTable" class="data-table">
         <thead>
         <tr>
-            <th>Member ID</th>
-            <th>Email</th>
-            <th>Nickname</th>
-            <th>Login Fail Count</th>
-            <th>User Full Name</th>
-            <th>User Phone</th>
-            <th>User Gender</th>
-            <th>User Year</th>
-            <th>User Address</th>
-            <th>Social</th>
-            <th>User Level</th>
-            <!-- 다른 컬럼들에 대한 헤더 추가 -->
+            <th>사용자 아이디</th>
+            <th>사용자 이메일</th>
+            <th>사용자 활동명</th>
+            <th>로그인 실패 횟수</th>
+            <th>사용자 이름</th>
+            <th>사용자 전화번호</th>
+            <th>사용자 성별</th>
+            <th>사용자 출생년도</th>
+            <th>사용자 주소</th>
+            <th>사용자 레벨</th>
         </tr>
         </thead>
         <tbody>
@@ -65,22 +86,22 @@
             <td th:text="${member.usergender}"></td>
             <td th:text="${member.useryear}"></td>
             <td th:text="${member.useraddr}"></td>
-            <td th:text="${member.social}"></td>
             <td th:text="${member.userlev}"></td>
-            <!-- 다른 컬럼들에 대한 데이터 추가 -->
         </tr>
         </tbody>
     </table>
 
-    <table>
+    <!-- Login Log Table -->
+    <h2>사용자 접속 기록</h2>
+    <button type="button" class="toggle-button" onclick="toggleTable('loginLogTable')">사용자 접속 기록 열기/접기</button>
+    <table id="loginLogTable" class="data-table">
         <thead>
         <tr>
-            <th>Member ID</th>
-            <th>Login Time</th>
-            <th>Year</th>
-            <th>Gender</th>
-            <th>Level</th>
-            <!-- 다른 컬럼들에 대한 헤더 추가 -->
+            <th>사용자 아이디</th>
+            <th>로그인 시간</th>
+            <th>사용자 출생년도</th>
+            <th>사용자 성별</th>
+            <th>사용자 레벨</th>
         </tr>
         </thead>
         <tbody>
@@ -94,27 +115,42 @@
         </tbody>
     </table>
 
-
-    <table>
+    <!-- Member Page Logs Table -->
+    <h2>페이지 이용시간 기록</h2>
+    <button type="button" class="toggle-button" onclick="toggleTable('memberPageLogsTable')">페이지 이용시간 기록 열기/접기</button>
+    <table id="memberPageLogsTable" class="data-table">
         <thead>
         <tr>
-            <th>Member ID</th>
-            <th>Login Count</th>
-            <th>Gender</th>
-            <th>Year</th>
-            <th>Level</th>
+            <th>사용자 아이디</th>
+            <th>이용한 페이지</th>
+            <th>머무른 시간</th>
+            <th>사용자 출생년도</th>
+            <th>사용자 성별</th>
+            <th>사용자 레벨</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="loginCount : ${loginCounts}">
-            <td th:text="${loginCount.mid}"></td>
-            <td th:text="${loginCount.loginCount}"></td>
-            <td th:text="${loginCount.usergender}"></td>
-            <td th:text="${loginCount.useryear}"></td>
-            <td th:text="${loginCount.userlev}"></td>
+        <tr th:each="memberpagelogs : ${memberpagelogs}">
+            <td th:text="${memberpagelogs.mid}"></td>
+            <td th:text="${memberpagelogs.page}"></td>
+            <td th:text="${memberpagelogs.duration}"></td>
+            <td th:text="${memberpagelogs.useryear}"></td>
+            <td th:text="${memberpagelogs.usergender}"></td>
+            <td th:text="${memberpagelogs.userlev}"></td>
         </tr>
         </tbody>
     </table>
 
 
+    <script>
+    function toggleTable(tableId) {
+        var table = document.getElementById(tableId);
+        if (table.style.display === "none") {
+            table.style.display = "table";
+        } else {
+            table.style.display = "none";
+        }
+    }
+
+</script>
 </div>
