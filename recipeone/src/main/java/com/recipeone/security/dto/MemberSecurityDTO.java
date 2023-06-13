@@ -1,6 +1,5 @@
 package com.recipeone.security.dto;
 
-import com.recipeone.entity.MemberRole;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

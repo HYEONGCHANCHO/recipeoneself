@@ -33,8 +33,4 @@ public class MemberLoginlog {
     private Integer userlev;
     private LocalDateTime loginlog;
 
-
-
-
-
 }

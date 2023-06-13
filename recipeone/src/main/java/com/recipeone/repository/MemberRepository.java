@@ -1,7 +1,6 @@
 package com.recipeone.repository;
 
 import com.recipeone.entity.Member;
-import com.recipeone.entity.Recipe;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -18,7 +17,7 @@ public interface MemberRepository extends JpaRepository<Member,String> {
     @Query("select m from Member m where m.mid = :mid and m.social = false")
     Optional<Member> getWithRoles(String mid);
 
-  @Query("select m from Member m where m.mid = :mid")
+    @Query("select m from Member m where m.mid = :mid")
     Optional<Member> memberset(String mid);
 
     Optional<Member> findById(String mid);
@@ -77,17 +76,17 @@ public interface MemberRepository extends JpaRepository<Member,String> {
     @Query("update Member m set m.userlev = :userlev where m.usernickname = :usernickname")
     void updateuserlev(@Param("userlev") Integer userlev, @Param("usernickname") String usernickname);
 
-  @Modifying
-  @Transactional
-  @Query("update Member m set m.useryear = :useryear where m.mid = :mid")
-  void updateuseryear(@Param("useryear") String useryear, @Param("mid") String mid);
+    @Modifying
+    @Transactional
+    @Query("update Member m set m.useryear = :useryear where m.mid = :mid")
+    void updateuseryear(@Param("useryear") String useryear, @Param("mid") String mid);
 
-  @Modifying
-  @Transactional
-  @Query("update Member m set m.usergender = :usergender where m.mid = :mid")
-  void updateusergender(@Param("usergender") String usergender, @Param("mid") String mid);
+    @Modifying
+    @Transactional
+    @Query("update Member m set m.usergender = :usergender where m.mid = :mid")
+    void updateusergender(@Param("usergender") String usergender, @Param("mid") String mid);
 
-  @Query(value ="SELECT * FROM Member m", nativeQuery = true)
-  List<Member> findMembers();
+    @Query(value ="SELECT * FROM Member m", nativeQuery = true)
+    List<Member> findMembers();
 
 }

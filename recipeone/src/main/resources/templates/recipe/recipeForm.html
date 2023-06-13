@@ -28,9 +28,15 @@
 
 	//var detailForm = document.querySelector('#REdetail');
 	//var addplace = document.querySelector('#addplace');
-	var count = 3;
+	var count = 1;
 	function addDe(){
-		if(count<=10){
+		var detailElement = document.querySelector('.check');
+		if (detailElement) {
+		  console.log(detailElement.childNodes);
+		} else {
+		  console.log('선택한 요소가 존재하지 않습니다.');
+		}
+		if(count<=30){
 		document.querySelector('#addplace').appendChild(document.querySelector('#REdetail').cloneNode(true));
 		document.querySelectorAll('.REdetailC')[document.querySelectorAll('.REdetailC').length-1].childNodes[3].childNodes[1].childNodes[1].value="";
 		document.querySelectorAll('.REdetailC')[document.querySelectorAll('.REdetailC').length-1].childNodes[8].childNodes[1].childNodes[1].childNodes[3].childNodes[1].src='';
@@ -41,7 +47,31 @@
 
 	function removeDe(){
 	var detailFormClass =document.querySelectorAll('.REdetailC');
-		if(count>3){
+		if(count>1){
+			 detailFormClass[detailFormClass.length-1].remove();
+		count--;
+		}
+	}
+
+	function addIn(){
+		var detailElement = document.querySelector('.checkIn');
+		if (detailElement) {
+		  console.log(detailElement.childNodes);
+		} else {
+		  console.log('선택한 요소가 존재하지 않습니다.');
+		}
+		if(count<=30){
+		document.querySelector('#addInPlace').appendChild(document.querySelector('#REIndetail').cloneNode(true));
+		document.querySelectorAll('.REIndetailC')[document.querySelectorAll('.REIndetailC').length-1].childNodes[1].childNodes[1].value="";
+		//document.querySelectorAll('.REIndetailC')[document.querySelectorAll('.REIndetailC').length-1].childNodes[3].childNodes[1].value="";
+
+		count++;
+		}
+	}
+
+	function removeIn(){
+	var detailFormClass =document.querySelectorAll('.REIndetailC');
+		if(count>1){
 			 detailFormClass[detailFormClass.length-1].remove();
 		count--;
 		}
@@ -122,75 +152,14 @@
 		<h3 class="subheading">요리순서</h3>
 		<div class="input-group">
 			<div class="recipeDetail container-md row" id="article2-area"  th:object="${recipeStep}">
-				<!-- 여기서부터 레시피 설명-->
-				<!-- 레시피 step한개 입력영역 -->
-				<div id="oneStep-area" class="row border-top">
-					<!-- 레시피 설명영역 -->
-					<div class="container-md p-3  col-md-6 p-2">
-						<div class="form-floating col-md-12 p-0 pt-3">
-								<textarea class="form-control" name="recipedescription"  placeholder="설명을 입력하세요"
-										  id="floatingTextarea1" style="height: 250px" required="required"></textarea>
-						</div>
-						<!-- 설명에 쉼표를 넣었을때 배열로 만들지 않기위한 더미 value -->
-						<input type="text" name="recipedescription" value="ab22bb" style="display: none">
-					</div><!-- 레시피 설명영역종료 -->
 
-					<!-- 이미지 미리보기 이미지 파일 -->
-					<div class="col-md-6 p-2">
-						<div class="col-md-5 col-sm-12 container-md align-items-center m-0">
-							<div class="row col-md-4 col-sm-12  align-items-center">
-								<svg class="delButton" width="40" height="40" onclick="PicDel(this)">
-									<circle cx="20" cy="20" r="10" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
-									<text x="50%" y="50%" style="font-size: 15px;" dominant-baseline="middle" text-anchor="middle">X</text>
-								</svg>
-								<label class="input-file-button float-md-start">
-									<img class="detailImg mx-auto" width="400px" height="270px"
-										style="background-color: gray; border-radius: 10px;">
-									<input type="file" name="recipePicture" class="isFile"
-										style="display: none" accept="image/jpeg, image/png, image/jpg"
-										onchange="imgView(this);">
-								</label>
-							</div>
-						</div>
-					</div>
-				</div> <!-- 레시피 한블럭 설명종료 -->
 				<!-- 여기서부터 레시피 설명-->
-				<div class="row">
+				<div id="REdetail"  class="REdetailC row check">
 					<!-- 레시피 설명역역 -->
 					<div class="container-md p-3 col-md-6 p-2">
 						<div class="form-floating col-md-12 p-0 pt-3">
 							<textarea class="form-control" placeholder="설명을 입력하세요"
-									  id="floatingTextarea2" name="recipedescription"  style="height: 250px"></textarea>
-						</div>
-						<!-- 설명에 쉼표를 넣었을때 배열로 만들지 않기위한 더미 value -->
-						<input type="text" name="recipedescription" value="ab22bb" style="display: none">
-					</div><!-- 레시피 설명영역 종료 -->
-					<!-- 이미지 미리보기 이미지 파일 -->
-					<div class="col-md-6 p-2">
-						<div class="col-md-5 container-md align-items-center m-0">
-							<div class="row col-md-4  align-items-center">
-								<svg class="delButton" width="40" height="40" onclick="PicDel(this)">
-									<circle cx="20" cy="20" r="10" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
-									<text x="50%" y="50%" style="font-size: 15px;" dominant-baseline="middle" text-anchor="middle">X</text>
-								</svg>
-								<label class="input-file-button float-md-start">
-									<img class="detailImg mx-auto" width="400px" height="270px"
-										style="background-color: gray; border-radius: 10px;">
-									<input type="file" name="recipePicture" class="isFile"
-										style="display: none" accept="image/jpeg, image/png, image/jpg"
-										onchange="imgView(this);">
-								</label>
-							</div>
-						</div>
-					</div><!-- 이미지 영역 종료 -->
-				</div><!-- 레시피 한블럭 설명종료 -->
-				<!-- 여기서부터 레시피 설명-->
-				<div id="REdetail"  class="REdetailC row">
-					<!-- 레시피 설명역역 -->
-					<div class="container-md p-3 col-md-6 p-2">
-						<div class="form-floating col-md-12 p-0 pt-3">
-							<textarea class="form-control" placeholder="설명을 입력하세요"
-									  id="floatingTextarea3" name="recipedescription" style="height: 250px"></textarea>
+									  id="floatingTextarea3" name="recipedescription" style="width:400px; height: 270px;"></textarea>
 						</div>
 						<!-- 설명에 쉼표를 넣었을때 배열로 만들지 않기위한 더미 value -->
 						<input type="text" name="recipedescription" value="ab22bb" style="display: none">
@@ -198,14 +167,10 @@
 					<!-- 이미지 미리보기 이미지 파일 -->
 					<div class="row col-md-6 p-2">
 						<div class="col-md-5 container-md align-items-center m-0">
-							<div class="row col-md-4  align-items-center">
-								<svg class="delButton" width="40" height="40" onclick="PicDel(this)">
-									<circle cx="20" cy="20" r="10" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
-									<text x="50%" y="50%" style="font-size: 15px;" dominant-baseline="middle" text-anchor="middle">X</text>
-								</svg>
+							<div class="row col-md-4  align-items-center svgBtn">
 								<label class="input-file-button float-md-start">
 									<img class="detailImg mx-auto" width="400px" height="270px"
-										style="background-color: gray; border-radius: 10px;">
+										style="background-color: gray; border-radius: 10px; margin-top: 24px;">
 									<input type="file" name="recipePicture" class="isFile"
 										style="display: none" accept="image/jpeg, image/png, image/jpg"
 										onchange="imgView(this);">
@@ -216,14 +181,16 @@
 				</div><!-- 레시피 한블럭 설명종료 -->
 				<div id="addplace"></div>
 			</div>
-			<svg class="addBtn" width="50" height="50" onclick="addDe()">
-				<circle cx="25" cy="25" r="15" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
-				<text x="50%" y="50%" style="font-size: 20px; font-weight: bold;" dominant-baseline="middle" text-anchor="middle">+</text>
-			</svg>
-			<svg class="removeBtn" width="50" height="50" onclick="removeDe()">
-				<circle cx="25" cy="25" r="15" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
-				<text x="50%" y="50%" style="font-size: 25px; font-weight: bold;" dominant-baseline="middle" text-anchor="middle">-</text>
-			</svg>
+			<div class="svgBtn">
+				<svg class="addBtn" width="50" height="50" onclick="addDe()">
+					<circle cx="25" cy="25" r="15" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
+					<text x="50%" y="50%" style="font-size: 20px; font-weight: bold;" dominant-baseline="middle" text-anchor="middle">+</text>
+				</svg>
+				<svg class="removeBtn" width="50" height="50" onclick="removeDe()">
+					<circle cx="25" cy="25" r="15" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
+					<text x="50%" y="50%" style="font-size: 25px; font-weight: bold;" dominant-baseline="middle" text-anchor="middle">-</text>
+				</svg>
+			</div>
 		</div> <!-- 요리순서 END -->
 
 
@@ -330,36 +297,38 @@
 				<option value="999">2시간이상</option>
 			</select>
         </div><br /> <!-- 요리정보 END -->
-        
-        <h3 class="subheading">재료</h3>
+
+		<h3 class="subheading">재료</h3>
+		<div class="input-group">
 			<div class="container-md align-items-center" th:object="${recipeIngredient}">
-				<div class=" col-md-12 m-0 p-0">
-					<div class="row col-md-6 col-12 float-md-start p-3 me-1">
-						<div class="form-floating col-6">
-							<input type="text" class="form-control" maxlength="10"
-								   name="ingredient" onblur="materialCheck(this);" placeholder="재료명">
-						</div>
-						<div class="form-floating col-6">
-							<input type="text" class="form-control" maxlength="10"
-								   name="amount" onblur="materialCheck(this);" placeholder="재료수량">
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="container-md align-items-center" >
-				<div class=" col-md-12 m-0 p-0">
-					<div class="row col-md-6 col-12 float-md-start p-3 me-1">
-						<div class="form-floating col-6">
-							<input type="text" class="form-control" maxlength="10"
-								   name="ingredient" onblur="materialCheck(this);" placeholder="재료명">
-						</div>
-						<div class="form-floating col-6">
-							<input type="text" class="form-control" maxlength="10"
-								   name="amount" onblur="materialCheck(this);" placeholder="재료수량">
+				<div id="REIndetail"  class="REIndetailC row checkIn">
+					<div class=" col-md-12 m-0 p-0">
+						<div class="row col-md-6 col-12 float-md-start p-3 me-1">
+							<div class="form-floating col-6">
+								<input type="text" class="form-control" maxlength="10"
+									   name="ingredient" onblur="materialCheck(this);" placeholder="재료명">
+							</div>
+							<div class="form-floating col-6">
+								<input type="text" class="form-control" maxlength="10"
+									   name="amount" onblur="materialCheck(this);" placeholder="재료수량">
+							</div>
 						</div>
 					</div>
 				</div>
+				<div id="addInPlace"></div>
 			</div>
+			<div class="svgBtn">
+				<svg class="addBtn" width="50" height="50" onclick="addIn()">
+					<circle cx="25" cy="25" r="15" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
+					<text x="50%" y="50%" style="font-size: 20px; font-weight: bold;" dominant-baseline="middle" text-anchor="middle">+</text>
+				</svg>
+				<svg class="removeBtn" width="50" height="50" onclick="removeIn()">
+					<circle cx="25" cy="25" r="15" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
+					<text x="50%" y="50%" style="font-size: 25px; font-weight: bold;" dominant-baseline="middle" text-anchor="middle">-</text>
+				</svg>
+			</div>
+		</div>
+
 
 		<h3 class="subheading" >태그&nbsp;&nbsp;&nbsp;</h3>
 		<div class="input-group">

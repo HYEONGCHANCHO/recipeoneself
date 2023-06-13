@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      >
+
+<div layout:fragment="content">
+    <form role="form" method="post" enctype="multipart/form-data">
+      <input type="hidden" name="recipeno" th:value="${recipe.recipeno}">
+        <h2>정말 삭제하시겠습니까???</h2>
+        <button th:formaction="@{/recipe/recipeDelete}" type="submit" >삭제</button>
+        <button type="button" onclick="history.back();" >취소</button>
+    </form>
+
+</div>
+</html>

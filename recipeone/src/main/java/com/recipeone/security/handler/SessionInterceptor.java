@@ -1,12 +1,8 @@
 package com.recipeone.security.handler;
 
-import com.recipeone.entity.MemberLoginlog;
 import com.recipeone.entity.Memberpagelog;
-import com.recipeone.repository.MemberLogRepository;
 import com.recipeone.repository.MemberPageRepository;
 import com.recipeone.security.dto.MemberSecurityDTO;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -36,9 +32,6 @@ public class SessionInterceptor implements HandlerInterceptor {
             session.setAttribute("currentPage", currentPage);
 
             if (previousPage != null && !currentPage.equals(previousPage)) {
-                // 페이지 퇴장 로그 출력
-//                System.out.println("페이지 퇴장 - 사용자: " + request.getRemoteUser() + ", 페이지: " + previousPage);
-
 
                 // 접근 시간 업데이트
                 LocalDateTime accessTime = (LocalDateTime) session.getAttribute("accessTime");
@@ -50,6 +43,8 @@ public class SessionInterceptor implements HandlerInterceptor {
                 String username = (request.getRemoteUser() != null) ? request.getRemoteUser() : "비로그인 사용자";
                 System.out.println("사용자: " + username + ", 머무른 페이지: " + previousPage +"머무른 시간: " + duration);
                 System.out.println("사용자: " + username + ", 머무른 페이지: " + previousPage +"머무른 시간: " + formattedDuration);
+
+               if (!username.equals("비로그인 사용자")){
                 MemberSecurityDTO memberSecurityDTO = (MemberSecurityDTO) authentication.getPrincipal();
 
                 Memberpagelog memberpagelog = Memberpagelog.builder()
@@ -60,14 +55,20 @@ public class SessionInterceptor implements HandlerInterceptor {
                         .userlev(memberSecurityDTO.getUserlev())
                         .usergender(memberSecurityDTO.getUsergender())
                         .build();
-                memberPageRepository.save(memberpagelog);
+                memberPageRepository.save(memberpagelog);}
+
+                if (username.equals("비로그인 사용자")) {
+
+                Memberpagelog memberpagelog = Memberpagelog.builder()
+                        .mid(username)
+                        .page(previousPage)
+                        .duration(String.valueOf(formattedDuration))
+                        .useryear("")
+                        .userlev(null)
+                        .usergender("")
+                        .build();
+                memberPageRepository.save(memberpagelog);}
             }
-
-            // 페이지 입장 로그 출력
-//            System.out.println("페이지 입장 - 사용자: " + request.getRemoteUser() + ", 페이지: " + currentPage);
-
-            // 로그 또는 데이터베이스에 접근 기록 저장
-            // ...
 
             // 접근 시간 업데이트
             session.setAttribute("accessTime", LocalDateTime.now());
