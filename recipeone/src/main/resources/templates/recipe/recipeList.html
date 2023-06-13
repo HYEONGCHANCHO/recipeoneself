@@ -39,33 +39,18 @@
             }
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-        var pagination = document.getElementById('pagination');
-        var pageItems = pagination.getElementsByClassName('page-item');
+    function goSearchRecipeByDate() {
+      submitForm('order', 'date');
+    }
 
-        for (var i = 0; i < pageItems.length; i++) {
-            var pageItem = pageItems[i];
-            pageItem.addEventListener('click', function () {
-                var currentPage = this.querySelector('.page-link').textContent;
-                var allPageItems = pagination.getElementsByClassName('page-item');
+    function goSearchRecipeByViews() {
+      submitForm('order', 'views');
+    }
 
-                for (var j = 0; j < allPageItems.length; j++) {
-                    var item = allPageItems[j];
-                    var pageNumber = item.querySelector('.page-link').textContent;
-                    item.classList.remove('active');
-
-                    if (pageNumber === currentPage) {
-                        item.classList.add('active');
-                    }
-                }
-            });
-        }
-    });
     </script>
 </th:block>
 
 <div layout:fragment="content">
-    <input type="hidden" name="currentPage" th:value="${currentPage}">
     <div id="id_search_category" style="display:none" class="rcp_m_cate">
         <table width="100%" cellspacing="0" cellpadding="0">
             <colgroup>
@@ -172,6 +157,9 @@
             <div class="m_list_tit">
                 총 <b th:text="${recipeCount}" >0</b>개의 맛있는 레시피가 있습니다.
                 <ul class="nav nav-tabs2 pull-right" style="position:relative;">
+<!--                    <li><a th:href="@{/recipe/recipeList?sort=latest">조회순</a></li>
+                    <li><a th:href="@{/recipe/recipeList?sort=views">최신순</a></li>
+                    <li><a href="#">추천순</a></li>-->
                     <li><a href="#">조회순</a></li>
                     <li><a href="#">최신순</a></li>
                     <li><a href="#">추천순</a></li>
@@ -184,8 +172,13 @@
                     <li class="common_sp_list_li" >
                         <div class="common_sp_thumb">
                             <a th:href="@{'/recipe/recipeDetail/' + ${recipe.recipeno}}" class="common_sp_link">
-                                <span class="common_vod_label"></span>
-                                <img th:src="${recipe.mainpicurl}">
+                                <!-- <a th:href="@{'/recipe/recipeDetail/' + ${recipe.recipeno}}" class="common_sp_link"></a> -->
+                                <span class="common_vod_label">
+                            <!--<img src="https://recipe1.ezmember.co.kr/img/icon_vod.png"> 동영상 링크가 있을때-->
+                        </span>
+                                <img th:src="'/recipeImg/' + ${recipe.mainpicrename}">
+
+                                <!-- <img th:src="${recipe.mainPicRename}"> -->
                             </a>
                         </div>
 
@@ -193,7 +186,10 @@
                             <div class="common_sp_caption_tit line2" th:text="${recipe.title}">제목</div>
                             <div class="common_sp_caption_tit line2" th:text="${recipe.tag}">태그</div>
                             <div class="common_sp_caption_rv_name" style="display: inline-block; vertical-align: bottom;">
-                                <div class="common_sp_caption_tit line2" th:text="${recipe.writer}">작성자</div>
+                                <a href="/profile/recipe.html?uid=plc0410">
+                                    <!--<img src="../img/food.jpg">-->
+                                    <div class="common_sp_caption_tit line2" th:text="${recipe.writer}">작성자</div>
+                                </a>
                             </div>
                         </div>
                     </li>
@@ -201,14 +197,13 @@
             </th:block>
         </th:block>
         <!-- 페이징 처리 -->
-        <div class="pagination" id="pagination" th:if="${totalPage > 0}">
-            <ul class="pageNum">
+        <div class="pagination">
+            <ul>
                 <li th:if="${currentPage > 1}">
                     <a th:href="@{/recipe/recipeList(currentPage=${currentPage - 1})}">이전</a>
                 </li>
-                <li th:each="page : ${#numbers.sequence(blockStart, blockEnd)}" th:class="${page == currentPage ? 'active' : ''}" class="page-item">
-                    <a th:href="@{/recipe/recipeList(currentPage=${page})}"
-                       th:text="${page}" class="page-link"></a>
+                <li th:each="page : ${#numbers.sequence(1, totalPage)}" th:class="${page == currentPage ? 'active' : ''}">
+                    <a th:href="@{/recipe/recipeList(currentPage=${page})}" th:text="${page}"></a>
                 </li>
                 <li th:if="${currentPage < totalPage}">
                     <a th:href="@{/recipe/recipeList(currentPage=${currentPage + 1})}">다음</a>

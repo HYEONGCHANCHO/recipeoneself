@@ -35,27 +35,32 @@
 
 <div layout:fragment="content">
 
+    내가쓴글
+
     <th:block th:each="recipe : ${recipe}" th:if="${recipe.recipestatus == 'Y'}" >
         <ul class="common_sp_list_ul ea4" style="padding:0 0 0 8px;">
-            <li class="common_sp_list_li" >
+            <li class="common_sp_list_li">
                 <div class="common_sp_thumb">
                     <a th:href="@{'/recipe/recipeDetail/' + ${recipe.recipeno}}" class="common_sp_link">
                         <span class="common_vod_label">
                         </span>
-                        <img th:src="${recipe.mainpicurl}">
+                        <img th:src="'/recipeImg/' + ${recipe.mainpicrename}">
                     </a>
                 </div>
-
                 <div class="common_sp_caption">
                     <div class="common_sp_caption_tit line2" th:text="${recipe.title}">제목</div>
                     <div class="common_sp_caption_tit line2" th:text="${recipe.tag}">태그</div>
                     <div class="common_sp_caption_rv_name" style="display: inline-block; vertical-align: bottom;">
-                        <div class="common_sp_caption_tit line2" th:text="${recipe.writer}">작성자</div>
+                        <a href="/profile/recipe.html?uid=plc0410">
+                            <img src="../img/food.jpg">
+                            <div class="common_sp_caption_tit line2" th:text="${recipe.writer}">작성자</div>
+                        </a>
                     </div>
                 </div>
             </li>
         </ul>
     </th:block>
+
     <form method="get" action="/member/mypage">
         <button type="submit">마이페이지로 이동</button>
     </form>

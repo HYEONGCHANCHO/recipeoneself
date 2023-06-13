@@ -1,18 +1,19 @@
 package com.recipeone.repository;
+import java.util.*;
 
-import com.recipeone.entity.Recipe;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import com.recipeone.entity.Recipe;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
+
 
 	Optional<Recipe> findById(int id);
 
@@ -24,6 +25,8 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
 
 	@Query(value ="select r.id from Recipe r where r.title IN :recommendedKeywords or r.tag IN :recommendedKeywords", nativeQuery = true)
 	List<Integer> findRecipeIdByrecommendedKeywords(@Param("recommendedKeywords") List<String> recommendedKeywords);
+
+//	4차 병합 수정
 
 	@Query(value ="SELECT r.* FROM Recipe r " +
 			"WHERE (r.title IN :recommendedKeywords OR r.tag IN :recommendedKeywords) " +

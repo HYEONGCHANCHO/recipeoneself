@@ -16,7 +16,10 @@ public interface RecipeStore {
 
     public int insertStep(List<RecipeStep> rmList, SqlSessionTemplate session);
 
+//    public int  insertTag(RecipeTag rTag,SqlSessionTemplate session) ;
+
     public int insertIngredient(List<RecipeIngredient> rmList, SqlSessionTemplate session);
+
 
     public List<Recipe> selectAllRecipe(Pagination pagination);
 
@@ -26,11 +29,26 @@ public interface RecipeStore {
 
     public List<RecipeIngredient> selectOneRecipeIngredient(int recipeno,SqlSessionTemplate session);
 
+    /*public RecipeTag selectOneRecipeTag(int recipeno,SqlSessionTemplate session);
+
+    public List<RecipeComment> selectRecipeCommentList(int recipeno, SqlSessionTemplate session, int currentPage,int limit);
+
+    public int selectRecommand(SqlSessionTemplate session,int recipeno,String memberEmail);
+
+
+
+    public int insertRecommand(Recommandation recommand,SqlSessionTemplate session);
+
+    public int deleteRecommand(Recommandation recommand,SqlSessionTemplate session);*/
+
+
     public int updateOneRecipe(SqlSessionTemplate session,Recipe recipe) ;
 
     public int updateOneRecipeStep(SqlSessionTemplate session, List<RecipeStep> rsList);
 
     public int updateOneRecipeIngredient(SqlSessionTemplate session,List<RecipeIngredient>rmList);
+
+//    public int  updateOneRecipeTag(SqlSessionTemplate session,RecipeTag rTag) ;
 
     public int deleteOneRecipe(SqlSessionTemplate session,int redipeno);
 

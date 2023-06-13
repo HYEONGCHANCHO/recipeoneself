@@ -1,6 +1,7 @@
 package com.recipeone.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString(exclude = "roleSet")
 @Table(name = "MEMBER")
-public class Member extends BaseEntity {
+public class Member extends BaseEntity2 {
 
     @Id
     private String mid;

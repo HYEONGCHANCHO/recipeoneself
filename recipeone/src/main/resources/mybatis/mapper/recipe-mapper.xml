@@ -8,9 +8,9 @@
 	<insert id="insertRecipe">
 		<![CDATA[
         INSERT INTO recipe (RECIPENO,title,cooktime,nop,RCCOUNT,MAINPIC,MAINPICRENAME,
-        					tag,rctype,rcsituation,rcingredient,rcmeans,recipestatus,insertdate, updatedate, writer, mainpicurl)
+        					tag,rctype,rcsituation,rcingredient,rcmeans,recipestatus,insertdate, updatedate, writer)
         VALUES (recipe_seq.nextval, #{title}, #{cooktime}, #{nop}, 0, #{mainpic}, #{mainpicrename},
-				#{tag}, #{rctype}, #{rcsituation}, #{rcingredient}, #{rcmeans}, 'Y', sysdate, sysdate, #{writer}, #{mainpicurl})
+				#{tag}, #{rctype}, #{rcsituation}, #{rcingredient}, #{rcmeans}, 'Y', sysdate, sysdate, #{writer})
 		]]>
 	</insert>
 
@@ -23,8 +23,8 @@
 
 	<insert id="insertRecipeStep">
 		<![CDATA[
-        INSERT INTO recipe_step (RECIPEORDER, recipeno, recipedescription, recipepic, recipepicrename, recipepicurl)
-        VALUES (#{recipeorder}, recipe_seq.currval, #{recipedescription}, #{recipepic}, #{recipepicrename}, #{recipepicurl})
+        INSERT INTO recipe_step (RECIPEORDER, recipeno, recipedescription, recipepic, recipepicrename)
+        VALUES (#{recipeorder}, recipe_seq.currval, #{recipedescription}, #{recipepic}, #{recipepicrename})
         ]]>
 	</insert>
 
@@ -37,15 +37,15 @@
 
 	<insert id="insertRstepPlus">
 		<![CDATA[
-        INSERT INTO recipe_step (RECIPEORDER, recipeno, RECIPEDESCRIPTION, recipepic, recipepicrename, recipepicurl)
-        VALUES (#{recipeorder}, #{recipeno}, #{recipedescription}, #{recipepic}, #{recipepicrename}, #{recipepicurl})
+        INSERT INTO recipe_step (RECIPEORDER, recipeno, RECIPEDESCRIPTION, recipepic, recipepicrename)
+        VALUES (#{recipeorder}, #{recipeno}, #{recipedescription}, #{recipepic}, #{recipepicrename})
         ]]>
 	</insert>
 
 	<update id="deleteOneImg">
 		<![CDATA[
         UPDATE recipe_step
-        SET RECIPEPIC = NULL, RECIPEPICRENAME = NULL, RECIPEPICURL= NULL
+        SET RECIPEPIC = NULL, RECIPEPICRENAME = NULL
         WHERE RECIPEPICRENAME = #{picName}
         ]]>
 	</update>
@@ -62,16 +62,14 @@
 		<![CDATA[
 		update recipe set TITLE = #{title}, MAINPIC = #{mainpic}, NOP = #{nop},
 		MAINPICRENAME = #{mainpicrename}, COOKTIME = #{cooktime}, UPDATEDATE = sysdate,
-		TAG = #{tag}, RCTYPE = #{rctype}, RCSITUATION = #{rcsituation}, RCINGREDIENT = #{rcingredient}, RCMEANS = #{rcmeans},
-		MAINPICURL = #{mainpicurl}
+		TAG = #{tag}, RCTYPE = #{rctype}, RCSITUATION = #{rcsituation}, RCINGREDIENT = #{rcingredient}, RCMEANS = #{rcmeans}
 		where RECIPENO = #{recipeno}
 		]]>
 	</update>
 
 	<update id = "updateOneStep">
 		<![CDATA[
-		update recipe_step set RECIPEDESCRIPTION = #{recipedescription}, recipepic = #{recipepic},
-				RECIPEPICRENAME= #{recipepicrename}, RECIPEPICURL = #{recipepicurl}
+		update recipe_step set RECIPEDESCRIPTION = #{recipedescription}, recipepic = #{recipepic}, RECIPEPICRENAME= #{recipepicrename}
 		where RECIPENO = #{recipeno} and RECIPEORDER = #{recipeorder}
 		]]>
 	</update>

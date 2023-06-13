@@ -12,7 +12,6 @@ public class RecipeStep {
 	private String recipedescription; // 레시피 설명
 	private String recipepic; // 레시피 사진
 	private String recipepicrename; // 레시피 사진 재업로드시 이름
-	private String recipepicurl;
 
 	public RecipeStep() {
 
