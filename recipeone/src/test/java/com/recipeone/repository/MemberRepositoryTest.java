@@ -17,15 +17,14 @@ import java.util.stream.IntStream;
 class MemberRepositoryTest {
     @Autowired
     private MemberRepository memberRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+// 3차병합때 수정한 부분
 
     @Test
     @Commit
     public void insertMembers() {
-//        String email = "juu1018w@gmail.com";
-//        String password = "Qwert12345!";
-//        String nickname = "이춘장";
         String email = "wjstktpghd2@naver.com";
         String password = "156321Qaz!";
         String nickname = "조형찬";
@@ -38,7 +37,6 @@ class MemberRepositoryTest {
 
         member.addRole(MemberRole.USER);
         member.setUsernickname(nickname);
-        member.addlev(2);
 
         // ADMIN 권한 부여
         member.addRole(MemberRole.ADMIN);

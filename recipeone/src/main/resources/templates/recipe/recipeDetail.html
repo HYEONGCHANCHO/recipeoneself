@@ -3,10 +3,23 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout1}">
 
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        window.addEventListener('popstate', function(event) {
+        // 이전 페이지의 URL이 저장되어 있다면 해당 URL로 이동
+        if (document.referrer !== '') {
+            window.location.href = document.referrer;
+        } else {
+            // 이전 페이지의 URL이 없는 경우, 원하는 URL로 이동
+            // 여기에 원하는 URL을 지정해주세요.
+            window.location.href = history.back();
+        }
+    });
+    </script>
+</th:block>
 <div layout:fragment="content">
   <div class="view" >
-  <input type="hidden" name="recipeno" th:value="${recipe.recipeno}">
-    <img id="main_thumbs"  th:src="${recipe.mainpicurl}" th:alt="${recipe.title}">
+    <img id="main_thumbs"  th:src="@{'/recipeImg/'+${recipe.mainpicrename}}" th:alt="${recipe.title}">
     <h3 th:text="${recipe.title}">Recipe Title</h3>
 
     <h3>요리 정보</h3>
@@ -31,12 +44,16 @@
           <th:block th:each="rs : ${rsList}">
               <li th:text="'순서'+${rs.recipeorder}+': '+${rs.recipedescription}"></li>
               <div class="step-image" >
-                  <th:block th:each="recipeImg : ${rs.recipepicurl}" >
-                      <img th:src="${recipeImg}">
+                  <th:block th:each="recipeImg : ${rs.recipepicrename}" >
+                      <!--            <img th:src="@{'/images/item/' + ${recipeImg.imgUrl}}" th:alt="Step Image">-->
+                      <!--<img th:src="@{'file:///c:/recipe/item/recipeImg/' + ${recipeImg}}" >-->
+                      <img th:src="@{'/recipeImg/'+ ${recipeImg}}">
+
                   </th:block>
               </div>
           </th:block>
       </ul>
+
 
     <h3>태그</h3>
     <th:block th:each="recipe : ${recipe}">
@@ -45,21 +62,23 @@
 
     <th:block th:each="recipe : ${recipe}">
     <div th:with="user=${#authentication.principal}">
-        <article id="recipe-button" >
-            <div class="col-md-12 row ">
-                <div class="col-md-6">
-                    <a th:href="@{'/recipe/recipeModify/' + ${recipe.recipeno}}" th:if="${#request.isUserInRole('ROLE_USER') and #authentication.principal.usernickname.equals(recipe.writer)}">
-                        <button class="button btn btn-outline-primary" type="submit" th:text="수정">modify</button>
-                    </a>
-                    <a th:href="@{'/recipe/recipeDelete/' + ${recipe.recipeno}}" th:if="${#request.isUserInRole('ROLE_USER') and #authentication.principal.usernickname.equals(recipe.writer)}">
-                        <button class="button btn btn-outline-primary" type="submit" th:text="삭제">Delete</button>
-                    </a>
-                    <a th:href="@{'/recipe/recipeList?currentPage=' + ${currentPage}}">
-                        <button class="button btn btn-outline-primary" type="submit" th:text="목록으로">List</button>
-                    </a>
-                </div>
-            </div>
-        </article><!-- 버튼영역 종료 -->
+<!--        <div th:text="${user}"></div>
+        <div th:text="${recipe}"></div>-->
+
+
+      <article id="recipe-button">
+          <div class="col-md-12 row ">
+              <div class="col-md-6">
+                  <a th:href="@{'/recipe/recipeModify/' + ${recipe.recipeno}}">
+                      <button class="button btn btn-outline-primary" type="submit" th:text="수정" th:if="${user.usernickname.equals(recipe.writer)}">modify</button>
+                  </a>
+                  <a th:href="@{'/recipe/recipeDelete/' + ${recipe.recipeno}}">
+                      <button class="button btn btn-outline-primary" type="submit" th:text="삭제" th:if="${user.usernickname.equals(recipe.writer)}">Delete</button>
+                  </a>
+              </div>
+          </div>
+      </article><!-- 버튼영역 종료 -->
+
     </div>
     </th:block>
   </div>

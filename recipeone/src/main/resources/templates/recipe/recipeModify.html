@@ -31,18 +31,16 @@
     //var detailForm = document.querySelector('#REdetail');
 	//var addplace = document.querySelector('#addplace');
 	var count = document.querySelectorAll('.REdetailC').length+1;
-	var countIn = document.querySelectorAll('.REIndetailC').length+1;
 	var firstCount = document.querySelectorAll('.REdetailC').length+1;
-	var firstCountIn = document.querySelectorAll('.REIndetailC').length+1;
 
 	function addDe(){
 	var detailElement = document.querySelector('.check');
-        if (detailElement) {
-          console.log(detailElement.childNodes);
-        } else {
-          console.log('선택한 요소가 존재하지 않습니다.');
-        }
-        if(count<=30){
+if (detailElement) {
+  console.log(detailElement.childNodes);
+} else {
+  console.log('선택한 요소가 존재하지 않습니다.');
+}
+        if(count<=10){
             count++;
             document.querySelector('#addplace').appendChild(document.querySelector('#REdetail').cloneNode(true));
             document.querySelectorAll('.REdetailC')[document.querySelectorAll('.REdetailC').length-1].childNodes[3].childNodes[1].childNodes[1].value="";
@@ -58,29 +56,6 @@
 		}
 	}
 
-	function addIn(){
-		var detailElement = document.querySelector('.checkIn');
-		if (detailElement) {
-		  console.log(detailElement.childNodes);
-		} else {
-		  console.log('선택한 요소가 존재하지 않습니다.');
-		}
-		if(countIn<=30){
-		countIn++;
-		document.querySelector('#addInPlace').appendChild(document.querySelector('#REIndetail').cloneNode(true));
-		document.querySelectorAll('.REIndetailC')[document.querySelectorAll('.REIndetailC').length-1].childNodes[1].childNodes[1].childNodes[1].childNodes[1].value="";
-		document.querySelectorAll('.REIndetailC')[document.querySelectorAll('.REIndetailC').length-1].childNodes[1].childNodes[1].childNodes[3].childNodes[1].value="";
-
-		}
-	}
-
-	function removeIn(){
-	var detailFormClass =document.querySelectorAll('.REIndetailC');
-		if(countIn>firstCountIn){
-			 detailFormClass[detailFormClass.length-1].remove();
-		firstCountIn--;
-		}
-	}
 
 	function imgView(obj) {
 
@@ -136,6 +111,7 @@
 					obj.value="";
 			}
 		}
+
     </script>
 </th:block>
 
@@ -154,11 +130,10 @@
                     <text x="50%" y="50%" style="font-size: 15px;" dominant-baseline="middle" text-anchor="middle">X</text>
                 </svg>
                 <label class="input-file-button float-md-start col-md-12"   for="input-file">
-                    <img id="output" class="mx-auto " width="400px" height="270px" style=" border-radius: 10px;" th:src="${recipe.mainpicurl}">
+                    <img id="output" class="mx-auto " width="400px" height="270px" style=" border-radius: 10px;" th:src="'/recipeImg/' + ${recipe.mainpicrename }">
                 </label>
                 <input type="file" id="input-file" style="display: none" name="mainPicture" class="isFile" onchange="loadFile(event)"/>
                 <!-- 수정 전 이미지이름 전송 -->
-                <input type="hidden" name="mainpicurl" th:value="${recipe.mainpicurl}">
                 <input type="hidden" name="mainpicrename" th:value="${recipe.mainpicrename}">
                 <input type="hidden" name="mainpic" th:value="${recipe.mainpic }">
             </div>
@@ -172,13 +147,15 @@
             <div class="input-group">
                 <div class="recipeDetail container-md row" id="article2-area" >
                     <th:block  th:each="rStep : ${rsList}">
+                        <div th:text="${rStep}"></div>
+
                     <!-- 요리순서 반복 시작-->
                     <div id="REdetail"  class="REdetailC row">
                         <!-- 레시피 설명역역 -->
                         <div class=" container-md p-3 col-md-6 p-2">
                             <div class="form-floating col-md-12 p-0 pt-3">
 							<textarea class="form-control" placeholder="설명을 입력하세요"
-                                      id="floatingTextarea3" name="recipedescription" style="width:400px; height: 270px;"
+                                      id="floatingTextarea3" name="recipedescription" style="height: 250px"
                                       th:text="${rStep.recipedescription}">
                             </textarea>
                             </div>
@@ -190,11 +167,15 @@
                         <!-- 이미지 미리보기 이미지 파일 -->
                         <div class="row col-md-6 p-2">
                             <div class="col-md-5 container-md align-items-center m-0">
-                                <div class="row col-md-4  align-items-center check svgBtn">
+                                <div class="row col-md-4  align-items-center check">
+                                    <svg class="delButton" width="40" height="40" onclick="PicDel(this, '${rStep.recipepicrename}', ${recipe.recipeno})">
+                                        <circle cx="20" cy="20" r="10" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
+                                        <text x="50%" y="50%" style="font-size: 15px;" dominant-baseline="middle" text-anchor="middle">X</text>
+                                    </svg>
                                     <label class="input-file-button float-start">
                                         <img class="detailImg mx-auto" width="400px" height="270px"
-                                             style="background-color: gray; border-radius: 10px; margin-top: 24px;"
-                                             th:if="${rStep.recipepicurl != null}" th:src="${rStep.recipepicurl}">
+                                             style="background-color: gray; border-radius: 10px;"
+                                             th:if="${rStep.recipepicrename != null}" th:src="'/recipeImg/' + ${rStep.recipepicrename}">
                                         <input type="file" name="recipePicture" class="isFile"
                                                style="display: none" accept="image/jpeg, image/png, image/jpg"
                                                onchange="imgView(this);">
@@ -207,20 +188,20 @@
                     </th:block>
                     <div id="addplace"></div>
                 </div>
-                <div class="svgBtn">
-                    <svg class="addBtn" width="50" height="50" onclick="addDe()" >
-                        <circle cx="25" cy="25" r="15" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
-                        <text x="50%" y="50%" style="font-size: 20px; font-weight: bold;" dominant-baseline="middle" text-anchor="middle">+</text>
-                    </svg>
-                    <svg class="removeBtn" width="50" height="50" onclick="removeDe()">
-                        <circle cx="25" cy="25" r="15" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
-                        <text x="50%" y="50%" style="font-size: 25px; font-weight: bold;" dominant-baseline="middle" text-anchor="middle">-</text>
-                    </svg>
-                </div>
+                <svg class="addBtn" width="50" height="50" onclick="addDe()" >
+                    <circle cx="25" cy="25" r="15" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
+                    <text x="50%" y="50%" style="font-size: 20px; font-weight: bold;" dominant-baseline="middle" text-anchor="middle">+</text>
+                </svg>
+                <svg class="removeBtn" width="50" height="50" onclick="removeDe()">
+                    <circle cx="25" cy="25" r="15" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
+                    <text x="50%" y="50%" style="font-size: 25px; font-weight: bold;" dominant-baseline="middle" text-anchor="middle">-</text>
+                </svg>
             </div> <!-- 요리순서 END -->
+
 
             <h3 class="subheading">카테고리</h3>
             <div class="input-group">
+                <div th:text="${recipe.rctype}"></div>
                 <select name="rctype" id="rctype">
                     <option value="" >종류별</option>
                     <option value="56" th:selected="${recipe.rctype} == 56">메인반찬</option>
@@ -324,48 +305,40 @@
             </div><br /> <!-- 요리정보 END -->
 
             <h3 class="subheading">재료</h3>
-
-            <div class="input-group">
-                <div class="container-md align-items-center" >
-                    <th:block th:each="rmList : ${rmList}">
-                    <div id="REIndetail"  class="REIndetailC row ">
-                        <div class=" col-md-12 m-0 p-0 ">
-                            <div class="row col-md-6 col-12 float-md-start p-3 me-1 ">
-                                <div class="form-floating col-6 checkIn">
-                                    <input type="text" class="form-control" maxlength="10" th:value="${rmList.ingredient}"
-                                           name="ingredient" onblur="materialCheck(this);" placeholder="재료명">
-                                </div>
-                                <div class="form-floating col-6">
-                                    <input type="text" class="form-control" maxlength="10" th:value="${rmList.amount}"
-                                           name="amount" onblur="materialCheck(this);" placeholder="재료수량">
-                                </div>
-                            </div>
+            <th:block th:each="rmList : ${rmList}">
+                <div th:text="${rmList}"></div>
+            <div class="container-md align-items-center" >
+                <div class=" col-md-12 m-0 p-0">
+                    <div class="row col-md-6 col-12 float-md-start p-3 me-1">
+                        <div class="form-floating col-6">
+                            <input type="text" class="form-control" maxlength="10" th:value="${rmList.ingredient}"
+                                   name="ingredient" onblur="materialCheck(this);" placeholder="재료명">
+                        </div>
+                        <div class="form-floating col-6">
+                            <input type="text" class="form-control" maxlength="10" th:value="${rmList.amount}"
+                                   name="amount" onblur="materialCheck(this);" placeholder="재료수량">
                         </div>
                     </div>
-                    </th:block>
-                    <div id="addInPlace"></div>
-                </div>
-                <div class="svgBtn">
-                    <svg class="addBtn" width="50" height="50" onclick="addIn()">
-                        <circle cx="25" cy="25" r="15" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
-                        <text x="50%" y="50%" style="font-size: 20px; font-weight: bold;" dominant-baseline="middle" text-anchor="middle">+</text>
-                    </svg>
-                    <svg class="removeBtn" width="50" height="50" onclick="removeIn()">
-                        <circle cx="25" cy="25" r="15" stroke="yellowgreen" stroke-width="4" fill="yellowgreen" />
-                        <text x="50%" y="50%" style="font-size: 25px; font-weight: bold;" dominant-baseline="middle" text-anchor="middle">-</text>
-                    </svg>
                 </div>
             </div>
+            </th:block>
 
             <h3 class="subheading" >태그&nbsp;&nbsp;&nbsp;</h3>
             <div class="input-group">
                 <input type="text" name="tag" placeholder="#감자 #춘식이" style="width:610px;" th:value="${recipe.tag}"><br />
             </div><br />
 
+            <!--	    <div class="regi_btm" th:if="${#strings.isEmpty(recipe.id)}">
+                        <button th:formaction="@{/recipe/recipeForm}" id="savebutton" type="submit" class="btn-lg btn-primary">저장</button>
+                        <button type="button" onclick="history.back();" class="btn-lg btn-default">취소</button>
+                    </div>
+                    <div th:unless="${#strings.isEmpty(recipeFormDto.id)}" style="text-align: center">
+                      <button th:formaction="@{'/recipe/recipeModify/' + ${recipeFormDto.id} }" type="submit" class="btn btn-primary">수정</button>
+                    </div>-->
             <article id="recipe-button">
                 <div class="col-md-12 row ">
                     <div class="col-md-6">
-                        <button id="updateButton" th:formaction="@{/recipe/recipeModify}" type="submit" class="button btn btn-outline-primary" >수정 완료</button>
+                        <button th:formaction="@{/recipe/recipeModify}" type="submit" class="button btn btn-outline-primary" >수정 완료</button>
                         <button class="button btn btn-outline-primary" type="button" onclick="history.back();">취소</button>
                     </div>
                 </div>
@@ -373,4 +346,7 @@
         </form>
     </div> <!-- container END -->
 </div> <!-- content END -->
+
+
+
 </html>

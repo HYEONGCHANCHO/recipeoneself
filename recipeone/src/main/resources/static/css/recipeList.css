@@ -218,16 +218,4 @@ body {min-width: 1240px;}
 	padding: 50px;
 }
 
-.pageNum {
-    list-style: none;
-}
 
-.pageNum>li {
-    float: left;
-    margin: 5px;
-}
-
-.pageNum .active a {
-    background-color: skyblue;
-    color: black;
-}
