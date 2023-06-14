@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout1}">
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+    <!--카테고리 선택-->
+    function submitForm(field, value) {
+      var form = document.createElement('form');
+      form.action = '/recipe/sendData';
+      form.method = 'post';
+
+      var input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = field;
+      input.value = value;
+
+      form.appendChild(input);
+      document.body.appendChild(form);
+      form.submit();
+
+    }
+<!--    -->
+   var urlParams = new URLSearchParams(window.location.search);
+    var testParam = urlParams.get('test');
+    console.log(testParam);
+<!--    -->
+    <!--카테고리 열고 닫기-->
+    $(document).ready( function() {
+
+        ToggleCategory();
+
+<!--    // 각 요소에 대해서 순회하면서 rctype 값과 비교하여 class="active" 추가-->
+<!--    $('a[href="#"]').each(function() {-->
+<!--        var $this = $(this);-->
+<!--        var value = $this.attr('onclick').split("'")[3]; // onclick 함수에서 rctype 값을 추출-->
+
+<!--        if (value === rctype) {-->
+<!--            $this.addClass('active');-->
+<!--        }-->
+<!--    });-->
+<!--    -->
+
+
+
+    });
+
+    function ToggleCategory() {
+        $('#id_search_category').toggle();
+        if ($('#id_search_category').is(":visible")) {
+                $('#id_search_category_text').text('카테고리 닫기');
+                $('#id_search_category_img').attr("src",'https://recipe1.ezmember.co.kr/img/icon_arrow9_up.gif');
+        } else {
+                $('#id_search_category_text').text('카테고리 열기');
+                $('#id_search_category_img').attr("src",'https://recipe1.ezmember.co.kr/img/icon_arrow9_down.gif');
+            }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var pagination = document.getElementById('pagination');
+        var pageItems = pagination.getElementsByClassName('page-item');
+
+        for (var i = 0; i < pageItems.length; i++) {
+            var pageItem = pageItems[i];
+            pageItem.addEventListener('click', function () {
+                var currentPage = this.querySelector('.page-link').textContent;
+                var allPageItems = pagination.getElementsByClassName('page-item');
+
+                for (var j = 0; j < allPageItems.length; j++) {
+                    var item = allPageItems[j];
+                    var pageNumber = item.querySelector('.page-link').textContent;
+                    item.classList.remove('active');
+
+                    if (pageNumber === currentPage) {
+                        item.classList.add('active');
+                    }
+                }
+            });
+        }
+    });
+
+
+
+    </script>
+</th:block>
+
+<div layout:fragment="content">
+    <input type="hidden" name="currentPage" th:value="${currentPage}">
+    <div id="id_search_category" style="display:none" class="rcp_m_cate">
+        <table width="100%" cellspacing="0" cellpadding="0">
+            <colgroup>
+                <col width="100px">
+                <col>
+            </colgroup>
+            <tbody>
+            <tr>
+                <th style="padding: 10px;">
+                    <span>종류별 </span>
+                    <span>상황별</span>
+                    <span>재료별</span>
+                    <span>방법별</span>
+                </th>
+                <td>
+                    <div class="rcp_cate st3">
+                        <div class="cate_list">
+                            <a href="#" onclick="submitForm('rctype', null)" th:class="${rctype == null ? 'active' : ''}">전체</a>
+                            <a href="#" onclick="submitForm('rctype', '63')" th:class="${rctype == '63' ? 'active' : ''}">밑반찬</a>
+                            <a href="#" onclick="submitForm('rctype', '56')" th:class="${rctype == '56' ? 'active' : ''}">메인반찬</a>
+                            <a href="#" onclick="submitForm('rctype', '54')" th:class="${rctype == '54' ? 'active' : ''}">국/탕</a>
+                            <a href="#" onclick="submitForm('rctype', '55')" th:class="${rctype == '55' ? 'active' : ''}">찌개</a>
+                            <a href="#" onclick="submitForm('rctype', '60')" th:class="${rctype == '60' ? 'active' : ''}">디저트</a>
+                            <a href="#" onclick="submitForm('rctype', '53')" th:class="${rctype == '53' ? 'active' : ''}">면/만두</a>
+                            <a href="#" onclick="submitForm('rctype', '52')" th:class="${rctype == '52' ? 'active' : ''}">밥/죽/떡</a>
+                            <a href="#" onclick="submitForm('rctype', '61')" th:class="${rctype == '61' ? 'active' : ''}">퓨전</a>
+                            <a href="#" onclick="submitForm('rctype', '57')" th:class="${rctype == '57' ? 'active' : ''}">김치/젓갈/장류</a>
+                            <a href="#" onclick="submitForm('rctype', '58')" th:class="${rctype == '58' ? 'active' : ''}">양념/소스/잼</a>
+                            <a href="#" onclick="submitForm('rctype', '65')" th:class="${rctype == '65' ? 'active' : ''}">양식</a>
+                            <a href="#" onclick="submitForm('rctype', '64')" th:class="${rctype == '64' ? 'active' : ''}">샐러드</a>
+                            <a href="#" onclick="submitForm('rctype', '68')" th:class="${rctype == '68' ? 'active' : ''}">스프</a>
+                            <a href="#" onclick="submitForm('rctype', '66')" th:class="${rctype == '66' ? 'active' : ''}">빵</a>
+                            <a href="#" onclick="submitForm('rctype', '69')" th:class="${rctype == '69' ? 'active' : ''}">과자</a>
+                            <a href="#" onclick="submitForm('rctype', '59')" th:class="${rctype == '59' ? 'active' : ''}">차/음료/술</a>
+                            <a href="#" onclick="submitForm('rctype', '62')" th:class="${rctype == '62' ? 'active' : ''}">기타</a>
+                        </div>
+                        <div class="cate_list">
+                            <a href="#" onclick="submitForm('rcsituation', null)" th:class="${rcsituation == null ? 'active' : ''}">전체</a>
+                            <a href="#" onclick="submitForm('rcsituation', '12')" th:class="${rcsituation == '12' ? 'active' : ''}">일상</a>
+                            <a href="#" onclick="submitForm('rcsituation', '18')" th:class="${rcsituation == '18' ? 'active' : ''}">초스피드</a>
+                            <a href="#" onclick="submitForm('rcsituation', '13')" th:class="${rcsituation == '13' ? 'active' : ''}">손님접대</a>
+                            <a href="#" onclick="submitForm('rcsituation', '19')" th:class="${rcsituation == '19' ? 'active' : ''}">술안주</a>
+                            <a href="#" onclick="submitForm('rcsituation', '21')" th:class="${rcsituation == '21' ? 'active' : ''}">다이어트</a>
+                            <a href="#" onclick="submitForm('rcsituation', '15')" th:class="${rcsituation == '15' ? 'active' : ''}">도시락</a>
+                            <a href="#" onclick="submitForm('rcsituation', '43')" th:class="${rcsituation == '43' ? 'active' : ''}">영양식</a>
+                            <a href="#" onclick="submitForm('rcsituation', '17')" th:class="${rcsituation == '17' ? 'active' : ''}">간식</a>
+                            <a href="#" onclick="submitForm('rcsituation', '45')" th:class="${rcsituation == '45' ? 'active' : ''}">야식</a>
+                            <a href="#" onclick="submitForm('rcsituation', '20')" th:class="${rcsituation == '20' ? 'active' : ''}">푸드스타일링</a>
+                            <a href="#" onclick="submitForm('rcsituation', '46')" th:class="${rcsituation == '46' ? 'active' : ''}">해장</a>
+                            <a href="#" onclick="submitForm('rcsituation', '44')" th:class="${rcsituation == '44' ? 'active' : ''}">명절</a>
+                            <a href="#" onclick="submitForm('rcsituation', '14')" th:class="${rcsituation == '14' ? 'active' : ''}">이유식</a>
+                            <a href="#" onclick="submitForm('rcsituation', '22')" th:class="${rcsituation == '22' ? 'active' : ''}">기타</a>
+                        </div>
+                        <div class="cate_list">
+                            <a href="#" onclick="submitForm('rcingredient', null)" th:class="${rcingredient == null ? 'active' : ''}">전체</a>
+                            <a href="#" onclick="submitForm('rcingredient', '70')" th:class="${rcingredient == '70' ? 'active' : ''}">소고기</a>
+                            <a href="#" onclick="submitForm('rcingredient', '71')" th:class="${rcingredient == '71' ? 'active' : ''}">돼지고기</a>
+                            <a href="#" onclick="submitForm('rcingredient', '72')" th:class="${rcingredient == '72' ? 'active' : ''}">닭고기</a>
+                            <a href="#" onclick="submitForm('rcingredient', '23')" th:class="${rcingredient == '23' ? 'active' : ''}">육류</a>
+                            <a href="#" onclick="submitForm('rcingredient', '28')" th:class="${rcingredient == '28' ? 'active' : ''}">채소류</a>
+                            <a href="#" onclick="submitForm('rcingredient', '24')" th:class="${rcingredient == '24' ? 'active' : ''}">해물류</a>
+                            <a href="#" onclick="submitForm('rcingredient', '50')" th:class="${rcingredient == '50' ? 'active' : ''}">달걀/유제품</a>
+                            <a href="#" onclick="submitForm('rcingredient', '33')" th:class="${rcingredient == '33' ? 'active' : ''}">가공식품류</a>
+                            <a href="#" onclick="submitForm('rcingredient', '47')" th:class="${rcingredient == '47' ? 'active' : ''}">쌀</a>
+                            <a href="#" onclick="submitForm('rcingredient', '32')" th:class="${rcingredient == '32' ? 'active' : ''}">밀가루</a>
+                            <a href="#" onclick="submitForm('rcingredient', '25')" th:class="${rcingredient == '25' ? 'active' : ''}">건어물류</a>
+                            <a href="#" onclick="submitForm('rcingredient', '31')" th:class="${rcingredient == '31' ? 'active' : ''}">버섯류</a>
+                            <a href="#" onclick="submitForm('rcingredient', '48')" th:class="${rcingredient == '48' ? 'active' : ''}">과일류</a>
+                            <a href="#" onclick="submitForm('rcingredient', '27')" th:class="${rcingredient == '27' ? 'active' : ''}">콩/견과류</a>
+                            <a href="#" onclick="submitForm('rcingredient', '26')" th:class="${rcingredient == '26' ? 'active' : ''}">곡류</a>
+                            <a href="#" onclick="submitForm('rcingredient', '34')" th:class="${rcingredient == '34' ? 'active' : ''}">기타</a>
+                        </div>
+                        <div class="cate_list">
+                            <a href="#" onclick="submitForm('rcmeans', null)" th:class="${rcmeans == null ? 'active' : ''}">전체</a>
+                            <a href="#" onclick="submitForm('rcmeans', '6')" th:class="${rcmeans == '6' ? 'active' : ''}">볶음</a>
+                            <a href="#" onclick="submitForm('rcmeans', '1')" th:class="${rcmeans == '1' ? 'active' : ''}">끓이기</a>
+                            <a href="#" onclick="submitForm('rcmeans', '7')" th:class="${rcmeans == '7' ? 'active' : ''}">부침</a>
+                            <a href="#" onclick="submitForm('rcmeans', '36')" th:class="${rcmeans == '36' ? 'active' : ''}">조림</a>
+                            <a href="#" onclick="submitForm('rcmeans', '41')" th:class="${rcmeans == '41' ? 'active' : ''}">무침</a>
+                            <a href="#" onclick="submitForm('rcmeans', '42')" th:class="${rcmeans == '42' ? 'active' : ''}">비빔</a>
+                            <a href="#" onclick="submitForm('rcmeans', '8')" th:class="${rcmeans == '8' ? 'active' : ''}">찜</a>
+                            <a href="#" onclick="submitForm('rcmeans', '10')" th:class="${rcmeans == '10' ? 'active' : ''}">절임</a>
+                            <a href="#" onclick="submitForm('rcmeans', '9')" th:class="${rcmeans == '9' ? 'active' : ''}">튀김</a>
+                            <a href="#" onclick="submitForm('rcmeans', '38')" th:class="${rcmeans == '38' ? 'active' : ''}">삶기</a>
+                            <a href="#" onclick="submitForm('rcmeans', '67')" th:class="${rcmeans == '67' ? 'active' : ''}">굽기</a>
+                            <a href="#" onclick="submitForm('rcmeans', '39')" th:class="${rcmeans == '39' ? 'active' : ''}">데치기</a>
+                            <a href="#" onclick="submitForm('rcmeans', '37')" th:class="${rcmeans == '37' ? 'active' : ''}">회</a>
+                            <a href="#" onclick="submitForm('rcmeans', '11')" th:class="${rcmeans == '11' ? 'active' : ''}">기타</a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="rcp_cate_btn"><a href="javascript:ToggleCategory()"><span
+            id="id_search_category_text">카테고리 열기</span><span><img id="id_search_category_img"
+                                                                  src="https://recipe1.ezmember.co.kr/img/icon_arrow9_down.gif"></span></a>
+    </div>
+
+
+    <ul class="rcp_m_list2">
+        <th:block th:if="${recipe != null}">
+            <div class="m_list_tit">
+                총 <b th:text="${recipeCount}" >0</b>개의 맛있는 레시피가 있습니다.
+                <ul class="nav nav-tabs2 pull-right" style="position:relative;">
+                    <li><a href="#">조회순</a></li>
+                    <li><a href="#">최신순</a></li>
+                    <li><a href="#">추천순</a></li>
+                </ul>
+            </div>
+
+
+            <th:block th:each="recipe : ${recipe}" th:if="${recipe.recipestatus == 'Y'}" >
+                <ul class="common_sp_list_ul ea4" style="padding:0 0 0 8px;">
+                    <li class="common_sp_list_li" >
+                        <div class="common_sp_thumb">
+                            <a th:href="@{'/recipe/recipeDetail/' + ${recipe.recipeno}}" class="common_sp_link">
+                                <span class="common_vod_label"></span>
+                                <img th:src="${recipe.mainpicurl}">
+                            </a>
+                        </div>
+
+                        <div class="common_sp_caption">
+                            <div class="common_sp_caption_tit line2" th:text="${recipe.title}">제목</div>
+                            <div class="common_sp_caption_tit line2" th:text="${recipe.tag}">태그</div>
+                            <div class="common_sp_caption_rv_name" style="display: inline-block; vertical-align: bottom;">
+                                <div class="common_sp_caption_tit line2" th:text="${recipe.writer}">작성자</div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </th:block>
+        </th:block>
+        <!-- 페이징 처리 -->
+        <div class="pagination" id="pagination" th:if="${totalPage > 0}">
+            <ul class="pageNum">
+                <li th:if="${currentPage > 1}">
+                    <a th:href="@{/recipe/recipeList(currentPage=${currentPage - 1})}">이전</a>
+                </li>
+                <li th:each="page : ${#numbers.sequence(blockStart, blockEnd)}" th:class="${page == currentPage ? 'active' : ''}" class="page-item">
+                    <a th:href="@{/recipe/recipeList(currentPage=${page})}"
+                       th:text="${page}" class="page-link"></a>
+                </li>
+                <li th:if="${currentPage < totalPage}">
+                    <a th:href="@{/recipe/recipeList(currentPage=${currentPage + 1})}">다음</a>
+                </li>
+            </ul>
+        </div>
+    </ul>
+</div>
+</html>
+
+
+
+
