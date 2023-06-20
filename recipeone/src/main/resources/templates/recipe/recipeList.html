@@ -21,29 +21,13 @@
       form.submit();
 
     }
-<!--    -->
    var urlParams = new URLSearchParams(window.location.search);
     var testParam = urlParams.get('test');
     console.log(testParam);
-<!--    -->
     <!--카테고리 열고 닫기-->
     $(document).ready( function() {
 
         ToggleCategory();
-
-<!--    // 각 요소에 대해서 순회하면서 rctype 값과 비교하여 class="active" 추가-->
-<!--    $('a[href="#"]').each(function() {-->
-<!--        var $this = $(this);-->
-<!--        var value = $this.attr('onclick').split("'")[3]; // onclick 함수에서 rctype 값을 추출-->
-
-<!--        if (value === rctype) {-->
-<!--            $this.addClass('active');-->
-<!--        }-->
-<!--    });-->
-<!--    -->
-
-
-
     });
 
     function ToggleCategory() {
